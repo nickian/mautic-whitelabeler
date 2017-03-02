@@ -35,3 +35,4 @@ Mautic Whitelabeler makes customizing the core branding elements of Mautic a sup
 	* Avoid uploading large images (i.e., "large" in terms of dimensions ~ > 1500px might be too large). 
 	* `imagecreatefrompng` function can exceed PHP's memory limit and fail while trying to process and resize large images.
 6. Specify a favicon. If you don't have a .ico file, one will be created. If you don't specify a file, a favicon will be generated from your login logo file.
+7. Make sure to REMOVE or MOVE this directory so it's not publicly accessible once you're done using it.
