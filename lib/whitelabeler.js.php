@@ -8,8 +8,8 @@ header("Content-type: text/javascript; charset: UTF-8");
 var sidebar_background = '<?=$sidebar_background;?>';
 var mautic_primary = '<?=$mautic_primary;?>';
 var mautic_hover = '<?=$mautic_hover;?>';
-var validPath;
-var validDomain;
+var validPath = false;
+var validDomain = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,8 +112,7 @@ $(document).ready(function(){
 	$('input#mautic-hover').val('<?=$mautic_hover;?>');
 	$('#waiting-for-input span.dots').addClass('blink');
 	$('input#mautic-url').val(window.location.href);
-	var validPath = false;
-	var validDomain = false;
+
 	$.get( window.location.href, { q: 'version', path: $('input#mautic-path').val() }, function(data) {
 		if (data == 0) {
 			$('input#mautic-path').parent('div').children('small.path-fail').fadeIn();
