@@ -17,7 +17,7 @@ Mautic Whitelabeler makes customizing the core branding elements of Mautic a sup
 
 ##Requirements
 
-* Mautic versions 2.5.0 - 2.6.1
+* Mautic versions 2.5.0 - 2.7.0
 * `allow_url_fopen` php.ini directive set to true (uses file_get_contents)
 * GD Library
 * Probably other dependencies I'm not aware of yet.

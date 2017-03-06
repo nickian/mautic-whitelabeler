@@ -56,7 +56,7 @@ class Whitelabeler {
 		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
 		$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
 
-		if ($version == '2.6') {
+		if ($version == '2.6' || $version == '2.7') {
 			$js = '1a.content.js';
 		} else {
 			$js = '1.core.js';
@@ -357,90 +357,111 @@ class Whitelabeler {
 	*/
 	public function compareMauticVersions($v1, $v2) {
 		$comparision = array();
+
 		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
 		if (file_exists($v1.$base_copyright) && file_exists($v2.$base_copyright)) {
 			$v1_base_copyright = sha1(file_get_contents($v1.$base_copyright));
 			$v2_base_copyright = sha1(file_get_contents($v2.$base_copyright));
 			if ( $v1_base_copyright == $v2_base_copyright ) {
-				$comparision[$base_copyright] = 1; 
+				$comparision[$base_copyright] = 'Same'; 
 			} else {
-				$comparision[$base_copyright] = 0;
+				$comparision[$base_copyright] = 'Different';
 			}
 		} else {
 			$comparision[$base_copyright] = 'File Not Found';
 		}
+
 		$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
 		if (file_exists($v1.$head_title) && file_exists($v2.$head_title)) {
 			$v1_head_title = sha1(file_get_contents($v1.$head_title));
 			$v2_head_title = sha1(file_get_contents($v2.$head_title));
 			if ( $v1_head_title == $v2_head_title ) {
-				$comparision[$head_title] = 1; 
+				$comparision[$head_title] = 'Same'; 
 			} else {
-				$comparision[$head_title] = 0;
+				$comparision[$head_title] = 'Different';
 			}
 		} else {
 			$comparision[$head_title] = 'File Not Found';
 		}
+
 		$left_panel = '/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
 		if (file_exists($v1.$left_panel) && file_exists($v2.$left_panel)) {
 			$v1_left_panel = sha1(file_get_contents($v1.$left_panel));
 			$v2_left_panel = sha1(file_get_contents($v2.$left_panel));
 			if ( $v1_left_panel == $v2_left_panel ) {
-				$comparision[$left_panel] = 1; 
+				$comparision[$left_panel] = 'Same'; 
 			} else {
-				$comparision[$left_panel] = 0;
+				$comparision[$left_panel] = 'Different';
 			}
 		} else {
 			$comparision[$left_panel] = 'File Not Found';
 		}
+
 		$login_logo = '/app/bundles/UserBundle/Views/Security/base.html.php';
 		if (file_exists($v1.$login_logo) && file_exists($v2.$login_logo)) {
 			$v1_login_logo = sha1(file_get_contents($v1.$login_logo));
 			$v2_login_logo = sha1(file_get_contents($v2.$login_logo));
 			if ( $v1_login_logo == $v2_login_logo ) {
-				$comparision[$login_logo] = 1; 
+				$comparision[$login_logo] = 'Same'; 
 			} else {
-				$comparision[$login_logo] = 0;
+				$comparision[$login_logo] = 'Different';
 			}
 		} else {
 			$comparision[$login_logo] = 'File Not Found';
 		}
+
 		$app_css = '/app/bundles/CoreBundle/Assets/css/app.css';
 		if (file_exists($v1.$app_css) && file_exists($v2.$app_css)) {
 			$v1_app_css = sha1(file_get_contents($v1.$app_css));
 			$v2_app_css = sha1(file_get_contents($v2.$app_css));
 			if ( $v1_app_css == $v2_app_css ) {
-				$comparision[$app_css] = 1; 
+				$comparision[$app_css] = 'Same'; 
 			} else {
-				$comparision[$app_css] = 0;
+				$comparision[$app_css] = 'Different';
 			}
 		} else {
 			$comparision[$app_css] = 'File Not Found';
 		}
+
 		$libraries_css = '/app/bundles/CoreBundle/Assets/css/libraries/libraries.css';
 		if (file_exists($v1.$libraries_css) && file_exists($v2.$libraries_css)) {
 			$v1_libraries_css = sha1(file_get_contents($v1.$libraries_css));
 			$v2_libraries_css = sha1(file_get_contents($v2.$libraries_css));
 			if ( $v1_libraries_css == $v2_libraries_css ) {
-				$comparision[$libraries_css] = 1; 
+				$comparision[$libraries_css] = 'Same';
 			} else {
-				$comparision[$libraries_css] = 0;
+				$comparision[$libraries_css] = 'Different';
 			}
 		} else {
 			$comparision[$libraries_css] = 'File Not Found';
 		}
+
 		$core_js = '/app/bundles/CoreBundle/Assets/js/1.core.js';
 		if (file_exists($v1.$core_js) && file_exists($v2.$core_js)) {
 			$v1_core_js = sha1(file_get_contents($v1.$core_js));
 			$v2_core_js = sha1(file_get_contents($v2.$core_js));
 			if ( $v1_core_js == $v2_core_js ) {
-				$comparision[$core_js] = 1; 
+				$comparision[$core_js] = 'Same'; 
 			} else {
-				$comparision[$core_js] = 0;
+				$comparision[$core_js] = 'Different';
 			}
 		} else {
 			$comparision[$core_js] = 'File Not Found';
 		}
+
+		$content_js = '/app/bundles/CoreBundle/Assets/js/1a.content.js';
+		if (file_exists($v1.$content_js) && file_exists($v2.$content_js)) {
+			$v1_content_js = sha1(file_get_contents($v1.$content_js));
+			$v2_content_js = sha1(file_get_contents($v2.$content_js));
+			if ( $v1_content_js == $v2_content_js ) {
+				$comparision[$content_js] = 'Same'; 
+			} else {
+				$comparision[$content_js] = 'Different';
+			}
+		} else {
+			$comparision[$content_js] = 'File Not Found';
+		}
+
 		return $comparision;
 	}
 	
