@@ -1,14 +1,12 @@
 <?php
-
 class Whitelabeler {
-
 	/*
 	|--------------------------------------------------------------------------
 	| Replace Colors in Stylesheets
 	|--------------------------------------------------------------------------
 	*/
 	public function colors($path, $version, $sidebar_background, $mautic_primary, $mautic_hover) {
-		$version = substr($version, 0, 3);
+		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }
 		// Replace app.css contents with template and new colors
 		$app_css = $path.'/app/bundles/CoreBundle/Assets/css/app.css';
 		if (file_exists($app_css)) {
@@ -52,11 +50,11 @@ class Whitelabeler {
 	|--------------------------------------------------------------------------
 	*/
 	public function companyName($path, $version, $company_name) {
-		$version = substr($version, 0, 3);
+		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }
 		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
 		$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
 
-		if ($version == '2.6' || $version == '2.7') {
+		if ($version == '2.6' || $version == '2.7.0' || $version == '2.7.1') {
 			$js = '1a.content.js';
 		} else {
 			$js = '1.core.js';
@@ -174,7 +172,7 @@ class Whitelabeler {
 	*/
 	public function replaceImages($path, $url, $version, $sidebar_image, $sidebar_width, $sidebar_margin, $login_image, $login_width, $login_margin, $favicon_image) {
 		$media_images = $path.'/media/images';
-		$version = substr($version, 0, 3);		
+		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }	
 		// Apple Touch Icon
 		$this->imageResize(192, $login_image['tmp_name'], $media_images.'/apple-touch-icon.png');
 		// mautic_logo_db64.png
@@ -334,7 +332,7 @@ class Whitelabeler {
 	|--------------------------------------------------------------------------
 	*/
 	public function templateVersions($version) {
-		$path = 'templates'; // '.' for current
+		$path = 'templates';
 		$versions = array();
 		foreach (new DirectoryIterator($path) as $file) {
 		    if ($file->isDot()) continue;

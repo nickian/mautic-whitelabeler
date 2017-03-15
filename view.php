@@ -230,7 +230,7 @@ $mautic_hover = '#3d497b';
 									<p id="clearing"><span class="arrow">></span> Clearing Mautic's cache <span class="dots">...</span></p>
 									<p id="clearing-success"><span class="arrow">></span> <span class="success">SUCCESS</span></p>
 									<p id="clearing-error"><span class="arrow">></span> <span class="error">ERROR</span></p>
-									<p id="complete"><span class="arrow">></span> Whitelabeling complete! You may have to clear your browser's cache.</p>
+									<p id="complete"><span class="arrow">></span> Whitelabeling complete! You may have to clear your browser's cache. Don't forget to remove this directory or move it somewhere not publicly accessible!</p>
 								</div>
 							</div>
 						</div><!--panel primary-->

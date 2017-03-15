@@ -251,7 +251,7 @@ function whiteLabel() {
 			$('#updating-css').fadeIn();
 			$('#updating-css span.dots').addClass('blink');
 			console.log(versionData);
-			$.post(window.location.href+'/css', {
+			$.post(window.location.href+'?q=css', {
 				path: path,
 				version: versionData,
 				sidebar_background: sidebar_background,
@@ -268,7 +268,7 @@ function whiteLabel() {
 						// update company name
 						$('#updating-companyname').fadeIn();
 						$('#updating-companyname span.dots').addClass('blink');
-						$.post(window.location.href+'/companyname', {
+						$.post(window.location.href+'?q=companyname', {
 							path: path,
 							version:versionData,
 							company_name: $('input#company-name').val()
@@ -296,7 +296,7 @@ function whiteLabel() {
 							    data.append('login_margin_bottom', $('#login-margin-bottom').val());	    
 							    data.append('favicon', $('input#favicon')[0].files[0]);
 							    $.ajax({
-							        url: window.location.href+'/logos',
+							        url: window.location.href+'?q=logos',
 							        type: 'POST',
 							        data: data,
 							        cache: false,
@@ -321,8 +321,8 @@ function whiteLabel() {
 										// Regenerate Muatic Assets
 										$('#regenerating').fadeIn();
 										$('#regenerating span.dots').addClass('blink');
-										$.get(window.location.href+'/assets', { assets: "regenerate", path: path } )
-										  .done(function( assetsData ) {
+										$.get(window.location.href, { q: "assets", assets: "regenerate", path: path } )
+										  .done(function(assetsData) {
 										  	$('#regenerating span.dots').removeClass('blink');
 										  	$('#regenerating-success').fadeIn();
 										  	$("#console").animate({ scrollTop: $('#console').prop("scrollHeight")}, 500);
@@ -330,8 +330,8 @@ function whiteLabel() {
 										    // Clearing Cache
 										    $('#clearing span.dots').addClass('blink');
 										    $('#clearing').fadeIn();
-											$.get(window.location.href+'/assets', { assets: "clear", path: path } )
-											  .done(function( assetsData ) {
+											$.get(window.location.href, { q: "assets", assets: "clear", path: path } )
+											  .done(function(assetsData) {
 											  	$('#clearing span.dots').removeClass('blink');
 											  	$('#clearing-success').fadeIn();
 											  	$("#console").animate({ scrollTop: $('#console').prop("scrollHeight")}, 500);
