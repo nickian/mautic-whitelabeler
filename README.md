@@ -15,14 +15,14 @@ Mautic Whitelabeler makes customizing the core branding elements of Mautic a sup
 * Favicon
 * Company name in the footer
 
-##Requirements
+## Requirements
 
 * Mautic versions 2.5.0 - 2.7.1
 * `allow_url_fopen` php.ini directive set to true (uses file_get_contents)
 * GD Library
 * Probably other dependencies I'm not aware of yet.
 
-##Installation / Usage
+## Installation / Usage
 
 1. It's probably smart to backup your files first. At least do it the first time you use this.
 2. Clone this repository somewhere on your server that can access your Mautic installation (it's most convenient to clone it in the root of your Mautic directoy).
