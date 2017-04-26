@@ -17,22 +17,48 @@ Mautic Whitelabeler makes customizing the core branding elements of Mautic a sup
 
 ## Requirements
 
-* Mautic versions 2.5.0 - 2.7.1
+* Mautic versions 2.5.0 - 2.8.0
 * `allow_url_fopen` php.ini directive set to true (uses file_get_contents)
+* Apache `mod_rewrite` enabled
 * GD Library
 * Probably other dependencies I'm not aware of yet.
 
 ## Installation / Usage
 
 1. It's probably smart to backup your files first. At least do it the first time you use this.
+
 2. Clone this repository somewhere on your server that can access your Mautic installation (it's most convenient to clone it in the root of your Mautic directoy).
+
 3. Specify the "Company Name," which will replace "Mautic" in the page titles and footer.
+
 4. Specify your color hex codes.
 	* **Logo Background:** This is the color behind the Mautic logo in the sidebar (top left corner).
 	* **Primary Color:** This color will replace Mautic's primary purple in links, buttons and panel headers.
 	* **Secondary Color:** This will define the link and button mouse hover state color.
+
 5. Specify sidebar and login logos files (preferably transparent PNG files) and their widths and margins, which you can adjust with a live preview.
 	* Avoid uploading large images (i.e., "large" in terms of dimensions ~ > 1500px might be too large). 
 	* `imagecreatefrompng` function can exceed PHP's memory limit and fail while trying to process and resize large images.
+
 6. Specify a favicon. If you don't have a .ico file, one will be created. If you don't specify a file, a favicon will be generated from your login logo file.
+
 7. Make sure to REMOVE or MOVE this directory so it's not publicly accessible once you're done using it.
+
+## Common Issues
+
+**"Mautic installation not found here"**
+
+This means the script is not able to find the absolute path to the Mautic files on your server. This validation checks for a `version.txt` file in the `/app` folder. Make sure this file exists and is accessible by your web server (usually `chown -R www-data:www-data /path/to/mautic` does the trick).
+
+**Mautic installation not found at this URL**
+
+This means the script is not able to find your Mautic installation via its publicly accessible URL. This validation checks for the `LICENSE.txt` file in Mautic's root directory to confirm Mautic's root URL. Make sure the file exists and is accessible in your browser.
+
+A common reason for this validation failing is not having Apache mod_rewrite enabled. Enable this by doing `sudo a2enmod rewrite` then restart apache (usually `sudo service restart apache2`).
+
+## Credits
+
+Mautic Whitelabeler makes use of a couple of other libraries:
+
+* [PHP-ICO https://github.com/chrisbliss18/php-ico] for favicon generation
+* [Spectrum https://github.com/bgrins/spectrum] for the color selector

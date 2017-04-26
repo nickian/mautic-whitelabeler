@@ -1,5 +1,4 @@
 <?php
-
 require_once('whitelabeler.php');
 $whitelabeler = new Whitelabeler;
 
@@ -38,12 +37,12 @@ if (isset($_GET['q'])) {
 		if ( substr($url, -1) == '/' ) {
 			$url = substr($url, 0, -1);
 		}
-		$headers = get_headers($url.'/package.json');
+		$headers = get_headers($url.'/LICENSE.txt');
 		if ( substr($headers[0], 9, 3) != 200) {
 			echo 0;
 		} else {
-			$url = json_decode(file_get_contents(urldecode($url).'/package.json'));
-			if ($url->name == 'mautic') {
+			$license = substr(file_get_contents($url.'/LICENSE.txt'), 0, 6);
+			if ($license == 'Mautic') {
 				echo 1;
 			} else {
 				echo 0;

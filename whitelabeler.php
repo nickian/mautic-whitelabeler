@@ -54,7 +54,7 @@ class Whitelabeler {
 		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
 		$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
 
-		if ($version == '2.6' || $version == '2.7.0' || $version == '2.7.1') {
+		if ($version == '2.6' || $version == '2.7.0' || $version == '2.7.1' || $version == '2.8.0') {
 			$js = '1a.content.js';
 		} else {
 			$js = '1.core.js';
