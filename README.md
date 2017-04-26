@@ -46,7 +46,7 @@ Mautic Whitelabeler makes customizing the core branding elements of Mautic a sup
 
 ## Common Issues
 
-**"Mautic installation not found here"**
+**Mautic installation not found here**
 
 This means the script is not able to find the absolute path to the Mautic files on your server. This validation checks for a `version.txt` file in the `/app` folder. Make sure this file exists and is accessible by your web server (usually `chown -R www-data:www-data /path/to/mautic` does the trick).
 
