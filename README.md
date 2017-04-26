@@ -60,5 +60,5 @@ A common reason for this validation failing is not having Apache mod_rewrite ena
 
 Mautic Whitelabeler makes use of a couple of other libraries:
 
-* [PHP-ICO https://github.com/chrisbliss18/php-ico] for favicon generation
-* [Spectrum https://github.com/bgrins/spectrum] for the color selector
+*  [PHP-ICO](https://github.com/chrisbliss18/php-ico) for favicon generation
+* [Spectrum](https://github.com/bgrins/spectrum) for the color selector
