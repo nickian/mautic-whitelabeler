@@ -6,7 +6,7 @@ class Whitelabeler {
 	|--------------------------------------------------------------------------
 	*/
 	public function colors($path, $version, $sidebar_background, $mautic_primary, $mautic_hover) {
-		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6 || substr($version, 0, 3) == 2.8) { $version = substr($version, 0, 3); }
+		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }
 		// Replace app.css contents with template and new colors
 		$app_css = $path.'/app/bundles/CoreBundle/Assets/css/app.css';
 		if (file_exists($app_css)) {
@@ -54,7 +54,7 @@ class Whitelabeler {
 		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
 		$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
 
-		if ($version == '2.6' || $version == '2.7.0' || $version == '2.7.1' || $version == '2.8.0') {
+		if ($version == '2.6' || $version == '2.7.0' || $version == '2.7.1' || $version == '2.8.0'  || $version == '2.8.1') {
 			$js = '1a.content.js';
 		} else {
 			$js = '1.core.js';
