@@ -6,7 +6,7 @@ class Whitelabeler {
 	|--------------------------------------------------------------------------
 	*/
 	public function colors($path, $version, $sidebar_background, $mautic_primary, $mautic_hover) {
-		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }
+		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6 || substr($version, 0, 3) == 2.8) { $version = substr($version, 0, 3); }
 		// Replace app.css contents with template and new colors
 		$app_css = $path.'/app/bundles/CoreBundle/Assets/css/app.css';
 		if (file_exists($app_css)) {
@@ -61,7 +61,7 @@ class Whitelabeler {
 		}
 		$core_js = '/app/bundles/CoreBundle/Assets/js/'.$js;
 		$left_panel = '/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
-		$login_page = '/app/bundles/UserBundle/Views/Security/base.html.php';		
+		$login_page = '/app/bundles/UserBundle/Views/Security/base.html.php';
 		if (file_exists($path.$base_copyright)) {
 			// get template
 			$base_copyright_template = file_get_contents('templates/'.$version.$base_copyright);
@@ -115,7 +115,7 @@ class Whitelabeler {
 			exit();
 		}
 		return 'Updated company name.';
-	}	
+	}
 
 	/*
 	|--------------------------------------------------------------------------
@@ -130,7 +130,7 @@ class Whitelabeler {
 			} catch(Exception $e)  {
 				echo 'Error with image: ',  $e->getMessage(), "\n";
 				exit();
-			} 
+			}
 			$srcWidth = imagesx($im);
 			$srcHeight = imagesy($im);
 			$nWidth = $new_width;
@@ -172,7 +172,7 @@ class Whitelabeler {
 	*/
 	public function replaceImages($path, $url, $version, $sidebar_image, $sidebar_width, $sidebar_margin, $login_image, $login_width, $login_margin, $favicon_image) {
 		$media_images = $path.'/media/images';
-		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }	
+		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }
 		// Apple Touch Icon
 		$this->imageResize(192, $login_image['tmp_name'], $media_images.'/apple-touch-icon.png');
 		// mautic_logo_db64.png
@@ -191,7 +191,7 @@ class Whitelabeler {
 		} else {
 			$ico_lib = new PHP_ICO($favicon_image['tmp_name'],  array( array( 64, 64 ) ) );
 			$ico_lib->save_ico($path.'/favicon.ico');
-			$ico_lib->save_ico($media_images.'/favicon.ico');		
+			$ico_lib->save_ico($media_images.'/favicon.ico');
 		}
 		// Update sidebar logo
 		$this->imageResize(250, $sidebar_image['tmp_name'], $media_images.'/sidebar_logo.png');
@@ -319,7 +319,7 @@ class Whitelabeler {
 	        return 'Could not remove the application cache. You will need to do this manually.';
 	    }
 	    return $this->buildCache($path);
-	}	
+	}
 
 	// Rebuild Mautic assets
 	public function rebuildAssets($path) {
@@ -361,7 +361,7 @@ class Whitelabeler {
 			$v1_base_copyright = sha1(file_get_contents($v1.$base_copyright));
 			$v2_base_copyright = sha1(file_get_contents($v2.$base_copyright));
 			if ( $v1_base_copyright == $v2_base_copyright ) {
-				$comparision[$base_copyright] = 'Same'; 
+				$comparision[$base_copyright] = 'Same';
 			} else {
 				$comparision[$base_copyright] = 'Different';
 			}
@@ -374,7 +374,7 @@ class Whitelabeler {
 			$v1_head_title = sha1(file_get_contents($v1.$head_title));
 			$v2_head_title = sha1(file_get_contents($v2.$head_title));
 			if ( $v1_head_title == $v2_head_title ) {
-				$comparision[$head_title] = 'Same'; 
+				$comparision[$head_title] = 'Same';
 			} else {
 				$comparision[$head_title] = 'Different';
 			}
@@ -387,7 +387,7 @@ class Whitelabeler {
 			$v1_left_panel = sha1(file_get_contents($v1.$left_panel));
 			$v2_left_panel = sha1(file_get_contents($v2.$left_panel));
 			if ( $v1_left_panel == $v2_left_panel ) {
-				$comparision[$left_panel] = 'Same'; 
+				$comparision[$left_panel] = 'Same';
 			} else {
 				$comparision[$left_panel] = 'Different';
 			}
@@ -400,7 +400,7 @@ class Whitelabeler {
 			$v1_login_logo = sha1(file_get_contents($v1.$login_logo));
 			$v2_login_logo = sha1(file_get_contents($v2.$login_logo));
 			if ( $v1_login_logo == $v2_login_logo ) {
-				$comparision[$login_logo] = 'Same'; 
+				$comparision[$login_logo] = 'Same';
 			} else {
 				$comparision[$login_logo] = 'Different';
 			}
@@ -413,7 +413,7 @@ class Whitelabeler {
 			$v1_app_css = sha1(file_get_contents($v1.$app_css));
 			$v2_app_css = sha1(file_get_contents($v2.$app_css));
 			if ( $v1_app_css == $v2_app_css ) {
-				$comparision[$app_css] = 'Same'; 
+				$comparision[$app_css] = 'Same';
 			} else {
 				$comparision[$app_css] = 'Different';
 			}
@@ -439,7 +439,7 @@ class Whitelabeler {
 			$v1_core_js = sha1(file_get_contents($v1.$core_js));
 			$v2_core_js = sha1(file_get_contents($v2.$core_js));
 			if ( $v1_core_js == $v2_core_js ) {
-				$comparision[$core_js] = 'Same'; 
+				$comparision[$core_js] = 'Same';
 			} else {
 				$comparision[$core_js] = 'Different';
 			}
@@ -452,7 +452,7 @@ class Whitelabeler {
 			$v1_content_js = sha1(file_get_contents($v1.$content_js));
 			$v2_content_js = sha1(file_get_contents($v2.$content_js));
 			if ( $v1_content_js == $v2_content_js ) {
-				$comparision[$content_js] = 'Same'; 
+				$comparision[$content_js] = 'Same';
 			} else {
 				$comparision[$content_js] = 'Different';
 			}
@@ -462,5 +462,5 @@ class Whitelabeler {
 
 		return $comparision;
 	}
-	
+
 }

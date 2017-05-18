@@ -17,7 +17,7 @@ Mautic Whitelabeler makes customizing the core branding elements of Mautic a sup
 
 ## Requirements
 
-* Mautic versions 2.5.0 - 2.8.0
+* Mautic versions 2.5.0 - 2.8.1
 * `allow_url_fopen` php.ini directive set to true (uses file_get_contents)
 * Apache `mod_rewrite` enabled
 * GD Library
@@ -37,7 +37,7 @@ Mautic Whitelabeler makes customizing the core branding elements of Mautic a sup
 	* **Secondary Color:** This will define the link and button mouse hover state color.
 
 5. Specify sidebar and login logos files (preferably transparent PNG files) and their widths and margins, which you can adjust with a live preview.
-	* Avoid uploading large images (i.e., "large" in terms of dimensions ~ > 1500px might be too large). 
+	* Avoid uploading large images (i.e., "large" in terms of dimensions ~ > 1500px might be too large).
 	* `imagecreatefrompng` function can exceed PHP's memory limit and fail while trying to process and resize large images.
 
 6. Specify a favicon. If you don't have a .ico file, one will be created. If you don't specify a file, a favicon will be generated from your login logo file.
