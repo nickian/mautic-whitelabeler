@@ -20,6 +20,10 @@ if (isset($_GET['q'])) {
 			if (file_exists($path.'/app/version.txt')) {
 				$file = fopen($path.'/app/version.txt', 'r') or die('Unable to open file!');
 				$version = fread($file , filesize($path.'/app/version.txt'));
+				if (strpos($version, '-dev') !== false) {
+					$version = explode('-', $version);
+					$version = $version[0];
+				}
 				echo $whitelabeler->templateVersions($version);
 			} else {
 				echo 0;
