@@ -64,7 +64,7 @@ if (isset($_GET['q'])) {
 			$path = substr($_GET['path'], 0, -1);
 		} else {
 			$path = $_GET['path'];
-		}		
+		}
 		if ( $_GET['assets'] == 'clear' ) {
 			echo $whitelabeler->clearMauticCache($path);
 		} else if ( $_GET['assets'] == 'regenerate' ) {
@@ -110,13 +110,13 @@ if (isset($_GET['q'])) {
 						'top' => $_POST['sidebar_margin_top'],
 						'right' => $_POST['sidebar_margin_right'],
 						'left' => $_POST['sidebar_margin_left']
-					), 
+					),
 					$_FILES['login_logo'],
 					$_POST['login_logo_width'],
 					array(
 						'top' => $_POST['login_margin_top'],
 						'bottom' => $_POST['login_margin_bottom']
-					), 
+					),
 					$favicon
 				);
 			} else {
@@ -137,11 +137,11 @@ if (isset($_GET['q'])) {
 	*/
 	} elseif ( $_GET['q'] == 'css' &&  $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		if (
-			!empty($_POST['path']) && 
-			!empty($_POST['version']) && 
-			!empty($_POST['sidebar_background']) && 
-			!empty($_POST['mautic_primary']) && 
-			!empty($_POST['mautic_hover']) 
+			!empty($_POST['path']) &&
+			!empty($_POST['version']) &&
+			!empty($_POST['sidebar_background']) &&
+			!empty($_POST['mautic_primary']) &&
+			!empty($_POST['mautic_hover'])
 		) {
 			if ( substr($_POST['path'], -1) == '/' ) {
 				$path = substr($_POST['path'], 0, -1);
@@ -165,7 +165,7 @@ if (isset($_GET['q'])) {
 	|--------------------------------------------------------------------------
 	| POST Company Name
 	|--------------------------------------------------------------------------
-	*/		
+	*/
 	} elseif ( $_GET['q'] == 'companyname' &&  $_SERVER['REQUEST_METHOD'] == 'POST') {
 		if ( substr($_POST['path'], -1) == '/' ) {
 			$path = substr($_POST['path'], 0, -1);
