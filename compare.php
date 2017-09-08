@@ -5,9 +5,11 @@
 require_once('whitelabeler.php');
 $whitelabeler = new Whitelabeler;
 
-$v1_path = '/path/to/mautic-v1';
-$v2_path = '/path/to/mautic-v2';
+$v1_path = '/home/vagrant/desktop/2.9.2';
+$v2_path = '/home/vagrant/desktop/2.10.0';
 
 $compare = $whitelabeler->compareMauticVersions($v1_path, $v2_path);
 
-var_dump($compare);
+echo '<pre>';
+print_r($compare);
+echo '</pre>';

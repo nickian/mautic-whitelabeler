@@ -54,14 +54,28 @@ class Whitelabeler {
 		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
 		$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
 
-		if ($version == '2.6' || $version == '2.7.0' || $version == '2.7.1' || $version == '2.8.0'  || $version == '2.8.1' || $version == '2.8.2' || $version == '2.9.0' || $version == '2.9.1' || $version == '2.9.2' ) {
+		$content_versions = array(
+			'2.6',
+			'2.7.0',
+			'2.7.1',
+			'2.8.0',
+			'2.8.1',
+			'2.9.0',
+			'2.9.1',
+			'2.9.2',
+			'2.10.0'
+		);
+
+		if ( in_array($version, $content_versions) ) {
 			$js = '1a.content.js';
 		} else {
 			$js = '1.core.js';
 		}
+
 		$core_js = '/app/bundles/CoreBundle/Assets/js/'.$js;
 		$left_panel = '/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
 		$login_page = '/app/bundles/UserBundle/Views/Security/base.html.php';
+
 		if (file_exists($path.$base_copyright)) {
 			// get template
 			$base_copyright_template = file_get_contents('templates/'.$version.$base_copyright);
@@ -75,6 +89,7 @@ class Whitelabeler {
 			return 'Couldn\'t find base.html.php to update.';
 			exit();
 		}
+
 		if (file_exists($path.$head_title)) {
 			// get template
 			$head_title_template = file_get_contents('templates/'.$version.$head_title);
@@ -88,6 +103,7 @@ class Whitelabeler {
 			return 'Couldn\'t find head.html.php to update.';
 			exit();
 		}
+
 		if (file_exists($path.$login_page)) {
 			// get template
 			$login_page_template = file_get_contents('templates/'.$version.$login_page);
@@ -101,6 +117,7 @@ class Whitelabeler {
 			return 'Couldn\'t find login page base.html.php to update.';
 			exit();
 		}
+
 		if (file_exists($path.$core_js)) {
 			// get template
 			$core_js_template = file_get_contents('templates/'.$version.$core_js);
@@ -114,6 +131,7 @@ class Whitelabeler {
 			return 'Couldn\'t find core javascript file to update.';
 			exit();
 		}
+		
 		return 'Updated company name.';
 	}
 
