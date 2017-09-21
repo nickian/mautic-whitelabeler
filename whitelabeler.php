@@ -50,7 +50,8 @@ class Whitelabeler {
 	|--------------------------------------------------------------------------
 	*/
 	public function companyName($path, $version, $company_name) {
-		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }
+		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6 ) { $version = substr($version, 0, 3); }
+		
 		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
 		$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
 
@@ -63,7 +64,8 @@ class Whitelabeler {
 			'2.9.0',
 			'2.9.1',
 			'2.9.2',
-			'2.10.0'
+			'2.10.0',
+			'2.10.1'
 		);
 
 		if ( in_array($version, $content_versions) ) {
