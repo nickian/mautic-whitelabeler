@@ -51,7 +51,7 @@ class Whitelabeler {
 	*/
 	public function companyName($path, $version, $company_name) {
 		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6 ) { $version = substr($version, 0, 3); }
-		
+
 		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
 		$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
 
@@ -68,7 +68,8 @@ class Whitelabeler {
 			'2.10.1',
 			'2.11.0',
 			'2.12.0',
-			'2.12.1'
+			'2.12.1',
+			'2.12.2'
 		);
 
 		if ( in_array($version, $content_versions) ) {
@@ -136,7 +137,7 @@ class Whitelabeler {
 			return 'Couldn\'t find core javascript file to update.';
 			exit();
 		}
-		
+
 		return 'Updated company name.';
 	}
 

@@ -17,11 +17,10 @@ Mautic Whitelabeler makes customizing the core branding elements of Mautic a sup
 
 ## Requirements
 
-* Mautic versions 2.5.0 - 2.12.1
+* Mautic versions 2.5.0 - 2.12.2
 * `allow_url_fopen` php.ini directive set to true (uses file_get_contents)
 * Apache `mod_rewrite` enabled
 * GD Library
-* Probably other dependencies I'm not aware of yet.
 
 ## Installation / Usage
 
@@ -54,11 +53,11 @@ This means the script is not able to find the absolute path to the Mautic files 
 
 This means the script is not able to find your Mautic installation via its publicly accessible URL. This validation checks for the `LICENSE.txt` file in Mautic's root directory to confirm Mautic's root URL. Make sure the file exists and is accessible in your browser.
 
-A common reason for this validation failing is not having Apache mod_rewrite enabled. Enable this by doing `sudo a2enmod rewrite` then restart apache (usually `sudo service restart apache2`).
+Make sure the `allow_url_fopen` php.ini directive is set to true (uses file_get_contents). Open the `phpinfo.php` file in this folder and search the page for `allow_url_fopen` to make sure it's enabled.
 
 ## Credits
 
 Mautic Whitelabeler makes use of a couple of other libraries:
 
-*  [PHP-ICO](https://github.com/chrisbliss18/php-ico) for favicon generation
+* [PHP-ICO](https://github.com/chrisbliss18/php-ico) for favicon generation
 * [Spectrum](https://github.com/bgrins/spectrum) for the color selector
