@@ -71,7 +71,8 @@ class Whitelabeler {
 			'2.12.1',
 			'2.12.2',
 			'2.13.1',
-			'2.14.0'
+			'2.14.0',
+			'2.14.1'
 		);
 
 		if ( in_array($version, $content_versions) ) {
@@ -281,6 +282,7 @@ class Whitelabeler {
 	    unset($input, $output);
 	    return $exitCode === 0;
 	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Used to clear cache (taken from upgrade.php)

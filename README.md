@@ -1,6 +1,6 @@
 # Mautic Whitelabeler
 
-Whitelabeling [Mautic](http://github.com/mautic/mautic) is a tedious process. Not to mention you also have to redo your work every time you update since your files are overwritten in the update process.
+Whitelabeling [Mautic](http://github.com/mautic/mautic) is a tedious process. Not to mention you have to redo your work each time you update Mautic because your files are overwritten in the update process.
 
 Mautic Whitelabeler makes customizing the core branding elements of Mautic a super simple, automated process. Just clone this directoy on your server and navigate to it in your browser.
 
@@ -17,7 +17,7 @@ Mautic Whitelabeler makes customizing the core branding elements of Mautic a sup
 
 ## Requirements
 
-* Mautic versions 2.5.0 - 2.14.0
+* Mautic versions 2.5.0 - 2.14.1
 * `allow_url_fopen` php.ini directive set to true (uses file_get_contents)
 * Apache `mod_rewrite` enabled
 * GD Library
