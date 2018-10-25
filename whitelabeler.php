@@ -72,7 +72,8 @@ class Whitelabeler {
 			'2.12.2',
 			'2.13.1',
 			'2.14.0',
-			'2.14.1'
+			'2.14.1',
+			'2.14.2'
 		);
 
 		if ( in_array($version, $content_versions) ) {
@@ -146,7 +147,7 @@ class Whitelabeler {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Resize and Save Image file
+	| Resize and Save Image File
 	|--------------------------------------------------------------------------
 	*/
 	public function imageResize($new_width, $original, $target) {
@@ -194,7 +195,7 @@ class Whitelabeler {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Process and replace images
+	| Process and Replace Images
 	|--------------------------------------------------------------------------
 	*/
 	public function replaceImages($path, $url, $version, $sidebar_image, $sidebar_width, $sidebar_margin, $login_image, $login_width, $login_margin, $favicon_image) {
@@ -260,7 +261,7 @@ class Whitelabeler {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Used to run Mautic console commands (taken from upgrade.php)
+	| Used to run Mautic Console Commands (taken from upgrade.php)
 	|--------------------------------------------------------------------------
 	*/
 	public function runSymfonyCommand($path, $command, array $args) {
@@ -285,7 +286,7 @@ class Whitelabeler {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Used to clear cache (taken from upgrade.php)
+	| Used to Clear Cache (taken from upgrade.php)
 	|--------------------------------------------------------------------------
 	*/
 	public function recursiveRemoveDirectory($directory) {
@@ -336,12 +337,12 @@ class Whitelabeler {
 	    }
 	}
 
-	// Rebuild the cache
+	// Rebuild the Cache
 	public function buildCache($path) {
 	    return $this->runSymfonyCommand($path, 'cache:clear', ['--no-interaction', '--env=prod', '--no-debug', '--no-warmup']);
 	}
 
-	// Clear and rebuild the cache
+	// Clear and Rebuild the Cache
 	public function clearMauticCache($path) {
 	    if (!$this->recursiveRemoveDirectory($path.'/app/cache/prod')) {
 	        return 'Could not remove the application cache. You will need to do this manually.';
@@ -349,14 +350,14 @@ class Whitelabeler {
 	    return $this->buildCache($path);
 	}
 
-	// Rebuild Mautic assets
+	// Rebuild Mautic Assets
 	public function rebuildAssets($path) {
 		return $this->runSymfonyCommand($path, 'mautic:assets:generate', ['--no-interaction', '--env=prod', '--no-debug']);
 	}
 
 	/*
 	|--------------------------------------------------------------------------
-	| Get compatible versions of Mautic for whitelabeling
+	| Get Compatible Versions of Mautic for Whitelabeling
 	|--------------------------------------------------------------------------
 	*/
 	public function templateVersions($version) {
