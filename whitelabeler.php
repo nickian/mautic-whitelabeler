@@ -1,10 +1,12 @@
 <?php
 class Whitelabeler {
+
 	/*
 	|--------------------------------------------------------------------------
 	| Replace Colors in Stylesheets
 	|--------------------------------------------------------------------------
 	*/
+
 	public function colors($path, $version, $sidebar_background, $mautic_primary, $mautic_hover) {
 		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }
 		// Replace app.css contents with template and new colors
@@ -44,11 +46,13 @@ class Whitelabeler {
 		}
 	}
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Replace "Mautic" with Comapny Name
 	|--------------------------------------------------------------------------
 	*/
+
 	public function companyName($path, $version, $company_name) {
 		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6 ) { $version = substr($version, 0, 3); }
 
@@ -145,11 +149,13 @@ class Whitelabeler {
 		return 'Updated company name.';
 	}
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Resize and Save Image File
 	|--------------------------------------------------------------------------
 	*/
+
 	public function imageResize($new_width, $original, $target) {
 	    $info = getimagesize($original);
 	    if ($info['mime'] == 'image/png') {
@@ -193,11 +199,13 @@ class Whitelabeler {
 	    }
 	}
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Process and Replace Images
 	|--------------------------------------------------------------------------
 	*/
+
 	public function replaceImages($path, $url, $version, $sidebar_image, $sidebar_width, $sidebar_margin, $login_image, $login_width, $login_margin, $favicon_image) {
 		$media_images = $path.'/media/images';
 		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }
@@ -259,11 +267,13 @@ class Whitelabeler {
 		}
 	}
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Used to run Mautic Console Commands (taken from upgrade.php)
 	|--------------------------------------------------------------------------
 	*/
+
 	public function runSymfonyCommand($path, $command, array $args) {
 	    static $application;
 	    require_once $path.'/app/autoload.php';
@@ -284,11 +294,13 @@ class Whitelabeler {
 	    return $exitCode === 0;
 	}
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Used to Clear Cache (taken from upgrade.php)
 	|--------------------------------------------------------------------------
 	*/
+
 	public function recursiveRemoveDirectory($directory) {
 	    // if the path has a slash at the end we remove it here
 	    if (substr($directory, -1) == '/') {
@@ -355,11 +367,13 @@ class Whitelabeler {
 		return $this->runSymfonyCommand($path, 'mautic:assets:generate', ['--no-interaction', '--env=prod', '--no-debug']);
 	}
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Get Compatible Versions of Mautic for Whitelabeling
 	|--------------------------------------------------------------------------
 	*/
+
 	public function templateVersions($version) {
 		$path = 'templates';
 		$versions = array();
@@ -376,11 +390,13 @@ class Whitelabeler {
 		}
 	}
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Compare two versions of Mautic to see files relevant to whitelabeling
 	| have been changed.
-	|--------------------------------------------------------------------------
+	|-------
+	-------------------------------------------------------------------
 	*/
 	public function compareMauticVersions($v1, $v2) {
 		$comparision = array();

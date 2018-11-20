@@ -2,7 +2,6 @@
 require_once('whitelabeler.php');
 $whitelabeler = new Whitelabeler;
 
-// Which Endpoint?
 if (isset($_GET['q'])) {
 
 	/*
@@ -10,6 +9,7 @@ if (isset($_GET['q'])) {
 	| Find Mautic version by path
 	|--------------------------------------------------------------------------
 	*/
+	
 	if ( $_GET['q'] == 'version' ) {
 		if ( isset($_GET['path']) ) {
 			if ( substr($_GET['path'], -1) == '/' ) {
@@ -31,11 +31,13 @@ if (isset($_GET['q'])) {
 			exit();
 		}
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Find Mautic by URL (look for package.json to verify this is Mautic root)
 	|--------------------------------------------------------------------------
 	*/
+
 	} elseif ( $_GET['q'] == 'url' && isset($_GET['url']) ) {
 		$url = urldecode($_GET['url']);
 		if ( substr($url, -1) == '/' ) {
@@ -54,11 +56,13 @@ if (isset($_GET['q'])) {
 		}
 		exit();
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Clear Cache
 	|--------------------------------------------------------------------------
 	*/
+
 	} elseif ( $_GET['q'] == 'assets' && isset($_GET['assets']) && isset($_GET['path']) ) {
 		if ( substr($_GET['path'], -1) == '/' ) {
 			$path = substr($_GET['path'], 0, -1);
@@ -77,6 +81,7 @@ if (isset($_GET['q'])) {
 	| POST Logos
 	|--------------------------------------------------------------------------
 	*/
+
 	} elseif ( $_GET['q'] == 'logos' ) {
 		if ( isset($_POST['mautic_path']) && isset($_POST['mautic_url']) ) {
 			if ( substr($_POST['mautic_path'], -1) == '/' ) {
@@ -130,11 +135,13 @@ if (isset($_GET['q'])) {
 			exit();
 		}
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| POST CSS Colors
 	|--------------------------------------------------------------------------
 	*/
+
 	} elseif ( $_GET['q'] == 'css' &&  $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		if (
 			!empty($_POST['path']) &&
@@ -166,6 +173,7 @@ if (isset($_GET['q'])) {
 	| POST Company Name
 	|--------------------------------------------------------------------------
 	*/
+
 	} elseif ( $_GET['q'] == 'companyname' &&  $_SERVER['REQUEST_METHOD'] == 'POST') {
 		if ( substr($_POST['path'], -1) == '/' ) {
 			$path = substr($_POST['path'], 0, -1);
@@ -182,5 +190,4 @@ if (isset($_GET['q'])) {
 	}
 }
 
-// Load Whitelabeler form
 require_once('view.php');

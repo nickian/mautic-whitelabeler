@@ -1,9 +1,3 @@
-<?php
-// Default Mautic colors (used in JS and CSS)
-$sidebar_background = '#4e5d9d';
-$mautic_primary = '#4e5d9d';
-$mautic_hover = '#3d497b';
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +8,7 @@ $mautic_hover = '#3d497b';
 	<link rel='stylesheet' href="lib/spectrum/spectrum.css" />
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link rel='stylesheet' href="lib/font-awesome-4.7.0/css/font-awesome.min.css" />
-	<link rel='stylesheet' href="lib/style.php?sidebar_background=<?=urlencode($sidebar_background);?>&mautic_primary=<?=urlencode($sidebar_background);?>&mautic_hover=<?=urlencode($mautic_hover);?>" />
+	<link rel='stylesheet' href="lib/style.css" />
 	<script src="lib/jquery-3.1.1.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
 	<script src="lib/spectrum/spectrum.js"></script>
@@ -114,7 +108,7 @@ $mautic_hover = '#3d497b';
 														<input type="number" class="form-control margintop" id="sidebar-margin-top" name="sidebar_margin_top" data-margin="marginTop" data-logo="sidebar" placeholder="0" value="10">
 														<div class="input-group-addon">px</div>
 													</div>
-												</div>		
+												</div>
 											</div>
 										</div>
 										<div class="row">
@@ -125,7 +119,7 @@ $mautic_hover = '#3d497b';
 														<input type="number" class="form-control marginright" id="sidebar-margin-right" name="sidebar_margin_right" data-margin="marginRight" data-logo="sidebar" value="0" placeholder="0">
 														<div class="input-group-addon">px</div>
 													</div>
-												</div>						
+												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
@@ -134,7 +128,7 @@ $mautic_hover = '#3d497b';
 														<input type="number" class="form-control marginleft" id="sidebar-margin-left" name="sidebar_margin_left" data-margin="marginLeft" data-logo="sidebar" value="0" placeholder="0">
 														<div class="input-group-addon">px</div>
 													</div>
-												</div>						
+												</div>
 											</div>
 										</div><!--row-->
 									</div><!--sidebarlogo-->
@@ -165,7 +159,7 @@ $mautic_hover = '#3d497b';
 														<input type="number" class="form-control margintop" id="login-margin-top" name="login_margin_top" data-margin="marginTop" data-logo="login" placeholder="0" value="20">
 														<div class="input-group-addon">px</div>
 													</div>
-												</div>		
+												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
@@ -174,7 +168,7 @@ $mautic_hover = '#3d497b';
 														<input type="number" class="form-control marginbottom" id="login-margin-bottom" name="login_margin_bottom" data-margin="marginBottom" data-logo="login" placeholder="0" value="20">
 														<div class="input-group-addon">px</div>
 													</div>
-												</div>						
+												</div>
 											</div>
 										</div>
 									</div><!--loginlogo-->
@@ -271,10 +265,10 @@ $mautic_hover = '#3d497b';
 	</div><!--whitelabeler-->
 	<div id="overlay"></div>
 	<script>
-		var sidebar_background = '<?=$sidebar_background;?>';
-		var mautic_primary = '<?=$mautic_primary;?>';
-		var mautic_hover = '<?=$mautic_hover;?>';
+		var sidebar_background = '#4e5d9d';
+		var mautic_primary = '#4e5d9d';
+		var mautic_hover = '#3d497b';
 	</script>
-	<script src="lib/whitelabeler.js.php?sidebar_background=<?=urlencode($sidebar_background);?>&mautic_primary=<?=urlencode($sidebar_background);?>&mautic_hover=<?=urlencode($mautic_hover);?>"></script>
+	<script src="lib/whitelabeler.js"></script>
 </body>
 </html>
