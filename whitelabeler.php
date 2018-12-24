@@ -77,7 +77,8 @@ class Whitelabeler {
 			'2.13.1',
 			'2.14.0',
 			'2.14.1',
-			'2.14.2'
+			'2.14.2',
+			'2.15.0'
 		);
 
 		if ( in_array($version, $content_versions) ) {
