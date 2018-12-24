@@ -69,7 +69,7 @@
 											</div>
 											<div class="col-md-4">
 												<div class="form-group">
-													<label for="mautic_primary"><small>Pimary Color</small></label><br/>
+													<label for="mautic_primary"><small>Primary Color</small></label><br/>
 													<input type="text" class="form-control mautic_primary" id="mautic-primary" name="mautic_primary">
 												</div>
 											</div>
