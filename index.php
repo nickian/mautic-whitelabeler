@@ -9,7 +9,7 @@ if (isset($_GET['q'])) {
 	| Find Mautic version by path
 	|--------------------------------------------------------------------------
 	*/
-	
+
 	if ( $_GET['q'] == 'version' ) {
 		if ( isset($_GET['path']) ) {
 			if ( substr($_GET['path'], -1) == '/' ) {
@@ -43,8 +43,18 @@ if (isset($_GET['q'])) {
 		if ( substr($url, -1) == '/' ) {
 			$url = substr($url, 0, -1);
 		}
-		$headers = get_headers($url.'/LICENSE.txt');
-		if ( substr($headers[0], 9, 3) != 200) {
+
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		    CURLOPT_URL => $url.'/LICENSE.txt',
+		    CURLOPT_HEADER => true,
+		    CURLOPT_RETURNTRANSFER => true,
+		    CURLOPT_NOBODY => true
+		));
+		$headers = explode(' ', curl_exec($curl));
+		curl_close($curl);
+
+		if ( $headers[1] != 200) {
 			echo 0;
 		} else {
 			$license = substr(file_get_contents($url.'/LICENSE.txt'), 0, 6);
@@ -55,7 +65,6 @@ if (isset($_GET['q'])) {
 			}
 		}
 		exit();
-
 
 	/*
 	|--------------------------------------------------------------------------
@@ -134,7 +143,6 @@ if (isset($_GET['q'])) {
 			echo 'Path or URL not set.';
 			exit();
 		}
-
 
 	/*
 	|--------------------------------------------------------------------------
