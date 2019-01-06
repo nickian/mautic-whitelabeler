@@ -18,7 +18,7 @@ Mautic Whitelabeler makes customizing the core branding elements of Mautic a sup
 ## Requirements
 
 * Mautic versions 2.5.0 - 2.15.0
-* `allow_url_fopen` php.ini directive set to true (uses file_get_contents)
+* PHP cURL extension
 * Apache `mod_rewrite` enabled
 * GD Library
 
@@ -54,6 +54,8 @@ This means the script is not able to find the absolute path to the Mautic files 
 This means the script is not able to find your Mautic installation via its publicly accessible URL. This validation checks for the `LICENSE.txt` file in Mautic's root directory to confirm Mautic's root URL. Make sure the file exists and is accessible in your browser.
 
 Make sure the `allow_url_fopen` php.ini directive is set to true (uses file_get_contents). Open the `phpinfo.php` file in this folder and search the page for `allow_url_fopen` to make sure it's enabled.
+
+Join our [Mautic Whitelabeler Mattermost chat channel](https://chat.contacts.live/signup_user_complete/?id=mn5jirj38iyi5psskf6epb8m8r) if you need help troubleshooting or want to discuss an idea.
 
 ## Credits
 
