@@ -28,7 +28,7 @@ if (isset($_GET['q'])) {
 				$data->valid = boolval($whitelabeler->templateVersions($version));
 				$data->version = $version;
 			} else {
-				$data->version = false;
+				$data->valid = false;
 			}
 			echo json_encode($data);
 			exit();
