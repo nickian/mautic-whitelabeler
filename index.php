@@ -17,6 +17,7 @@ if (isset($_GET['q'])) {
 			} else {
 				$path = $_GET['path'];
 			}
+			$data = (object)[];
 			if (file_exists($path.'/app/version.txt')) {
 				$file = fopen($path.'/app/version.txt', 'r') or die('Unable to open file!');
 				$version = trim(fread($file , filesize($path.'/app/version.txt')));
@@ -24,10 +25,12 @@ if (isset($_GET['q'])) {
 					$version = explode('-', $version);
 					$version = $version[0];
 				}
-				echo $whitelabeler->templateVersions($version);
+				$data->valid = boolval($whitelabeler->templateVersions($version));
+				$data->version = $version;
 			} else {
-				echo 0;
+				$data->valid = false;
 			}
+			echo json_encode($data);
 			exit();
 		}
 

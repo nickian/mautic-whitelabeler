@@ -37,7 +37,7 @@
 						</div><!--row-->
 						<div class="row">
 							<div class="col-md-12">
-								<form method="post" enctype="multipart/form-data">
+								<form id="options-form" method="post" enctype="multipart/form-data">
 									<div id="basic">
 										<div class="form-group">
 											<label for="mautic-path">Where is Mautic installed?</label><br/>
