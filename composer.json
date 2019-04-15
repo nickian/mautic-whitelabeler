@@ -1,0 +1,16 @@
+{
+    "name": "nick/mautic-whitelabeler",
+    "authors": [
+        {
+            "name": "Nick Thompson",
+            "email": "nick@nick.do"
+        }
+    ],
+    "require": {
+        "chrisjean/php-ico": "^1.0",
+        "components/font-awesome": "4.7.0"
+    },
+    "config": {
+        "COMPOSER_ALLOW_SUPERUSER" : 1
+    }
+}

@@ -1,3 +1,7 @@
+# Uncomment the line below when you're done whitelabeling so this folder is no longer publicly accessible!
+
+# deny from all
+
 <IfModule mod_rewrite.c>
 RewriteEngine Off
 </IfModule>

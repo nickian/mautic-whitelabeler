@@ -1,48 +1,286 @@
 <?php
 class Whitelabeler {
 
+/*
+|--------------------------------------------------------------------------
+| Load config.json file if it exists
+|--------------------------------------------------------------------------
+*/
+	public function loadJsonConfig() {
+		$config = array();
+		if ( file_exists( __DIR__.'/assets/config.json' ) ) {
+			$config = json_decode(file_get_contents(__DIR__.'/assets/config.json'), true);
+			return $config;
+		} else {
+			return false;
+		}
+	}
+
+
+/*
+|--------------------------------------------------------------------------
+| Find Mautic URL with cURL
+|--------------------------------------------------------------------------
+*/
+
+    public function findMauticUrl($url) {
+
+        if ( function_exists('curl_version') ) {
+
+    		$url = urldecode($url);
+    		if ( substr($url, -1) == '/' ) {
+    			$url = substr($url, 0, -1);
+    		}
+
+    		$curl = curl_init();
+    		curl_setopt_array($curl, array(
+    		    CURLOPT_URL => $url.'/LICENSE.txt',
+    		    CURLOPT_HEADER => true,
+    		    CURLOPT_RETURNTRANSFER => true,
+    		    CURLOPT_NOBODY => true,
+    			CURLOPT_CONNECTTIMEOUT => 5
+    		));
+    		$output = curl_exec($curl);
+
+    		$headers = [];
+    		$data = explode("\n",$output);
+    		$headers['status'] = $data[0];
+    		array_shift($data);
+    		foreach($data as $key => $part) {
+    			$middle = explode(":",$part);
+    			if ( isset($middle[1]) ) {
+    				$headers[trim($middle[0])] = trim($middle[1]);
+    			}
+    		}
+
+    		$http_code = explode(' ', $headers['status']);
+    		curl_close($curl);
+
+    		if ( $output == false ) {
+
+    			return array(
+    				'status' => 0,
+    				'message' => 'Address timed out. Make sure it\'s accessible by your server\'s network.'
+    			);
+
+    		} else {
+
+    			if ( $http_code[1] != 200) {
+
+    				return array(
+    					'status' => 0,
+    					'message' => 'Mautic not found: '. $headers['status']
+    				);
+
+    			} else {
+
+    				$license = substr(file_get_contents($url.'/LICENSE.txt'), 0, 6);
+
+    				if ($license == 'Mautic') {
+
+    					return array(
+    						'status' => 1,
+    						'message' => 'OK, Mautic found.'
+    					);
+
+    				} else {
+
+    					return array(
+    						'status' => 0,
+    						'message' => 'Mautic not found. Make sure LICENSE.txt exists in the domain root, check for errors in your server error log.'
+    					);
+
+    				}
+    			}
+
+    		}
+
+    	} else {
+
+    		return array(
+    			'status' => 0,
+    			'message' => 'cURL PHP extension is not installed on your server.'
+    		);
+    	}
+
+
+    }
+
+/*
+|--------------------------------------------------------------------------
+| Find Mautic version by path
+|--------------------------------------------------------------------------
+*/
+	public function mauticVersion($path) {
+
+		$data = array();
+
+		if ( substr($path, -1) == '/' ) {
+			$path = substr($path, 0, -1);
+		}
+
+		if (file_exists($path.'/app/version.txt')) {
+
+			$file = fopen($path.'/app/version.txt', 'r') or die('Unable to open file!');
+
+			$version = trim(fread($file , filesize($path.'/app/version.txt')));
+
+			if (strpos($version, '-dev') !== false) {
+
+				return array(
+					'status' => 0,
+					'message' => 'You are using a development version of Mautic ('.$version.'). Whitelabeler only supports official, non-beta releases.'
+				);
+
+			} else {
+
+				return $this->templateVersions($version);
+
+			}
+
+		} else {
+
+			return array(
+				'status' => 0,
+				'message' => $path.'/app/version.txt file not found.'
+			);
+
+		}
+
+	}
+	
+	
+	/*
+	|--------------------------------------------------------------------------
+	| Check for an asset by URL
+	|--------------------------------------------------------------------------
+	*/	
+	public function assetExists($url) {
+    		$curl = curl_init();
+    		curl_setopt_array($curl, array(
+    		    CURLOPT_URL => $url,
+    		    CURLOPT_HEADER => true,
+    		    CURLOPT_RETURNTRANSFER => true,
+    		    CURLOPT_NOBODY => true,
+    		));
+    		$output = curl_exec($curl);
+    		$headers = [];
+    		$data = explode("\n",$output);
+    		$headers['status'] = $data[0];
+    		array_shift($data);
+    		foreach($data as $key => $part) {
+    			$middle = explode(":",$part);
+    			if ( isset($middle[1]) ) {
+    				$headers[trim($middle[0])] = trim($middle[1]);
+    			}
+    		}
+    		$http_code = explode(' ', $headers['status']);
+    		
+    		if ($http_code[1] == 200) {
+        		return 1;
+    		} else {
+        		return 0;
+    		}
+    		
+	}
+
+
+	/*
+	|--------------------------------------------------------------------------
+	| Look for an image in assets folder
+	|--------------------------------------------------------------------------
+	*/
+	public function imageExists($image) {
+		if ( file_exists(__DIR__.'/assets/'.$image) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
 	/*
 	|--------------------------------------------------------------------------
 	| Replace Colors in Stylesheets
 	|--------------------------------------------------------------------------
 	*/
-
-	public function colors($path, $version, $sidebar_background, $mautic_primary, $mautic_hover) {
-		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }
+	public function colors(
+		$path,
+		$version,
+		$logo_bg, 
+		$primary, 
+		$hover,
+		$sidebar_bg,
+		$sidebar_submenu_bg,
+		$sidebar_link,
+		$sidebar_link_hover,
+		$active_icon,
+		$divider_left,
+		$sidebar_divider,
+		$submenu_bullet_bg,
+		$submenu_bullet_shadow
+	) {
+		
 		// Replace app.css contents with template and new colors
 		$app_css = $path.'/app/bundles/CoreBundle/Assets/css/app.css';
+		
 		if (file_exists($app_css)) {
+			
 			$app_css_template = file_get_contents('templates/'.$version.'/app/bundles/CoreBundle/Assets/css/app.css');
 			$app_css_new = str_replace(
 				// Look for these template tags.
-				array('{{sidebar_background}}', '{{mautic_primary}}', '{{mautic_hover}}'),
+				array('{{logo_bg}}', '{{primary}}', '{{hover}}', '{{sidebar_bg}}', '{{sidebar_submenu_bg}}', 
+				      '{{sidebar_link}}', '{{sidebar_link_hover}}', '{{active_icon}}', '{{divider_left}}', '{{sidebar_divider}}', 
+				      '{{submenu_bullet_bg}}', '{{submenu_bullet_shadow}}'
+				),
 				// Replace template tags with new colors.
-				array($sidebar_background, $mautic_primary, $mautic_hover),
+				array($logo_bg, $primary, $hover, $sidebar_bg, $sidebar_submenu_bg, $sidebar_link, $sidebar_link_hover, 
+				      $active_icon, $divider_left, $sidebar_divider, $submenu_bullet_bg, $submenu_bullet_shadow
+				),
 				$app_css_template
 			);
 			$file = fopen($app_css, "w");
 			fwrite($file, $app_css_new);
 			fclose($file);
+			
 		} else {
-			return 'Unable to find app.css in your Mautic installation.';
+			
+			return array(
+				'status' => 0,
+				'message' => 'Unable to find app.css in your Mautic installation.'
+			);
+			
 		}
+		
 		// Replace libraries.css contents with template and new colors
 		$libraries_css = $path.'/app/bundles/CoreBundle/Assets/css/libraries/libraries.css';
+		
 		if (file_exists($libraries_css)) {
+			
 			$libraries_css_template = file_get_contents('templates/'.$version.'/app/bundles/CoreBundle/Assets/css/libraries/libraries.css');
 			$libraries_css_new = str_replace(
 				// Look for these template tags.
-				array('{{sidebar_background}}','{{mautic_primary}}','{{mautic_hover}}'),
+				array('{{$logo_bg}}','{{primary}}','{{hover}}'),
 				// Replace template tags with new colors.
-				array($sidebar_background, $mautic_primary, $mautic_hover),
+				array($logo_bg, $primary, $hover),
 				$libraries_css_template
 			);
 			$file = fopen($libraries_css, "w");
 			fwrite($file, $libraries_css_new);
 			fclose($file);
-			return 'CSS files updated with new colors.';
+			
+			return array(
+			    'status' => 1,
+			    'message' => 'CSS files updated with new colors!'
+			 );
+			
 		} else {
-			return 'Unable to find libraries.css in your Mautic installation.';
+			
+			return array(
+			    'status' => 0,
+			    'message' => 'Unable to find libraries.css in your Mautic installation.'
+			 );
+			
 		}
 	}
 
@@ -54,42 +292,14 @@ class Whitelabeler {
 	*/
 
 	public function companyName($path, $version, $company_name) {
-		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6 ) { $version = substr($version, 0, 3); }
 
-		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
-		$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
-
-		$content_versions = array(
-			'2.6',
-			'2.7.0',
-			'2.7.1',
-			'2.8.0',
-			'2.8.1',
-			'2.9.0',
-			'2.9.1',
-			'2.9.2',
-			'2.10.0',
-			'2.10.1',
-			'2.11.0',
-			'2.12.0',
-			'2.12.1',
-			'2.12.2',
-			'2.13.1',
-			'2.14.0',
-			'2.14.1',
-			'2.14.2',
-			'2.15.0'
-		);
-
-		if ( in_array($version, $content_versions) ) {
-			$js = '1a.content.js';
-		} else {
-			$js = '1.core.js';
-		}
-
-		$core_js = '/app/bundles/CoreBundle/Assets/js/'.$js;
-		$left_panel = '/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
-		$login_page = '/app/bundles/UserBundle/Views/Security/base.html.php';
+        $base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
+        $head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
+        $js = '1a.content.js';
+        $core_js = '/app/bundles/CoreBundle/Assets/js/'.$js;
+        $left_panel = '/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
+        $login_page = '/app/bundles/UserBundle/Views/Security/base.html.php';
+        	$errors = array();
 
 		if (file_exists($path.$base_copyright)) {
 			// get template
@@ -101,8 +311,7 @@ class Whitelabeler {
 			fwrite($file, $base_copyright_new);
 			fclose($file);
 		} else {
-			return 'Couldn\'t find base.html.php to update.';
-			exit();
+			$errors[] = 'Unable to find Mautic file: '.$base_copyright;
 		}
 
 		if (file_exists($path.$head_title)) {
@@ -115,8 +324,7 @@ class Whitelabeler {
 			fwrite($file, $head_title_new);
 			fclose($file);
 		} else {
-			return 'Couldn\'t find head.html.php to update.';
-			exit();
+			$errors[] = 'Unable to find Mautic file: '.$head_title;
 		}
 
 		if (file_exists($path.$login_page)) {
@@ -129,8 +337,7 @@ class Whitelabeler {
 			fwrite($file, $login_page_new);
 			fclose($file);
 		} else {
-			return 'Couldn\'t find login page base.html.php to update.';
-			exit();
+			$errors[] = 'Unable to find Mautic file: '.$login_page;
 		}
 
 		if (file_exists($path.$core_js)) {
@@ -143,11 +350,21 @@ class Whitelabeler {
 			fwrite($file, $core_js_new);
 			fclose($file);
 		} else {
-			return 'Couldn\'t find core javascript file to update.';
-			exit();
+			$errors[] = 'Couldn\'t find core javascript file to update.';
 		}
 
-		return 'Updated company name.';
+		if (empty($errors)) {
+			return array(
+				'status' => 1, 
+				'message' => 'Updated company name in templates!'
+			);
+		} else {
+			return array(
+				'status' => 0, 
+				'message' => $errors
+			);	
+		}
+
 	}
 
 
@@ -168,7 +385,11 @@ class Whitelabeler {
 			}
 			$srcWidth = imagesx($im);
 			$srcHeight = imagesy($im);
-			$nWidth = $new_width;
+			if ( $new_width <= 400 ) {
+				$nWidth = $info[0];
+			} else {
+				$nWidth = 400;
+			}
 			$nHeight = ($srcHeight / $srcWidth) * $nWidth;
 			$newImg = imagecreatetruecolor($nWidth, $nHeight);
 			imagealphablending($newImg, false);
@@ -180,7 +401,7 @@ class Whitelabeler {
 			imagepng($newImg, $target);
 			return $target;
 	    } else {
-	    	if ($info['mime'] == 'image/jpeg') {
+	    	if ($info['mime'] == 'image/jpeg' ) {
 	            $image_create_func = 'imagecreatefromjpeg';
 	            $image_save_func = 'imagejpeg';
 	    	} elseif($info['mime'] == 'image/gif') {
@@ -207,31 +428,41 @@ class Whitelabeler {
 	|--------------------------------------------------------------------------
 	*/
 
-	public function replaceImages($path, $url, $version, $sidebar_image, $sidebar_width, $sidebar_margin, $login_image, $login_width, $login_margin, $favicon_image) {
+	public function replaceImages(
+		$path, 
+		$url, 
+		$version, 
+		$sidebar_image, 
+		$sidebar_width, 
+		$sidebar_margin, // array (top, right, left)
+		$login_image, 
+		$login_width, 
+		$login_margin, // array (top, bottom)
+		$favicon_image
+	) {
+		
+		if ( $favicon_image == false ) {
+			$favicon_image = $login_image;
+		}
+		
 		$media_images = $path.'/media/images';
-		if(substr($version, 0, 3) == 2.5 || substr($version, 0, 3) == 2.6) { $version = substr($version, 0, 3); }
-		// Apple Touch Icon
-		$this->imageResize(192, $login_image['tmp_name'], $media_images.'/apple-touch-icon.png');
-		// mautic_logo_db64.png
-		$this->imageResize(64, $login_image['tmp_name'], $media_images.'/mautic_logo_db64.png');
-		// mautic_logo_db200.png
-		$this->imageResize(200, $login_image['tmp_name'], $media_images.'/mautic_logo_db200.png');
-		// mautic_logo_lb200.png
-		$this->imageResize(200, $login_image['tmp_name'], $media_images.'/mautic_logo_lb200.png');
 
-		require_once('lib/php-ico/class-php-ico.php' );
+		// Update favicon
+		require_once('vendor/chrisjean/php-ico/class-php-ico.php');
+		
 		// If favicon is .ico, move/copy the file
-		if ($favicon_image['type'] == 'image/vnd.microsoft.icon' || $favicon_image['type'] == 'image/x-icon') {
-			move_uploaded_file($favicon_image["tmp_name"], $path.'/favicon.ico');
+		if ( exif_imagetype($favicon_image) == 17 ) {	
+			copy($favicon_image, $path.'/favicon.ico');
 			copy($path.'/favicon.ico', $media_images.'/favicon.ico');
 		// convert to .ico and save.
 		} else {
-			$ico_lib = new PHP_ICO($favicon_image['tmp_name'],  array( array( 64, 64 ) ) );
+			$ico_lib = new PHP_ICO($favicon_image, array(array(64, 64)));
 			$ico_lib->save_ico($path.'/favicon.ico');
 			$ico_lib->save_ico($media_images.'/favicon.ico');
 		}
+		
 		// Update sidebar logo
-		$this->imageResize(250, $sidebar_image['tmp_name'], $media_images.'/sidebar_logo.png');
+		$this->imageResize(250, $sidebar_image, $media_images.'/sidebar_logo.png');
 		$left_panel = $path.'/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
 		if (file_exists($left_panel)) {
 			$left_panel_template = file_get_contents('templates/'.$version.'/app/bundles/CoreBundle/Views/LeftPanel/index.html.php');
@@ -246,26 +477,55 @@ class Whitelabeler {
 			fwrite($file, $left_panel_new);
 			fclose($file);
 		} else {
-			return $left_panel.' NOT FOUND.';
+			return array(
+				'status' => 0, 
+				'message' => $left_panel.' NOT FOUND.'
+			);
 		}
-		// Update login logo
-		$this->imageResize(400, $login_image['tmp_name'], $media_images.'/login_logo.png');
+		
+		// Update login logo and create some icons from login logo
+		
+		// Apple Touch Icon
+		$this->imageResize(192, $login_image, $media_images.'/apple-touch-icon.png');
+		// mautic_logo_db64.png
+		$this->imageResize(64, $login_image, $media_images.'/mautic_logo_db64.png');
+		// mautic_logo_db200.png
+		$this->imageResize(200, $login_image, $media_images.'/mautic_logo_db200.png');
+		// mautic_logo_lb200.png
+		$this->imageResize(200, $login_image, $media_images.'/mautic_logo_lb200.png');
+		
+		$this->imageResize(400, $login_image, $media_images.'/login_logo.png');
 		$login_page = $path.'/app/bundles/UserBundle/Views/Security/base.html.php';
-		if (file_exists($login_page)) {
+		
+		if ( file_exists($login_page) ) {
+			
 			$login_page_template = file_get_contents($login_page);
 			$login_page_new = str_replace(
 				// Look for these template tags.
 				array('{{login_logo}}', '{{login_logo_width}}', '{{login_logo_margin_top}}', '{{login_logo_margin_bottom}}'),
 				// Replace template tags with values.
-				array($url.'/media/images/login_logo.png', $login_width, $login_margin['top'], $login_margin['bottom']),
+				array($url.'/media/images/login_logo.png', $login_width, $login_margin['top'], $login_margin['bottom']), 
+				// In this file
 				$login_page_template
 			);
 			$file = fopen($login_page, "w");
 			fwrite($file, $login_page_new);
 			fclose($file);
+			
+			return array(
+				'status' => 1, 
+				'message' => 'Logos updated! '
+			);
+			
 		} else {
-			return $login_page.' NOT FOUND.';
+			
+			return array(
+				'status' => 0, 
+				'message' => $login_page.' NOT FOUND.'
+			);
+
 		}
+		
 	}
 
 
@@ -358,9 +618,15 @@ class Whitelabeler {
 	// Clear and Rebuild the Cache
 	public function clearMauticCache($path) {
 	    if (!$this->recursiveRemoveDirectory($path.'/app/cache/prod')) {
-	        return 'Could not remove the application cache. You will need to do this manually.';
+	        return array(
+    	            'status' => 0,
+    	            'message' => 'Could not remove the application cache. You will need to do this manually.'
+	        );
 	    }
-	    return $this->buildCache($path);
+	    return array(
+    	        'status' => 1,
+    	        'message' => $this->buildCache($path)
+	    );
 	}
 
 	// Rebuild Mautic Assets
@@ -385,9 +651,20 @@ class Whitelabeler {
 		    }
 		}
 		if (in_array(substr($version, 0, 3), $versions) || in_array($version, $versions)) {
-			return $version;
+
+			return array(
+				'status' => 1,
+				'version' => $version,
+				'message' => 'Compatible version found ('.$version.')'
+			);
+
 		} else {
-			return 0;
+
+			return array(
+				'status' => 0,
+				'message' => 'The version of Mautic you are using ('.$version.') is not currently supported.'
+			);
+
 		}
 	}
 
@@ -396,8 +673,7 @@ class Whitelabeler {
 	|--------------------------------------------------------------------------
 	| Compare two versions of Mautic to see files relevant to whitelabeling
 	| have been changed.
-	|-------
-	-------------------------------------------------------------------
+	|--------------------------------------------------------------------------
 	*/
 	public function compareMauticVersions($v1, $v2) {
 		$comparision = array();
@@ -507,6 +783,147 @@ class Whitelabeler {
 		}
 
 		return $comparision;
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Validate configuration values from config.json
+	|--------------------------------------------------------------------------
+	*/
+
+	public function validateConfigValues() {
+
+		$config_vals = $this->loadJsonConfig();
+
+	    $errors = array();
+
+	    // Verify the PATH in config.txt is correct and Mautic exists there
+	    $path = $this->mauticVersion($config_vals['path']);
+	    if ( $path['status'] != 1 ) {
+	        $errors[] =  $path['message'];
+	    }
+
+	    // Verify the URL in config.txt is correct
+	    $url = $this->findMauticUrl($config_vals['url']);
+	    if ( $url['status'] != 1 ) {
+	        $errors[] = 'Invalid URL provided.';
+	    }
+
+	    // Verify that a COMPANY name is defined in config.txt
+	    if ( !$config_vals['company'] ) {
+	        $errors[] = 'Please provide a company name.';
+	    }
+
+	    // Verify that a valid hex value is provided for primary in config.json
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['primary'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the primary color.';
+	    }
+
+	    // Verify that a valid hex value is provided for hover in config.json
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['hover'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the hover color.';
+	    }
+
+	    // Verify that a valid hex value is provided for logo_bg
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['logo_bg'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the sidebar logo background color.';
+	    }
+
+	    // Verify that a valid hex value is provided for sidebar_bg
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['sidebar_bg'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the sidebar background color.';
+	    }
+
+	    // Verify that a valid hex value is provided for sidebar_bg
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['sidebar_submenu_bg'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the sidebar submenu background color.';
+	    }
+
+	    // Verify that a valid hex value is provided for sidebar_link
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['sidebar_link'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the sidebar link color.';
+	    }
+
+	    // Verify that a valid hex value is provided for sidebar_link_hover
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['sidebar_link_hover'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the sidebar link hover color.';
+	    }
+
+	    // Verify that a valid hex value is provided for active_icon
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['active_icon'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the active icon color.';
+	    }
+
+	    // Verify that a valid hex value is provided for sidebar_divider
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['sidebar_divider'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the sidebar divider color.';
+	    }
+
+	    // Verify that a valid hex value is provided for submenu_bullet_bg
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['submenu_bullet_bg'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the submenu bullet background color.';
+	    }
+
+	    // Verify that a valid hex value is provided for submenu_bullet_shadow
+	    if ( !preg_match('/#([a-fA-F0-9]{3}){1,2}\b/', $config_vals['submenu_bullet_shadow'] ) ) {
+	        $errors[] = 'Invalid hex value provided for the submenu bullet shadow color.';
+	    }
+
+	    // Verify that sidebar_image file exists in the assets folder
+	    if ( !$this->imageExists($config_vals['sidebar_logo']) ) {
+	        $errors[] = 'Can\'t find the sidebar image provided ('.$config_vals['sidebar_logo'].')';
+	    }
+
+	    // Verify that a valid numeric value for sidebar_logo_width was provided
+	    if ( !is_numeric($config_vals['sidebar_logo_width']) ) {
+	        $errors[] = 'Invalid sidebar logo width value provided.';
+	    }
+
+	    // Verify that a valid sidebar_logo_margin_top number was provided
+	    if ( !is_numeric($config_vals['sidebar_logo_margin_top']) ) {
+	        $errors[] = 'Invalid sidebar_logo_margin_top value provided.';
+	    }
+
+	    // Verify that a valid sidebar_logo_margin_right number was provided
+	    if ( !is_numeric($config_vals['sidebar_logo_margin_right']) ) {
+	        $errors[] = 'Invalid sidebar_logo_margin_right value provided.';
+	    }
+
+	    // Verify that a valid sidebar_logo_margin_left number was provided
+	    if ( !is_numeric($config_vals['sidebar_logo_margin_left']) ) {
+	        $errors[] = 'Invalid sidebar_logo_margin_left value provided.';
+	    }
+
+	    // Verify that login_logo file exists in the assets folder
+	    if ( !$this->imageExists($config_vals['login_logo']) ) {
+	        $errors[] = 'Can\'t find the login logo image provided ('.$config_vals['login_logo'].')';
+	    }
+
+	    // Verify that a valid numeric value for sidebar_logo_width was provided
+	    if ( !is_numeric($config_vals['login_logo_width']) ) {
+	        $errors[] = 'Invalid login logo width value provided.';
+	    }
+
+	    // Verify that a valid login_logo_margin_top number was provided
+	    if ( !is_numeric($config_vals['login_logo_margin_top']) ) {
+	        $errors[] = 'Invalid login_logo_margin_top value provided.';
+	    }
+
+	    // Verify that a valid login_logo_margin_top number was provided
+	    if ( !is_numeric($config_vals['login_logo_margin_bottom']) ) {
+	        $errors[] = 'Invalid login_logo_margin_bottom value provided.';
+	    }
+
+	    // Verify that favicon file exists in the assets folder
+	    if ( !$this->imageExists($config_vals['favicon']) ) {
+	        $errors[] = 'Can\'t find the favicon image provided ('.$config_vals['favicon'].')';
+	    }
+
+	    return array(
+	        'errors' => $errors,
+            'config' => $config_vals
+	    );
+
 	}
 
 }
