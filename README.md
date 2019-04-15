@@ -45,11 +45,11 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 6. Specify a favicon, either .ico or .png. If you don't specify a file, a favicon will be generated from your login logo file.
 
-7. (Optional) Hit the "save" button to write your configuration settings to the `assets/config.json` file. If a config.json file is found upon loading the whitelabeler, your settings will be loaded automatically. Having a config.json will also allow you to white label from the command line.
+7. (Optional) Hit the "save" button to write your configuration settings to the `assets/config.json` file. If a config.json file is found upon loading the whitelabeler, your settings will be loaded automatically. Having a config.json will also allow you to whitelabel from the command line.
 
 8. Hit the whitelabel button and wait for the status terminal to run through the steps. Make sure to clear your browser's cache before pulling up your Mautic instance to see the results!
 
-9. When you're finished, open the `.htaccess` file and uncomment the `deny from all` line. This prevents the directory from being publicly accessible. Either that, or REMOVE or MOVE the whitelabler directory.
+9. When you're finished, open the `.htaccess` file and uncomment the `deny from all` line. This prevents the directory from being publicly accessible. Either that, or remove or move the whitelabler directory.
 
 ## Using the Command Line Whitelabeler
 
@@ -96,7 +96,7 @@ If you have any backups in the backups directory, you will be prompted to select
 
 #### Mautic installation not found at path
 
-This means the script is not able to find the absolute path to the Mautic files on your server. This validation checks for a `version.txt` file in the `/app` folder. Make sure this file exists and is accessible by your web server. 
+This means the script is not able to find the absolute path to the Mautic files on your server. This validation checks for a `version.txt` file in the `/app` folder. Make sure this file exists and is accessible by your web server.
 
 Usually doing: `chown -R www-data:www-data /path/to/mautic` will fix the permissions issue with Apache.
 
@@ -113,7 +113,7 @@ Please read through the [previous Issues](https://github.com/nickian/mautic-whit
 
 Join our [Mautic Mattermost chat channel](https://lnk.st/mautic-chat) if you have any general questions or want to discuss ideas!
 
-If you're looking for extensive and more involved support for Mautic and the Whitelabeler, or you need hosting, DM me on the chat channel [@nick](https://lnk.st/mautic-dm) or [shoot over an email here](https://lnk.st/mautic). 
+If you're looking for extensive and more involved support for Mautic and the Whitelabeler, or you need hosting, DM me on the chat channel [@nick](https://lnk.st/mautic-dm) or [shoot over an email here](https://lnk.st/mautic).
 
 ## Credits :thumbsup:
 
