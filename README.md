@@ -4,7 +4,7 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 ![Screenshot](preview.png)
 
-** Easily customize:**
+**Easily customize:**
 
 * Logo at the top of the left sidebar and its background color
 * Colors used in the sidebar, its links, and the active icon
@@ -64,7 +64,7 @@ This will display the command line menu:
 ```
 sudo -u www-data php cli.php
 ```
-![Screenshot](preview.png)
+![Screenshot](preview-cli.png)
 
 #### Whitelabel
 
