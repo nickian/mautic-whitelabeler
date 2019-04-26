@@ -6,10 +6,10 @@ class Whitelabeler {
 | Load config.json file if it exists
 |--------------------------------------------------------------------------
 */
-	public function loadJsonConfig() {
+	public function loadJsonConfig($file) {
 		$config = array();
-		if ( file_exists( __DIR__.'/assets/config.json' ) ) {
-			$config = json_decode(file_get_contents(__DIR__.'/assets/config.json'), true);
+		if ( file_exists( __DIR__.'/assets/'.$file ) ) {
+			$config = json_decode(file_get_contents(__DIR__.'/assets/'.$file), true);
 			return $config;
 		} else {
 			return false;
@@ -791,9 +791,13 @@ class Whitelabeler {
 	|--------------------------------------------------------------------------
 	*/
 
-	public function validateConfigValues() {
+	public function validateConfigValues($file=false) {
 
-		$config_vals = $this->loadJsonConfig();
+        if ( $file != false ) {
+            $config_vals = $this->loadJsonConfig($file);    
+        } else {
+            $config_vals = $this->loadJsonConfig('config.json');
+        }
 
 	    $errors = array();
 

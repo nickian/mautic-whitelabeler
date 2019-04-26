@@ -119,7 +119,7 @@ if (isset($_GET['q'])) {
 				}
 
 				// If favicon file is not set, we'll use the login logo
-				if ( !isset($_FILES['favicon_file']) ) {
+				if ( !isset($_FILES['favicon_file']) && !isset($_POST['saved_favicon']) ) {
 
 					$logo_filename_explode = explode('.', $_FILES['login_logo_file']['name']);
 					$ico_lib = new PHP_ICO($_FILES['login_logo_file']['tmp_name'],  array( array( 64, 64 ) ) );
@@ -214,7 +214,7 @@ if (isset($_GET['q'])) {
 */
 	} elseif ( $_GET['q'] == 'saved' ) {
 
-		$config = $whitelabeler->loadJsonConfig();
+		$config = $whitelabeler->loadJsonConfig('config.json');
 
 		if ( $config ) {
 			header('Content-Type: application/json');

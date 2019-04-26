@@ -4738,3 +4738,27 @@ figcaption {
 .imagecard .imagecard-caption {
   background-color: #bbb !important;
 }
+
+div.alert-growl {
+    background: {{sidebar_bg}};
+    border: 1px solid {{sidebar_bg}};
+    color: {{sidebar_link}};
+}
+
+div.alert-growl a {
+    color: {{sidebar_link}};
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+div.alert-growl a:hover {
+    color: {{sidebar_link_hover}};
+}
+
+div.alert-growl .close {
+    color: {{sidebar_link}};
+}
+
+div.alert-growl .close:hover {
+    color: {{sidebar_link_hover}};
+}   
