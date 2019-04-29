@@ -2,7 +2,7 @@
 
 Mautic Whitelabeler makes customizing the core branding elements of [Mautic](http://github.com/mautic/mautic) a simple, automated process.
 
-![Screenshot](preview.png)
+![Screenshot](preview.jpg )
 
 **Easily customize:**
 
@@ -11,14 +11,16 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 * General colors (links, buttons, hover, panel headings)
 * Logo on the login screen
 * Company name in page titles, login, and footer
+* Add other HTML or text content in the footer
 * Favicon
 
 ## New in Mautic Whitelabeler 2.0  :tada:
 
 * Customize the entire sidebar
 * Command line whitelabler
-* Save your whitelabeling settings (as config.json) and images in the assets folder for future whitelabeling
+* Save your whitelabeling configuration as a JSON file. Images are saved in the assets folder for future whitelabeling
 * Whitelabel, backup, and restore Mautic from the command line
+* Customize and add additional content in the footer
 * Improved error reporting
 
 ## Requirements
@@ -45,7 +47,9 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 6. Specify a favicon, either .ico or .png. If you don't specify a file, a favicon will be generated from your login logo file.
 
-7. (Optional) Hit the "save" button to write your configuration settings to the `assets/config.json` file. If a config.json file is found upon loading the whitelabeler, your settings will be loaded automatically. Having a config.json will also allow you to whitelabel from the command line.
+7. (Optional) Hit the "save" or "save as" button to write your configuration settings to a JSON file in the `assets` folder. If a config.json file is found upon loading the whitelabeler, your settings will be loaded automatically. You can also load a specific JSON file from the assets folder using the "Load a Config File" button. Having a config.json will also allow you to whitelabel from the command line.
+
+    *(**Note:** Using the "Save" button after you've loaded a JSON file other than `config.json` will write to the generic `config.json` file. "Save" always writes to `assets/config.json`. If you want to update your already saved, separate JSON file, you'll have to use "Save As" and simply give it the name it's already using to overwrite the current file)*
 
 8. Hit the whitelabel button and wait for the status terminal to run through the steps. Make sure to clear your browser's cache before pulling up your Mautic instance to see the results!
 
@@ -64,7 +68,7 @@ This will display the command line menu:
 ```
 sudo -u www-data php cli.php
 ```
-![Screenshot](preview-cli.png)
+![Screenshot](preview-cli.jpg)
 
 #### Whitelabel
 
@@ -73,6 +77,18 @@ sudo -u www-data php cli.php --whitelabel
 ```
 
 This will run the whitelabeling process from the command line using the values stored in config.json. First, you'll have to create the config.json file by using the "save" button in the web interface.
+
+```
+sudo -u www-data php cli.php --whitelabel specific_file.json
+```
+
+This will allow you to whitelabel using a specific file located in the `assets` folder.
+
+```
+sudo -u www-data php cli.php --whitelabel --config=/path/to/specific_file.json
+```
+
+This will allow you to whitelabel using a JSON file located somewhere other than the `assets` folder.
 
 #### Backup
 

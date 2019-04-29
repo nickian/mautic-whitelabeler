@@ -9,14 +9,36 @@ if ( count($argv) > 1 ) {
     if ( $argv[1] == '--whitelabel' ) {
         
         if ( isset($argv[2]) ) {
-            if ( file_exists(__DIR__.'/assets/'.$argv[2]) ) {
-                $config = $whitelabeler->validateConfigValues($argv[2]);
-            } else {
-                $cli->error('Config file not found.');
-                exit();
-            }
+	        
+	        $config_file = explode('=', $argv[2]);
+	        
+	        if ( !empty($config_file) && $config_file[0] == '--config' ) {
+		        
+		        if ( file_exists($config_file[1]) ) {
+			        $config = $whitelabeler->validateConfigValues($config_file[1]);
+		        } else {
+			        $cli->error('Config file not found.');
+			        exit();
+		        }
+		        
+	        } else {
+		    
+	            if ( file_exists(__DIR__.'/assets/'.$argv[2]) ) {
+	                $config = $whitelabeler->validateConfigValues($argv[2]);
+	            } else {
+	                $cli->error('Config file not found.');
+	                exit();
+	            }
+		        
+	        }
+	        
         } else {
-            $config = $whitelabeler->validateConfigValues();
+	        if ( file_exists(__DIR__.'/assets/config.json') ) {
+            	$config = $whitelabeler->validateConfigValues();
+            } else {
+	            $cli->error('Config file not found.');
+	            exit();
+            }
         }
 
 		if ( !empty($config['errors'] ) ) {
@@ -69,7 +91,9 @@ if ( count($argv) > 1 ) {
 			$company_name = $whitelabeler->companyName(
 				$config['path'],
 				$version['version'],
-				$config['company']
+				$config['company'],
+				$config['footer_prefix'],
+				$config['footer']
 			);
             	
             	if ( $company_name['status'] == 1 ) {
@@ -178,9 +202,13 @@ if ( count($argv) > 1 ) {
 	    // Look for backups
 	    $backups = array();
 		foreach (new DirectoryIterator(__DIR__.'/backups') as $file) {
-		    if ($file->isDot()) continue;
-		    if ($file->isFile()) {
-		        array_push($backups, $file->getFilename());
+		    if ( $file->isDot() ) continue;
+		    if ( $file->isFile() ) {
+    		    $file_extension = explode('.', $file);
+    		    $file_extension = end($file_extension);
+				if ( $file_extension == 'tgz' ) {
+		        	array_push($backups, $file->getFilename());	
+				}
 		    }
 		}
 
@@ -283,7 +311,13 @@ if ( count($argv) > 1 ) {
 	$cli->yellow('Command line options:');
 	echo PHP_EOL;
 	$cli->out('<bold>php cli.php --whitelabel');
-	$cli->out('Validates config.json and begins whitelabeling process.');
+	$cli->out('Looks for config.json in assets folder, validates JSON, and begins whitelabeling process.');
+	echo PHP_EOL;
+	$cli->out('<bold>php cli.php --whitelabel specific_file.json');
+	$cli->out('Looks for specific_file.json in assets folder, validates JSON, and begins whitelabeling process.');
+	echo PHP_EOL;
+	$cli->out('<bold>php cli.php --whitelabel --config=/path/to/specific_file.json');
+	$cli->out('Looks for JSON file at specific absolute path, validates JSON, and begins whitelabeling process.');
 	echo PHP_EOL;
 	$cli->out('<bold>php cli.php --backup</bold>');
 	$cli->out('Creates a compressed backup of your Mautic files and saves it into the whitelabeler backup directory.');

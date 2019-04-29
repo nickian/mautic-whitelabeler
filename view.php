@@ -119,6 +119,19 @@
 											<small>This replaces "Mautic" in the page titles and footer.</small>
 											<input type="text" class="form-control" name="company_name" id="company-name" value="Mautic">
 										</div>
+										
+										<div class="form-group">
+											<label for="footer-prefix">Footer Prefix (optional)</label><br/>
+											<small>Displays after company name in the footer.</small>
+											<input type="text" class="form-control" name="footer_prefix" id="footer-prefix" value="All Rights Reserved.">
+										</div>
+										
+										<div class="form-group">
+											<label for="footer">Footer (Optional)</label><br/>
+											<small>Additional footer text or HTML to display after company name and footer prefix.</small>
+											<input type="text" class="form-control" name="footer" id="footer" value="">
+										</div>
+										
 									</div><!--basic-->
 									<div id="colors">
 										<h3>General Colors</h3>
@@ -341,12 +354,13 @@
 									<div id="actions">
 										<button id="reset" class="btn btn-default">Reset to Defaults &nbsp;<i class="fa fa-undo" aria-hidden="true"></i></button>
 
-										<button id="reload" class="btn btn-default">Reload config.json &nbsp;<i class="fa fa-refresh" aria-hidden="true"></i></button>
+										<button id="load-config" class="btn btn-default">Load a Config File &nbsp;<i class="fa fa-file-code-o" aria-hidden="true"></i></button>
 
 										<br/><br/>
 
 										<button id="save" class="btn btn-default">Save &nbsp;<i class="fa fa-spinner fa-spin fa-fw save-loading" style="display:none;"></i><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
-
+										<button id="save-as" class="btn btn-default">Save As &nbsp;<i class="fa fa-spinner fa-spin fa-fw save-as-loading" style="display:none;"></i><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+										
 										<button id="whitelabel-now" type="submit" class="btn btn-default">Whitelabel &nbsp;<i class="fa fa-magic" aria-hidden="true"></i></button>
 
 										<div id="notification">
@@ -424,12 +438,30 @@
 							        </form>
 							    </div><!--panel-body-->
 							</div><!--panel-->
+							<div id="footer">
+								<p>&copy; <?=date('Y');?> <span id="company-name-preview">Mautic</span><span id="footer-prefix-preview">. All Rights Reserved.</span></p>
+								<p id="footer-preview"></p>
+							</div>
 						</div><!--login preview-->
 					</div><!--right-->
 				</div><!--col 6-->
 			</div><!--row-->
 		</div><!--container-->
 	</div><!--whitelabeler-->
+	<!--config open modal-->
+    <div class="modal fade" id="open-config" tabindex="-1" role="dialog" aria-labelledby="open-config">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Select a file from assets:</h4>
+                </div>
+                <div class="modal-body">
+                </div>            
+            </div>
+        </div>
+    </div>
+    <!--/config open modal-->
 	<div id="overlay"><i class="fa fa-spinner fa-spin"></i><span>Loading</span></div>
 	<script>
 		var mautic_path = '<?=realpath(__DIR__ . '/..');?>';

@@ -3,6 +3,24 @@ class Whitelabeler {
 
 /*
 |--------------------------------------------------------------------------
+| Get JSON config files from assets folder
+|--------------------------------------------------------------------------
+*/
+	public function getConfigFiles() {
+		$config_files = array();
+		$files = scandir(__DIR__.'/assets');
+		foreach( $files as $file ) {
+    		$file_extension = explode('.', $file);
+    		$file_extension = end($file_extension);
+    		if ( $file_extension == strtolower('json') ) {
+                $config_files[] = $file;	
+    		}
+		}
+		return $config_files;
+	}
+
+/*
+|--------------------------------------------------------------------------
 | Load config.json file if it exists
 |--------------------------------------------------------------------------
 */
@@ -291,7 +309,7 @@ class Whitelabeler {
 	|--------------------------------------------------------------------------
 	*/
 
-	public function companyName($path, $version, $company_name) {
+	public function companyName($path, $version, $company_name, $footer_prefix, $footer) {
 
         $base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
         $head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
@@ -305,7 +323,17 @@ class Whitelabeler {
 			// get template
 			$base_copyright_template = file_get_contents('templates/'.$version.$base_copyright);
 			// fill template tags
-			$base_copyright_new = str_replace('{{company_name}}', $company_name, $base_copyright_template);
+			if ( $footer_prefix != '' ) {
+    			$footer_prefix_base = '. ' . $footer_prefix;
+			} else {
+    			$footer_prefix_base = $footer;
+			}
+			if ( $footer != '' ) {
+    			$footer_base = '| '.$footer;
+			} else {
+    			$footer_base = $footer;
+			}
+			$base_copyright_new = str_replace(array('{{company_name}}', '{{footer_prefix}}', '{{footer}}'), array($company_name, $footer_prefix_base, $footer_base), $base_copyright_template);
 			// Replace Mautic file
 			$file = fopen($path.$base_copyright, "w");
 			fwrite($file, $base_copyright_new);
@@ -331,7 +359,12 @@ class Whitelabeler {
 			// get template
 			$login_page_template = file_get_contents('templates/'.$version.$login_page);
 			// fill template tags
-			$login_page_new = str_replace('{{company_name}}', $company_name, $login_page_template);
+			if ( $footer_prefix != '' ) {
+    			$footer_prefix_login = '. ' . $footer_prefix;
+			} else {
+    			$footer_prefix_login = $footer_prefix;
+			}
+			$login_page_new = str_replace(array('{{company_name}}', '{{footer_prefix}}', '{{footer}}'), array($company_name, $footer_prefix_login, $footer), $login_page_template);
 			// Replace Mautic file
 			$file = fopen($path.$login_page, "w");
 			fwrite($file, $login_page_new);

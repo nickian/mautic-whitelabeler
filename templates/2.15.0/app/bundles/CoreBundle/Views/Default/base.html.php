@@ -41,7 +41,7 @@
             <footer id="app-footer">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xs-6 text-muted">&copy; <?php echo date('Y');?> {{company_name}}</div>
+                        <div class="col-xs-6 text-muted">&copy; <?php echo date('Y');?> {{company_name}}{{footer_prefix}} {{footer}}</div>
                         <div class="col-xs-6 text-muted text-right small">v<?php
                             /** @var \Mautic\CoreBundle\Templating\Helper\VersionHelper $version */
                             $version = $view['version'];

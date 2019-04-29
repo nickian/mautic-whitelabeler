@@ -43,7 +43,8 @@
         </div>
          <div class="row">
             <div class="col-lg-4 col-lg-offset-4 text-center text-muted">
-                &copy; <?php echo date('Y');?> {{company_name}}
+                &copy; <?php echo date('Y');?> {{company_name}}{{footer_prefix}}
+                <p style="margin-top:1em;">{{footer}}</p>
             </div>
         </div>
     </div>

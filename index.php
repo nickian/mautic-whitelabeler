@@ -198,23 +198,48 @@ if (isset($_GET['q'])) {
 |--------------------------------------------------------------------------
 */
 	} elseif ( $_GET['q'] == 'save' && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-		//Encode the array into a JSON string.
+		// Encode the array into a JSON string.
 		$encodedString = json_encode($_POST['config'], JSON_PRETTY_PRINT);
-		//Save to JSON file in assets.
+		// Save to JSON file in assets.
 		if (file_put_contents(__DIR__.'/assets/config.json', $encodedString)) {
 			header('Content-Type: application/json');
 			echo json_encode( array('status' => 1, 'message' => 'Config values saved.') );
 		};
 		exit();
+		
+/*
+|--------------------------------------------------------------------------
+| Save as a different filename
+|--------------------------------------------------------------------------
+*/
+	} elseif ( $_GET['q'] == 'save-as' && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['file']) ) {
+		// Encode the array into a JSON string.
+		$encodedString = json_encode($_POST['config'], JSON_PRETTY_PRINT);
+		// Save to JSON file in assets.
+		if (file_put_contents(__DIR__.'/assets/'.$_POST['file'].'.json', $encodedString)) {
+			header('Content-Type: application/json');
+			echo json_encode( array('status' => 1, 'message' => $_POST['file'].'.json saved in assets folder.') );
+		};
+		exit();
 
+/*
+|--------------------------------------------------------------------------
+| Get list of config files from assets directory
+|--------------------------------------------------------------------------
+*/
+    } elseif ( $_GET['q'] == 'config-files' ) {
+        header('Content-Type: application/json');
+        echo json_encode($whitelabeler->getConfigFiles());
+        exit();
+        
 /*
 |--------------------------------------------------------------------------
 | Look for saved values and files to populate form automatically
 |--------------------------------------------------------------------------
 */
-	} elseif ( $_GET['q'] == 'saved' ) {
+	} elseif ( $_GET['q'] == 'saved' && isset($_GET['file']) ) {
 
-		$config = $whitelabeler->loadJsonConfig('config.json');
+		$config = $whitelabeler->loadJsonConfig($_GET['file']);
 
 		if ( $config ) {
 			header('Content-Type: application/json');
@@ -427,7 +452,9 @@ if (isset($_GET['q'])) {
 		$company_name = $whitelabeler->companyName(
 			$path,
 			$_POST['version'],
-			$_POST['company_name']
+			$_POST['company_name'],
+			$_POST['footer_prefix'],
+			$_POST['footer']
 		);
 		header('Content-Type: application/json');
 		echo json_encode($company_name);
