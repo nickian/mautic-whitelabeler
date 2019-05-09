@@ -114,25 +114,43 @@ if ( count($argv) > 1 ) {
 			} else {
 				$favicon = $config['login_logo'];
 			}
-			
+
+			if( substr( $favicon, 0, 1 ) == '/' ) {
+				$favicon = $favicon;
+			} else {
+				$favicon = __DIR__.'/assets/'.$favicon;
+			}
+
+			if( substr( $config['sidebar_logo'], 0, 1 ) == '/' ) {
+				$sidebar_logo = $config['sidebar_logo'];
+			} else {
+				$sidebar_logo = __DIR__.'/assets/'.$config['sidebar_logo'];
+			}
+
+			if( substr( $config['login_logo'], 0, 1 ) == '/' ) {
+				$login_logo = $config['login_logo'];
+			} else {
+				$login_logo = __DIR__.'/assets/'.$config['login_logo'];
+			}
+
 			$logos = $whitelabeler->replaceImages(
 				$config['path'],
 				$config['url'],
 				$version['version'],
-				__DIR__.'/assets/'.$config['sidebar_logo'],
+				$sidebar_logo,
 				$config['sidebar_logo_width'],
 				array(
 					'top' => $config['sidebar_logo_margin_top'],
 					'right' => $config['sidebar_logo_margin_right'],
 					'left' => $config['sidebar_logo_margin_left']
 				),
-				__DIR__.'/assets/'.$config['login_logo'],
+				$login_logo,
 				$config['login_logo_width'],
 				array(
 					'top' => $config['login_logo_margin_top'],
 					'bottom' => $config['login_logo_margin_bottom']
 				),
-				__DIR__.'/assets/'.$favicon
+				$favicon
 			);
 			
 			if ( $logos['status'] == 1 ) {

@@ -26,7 +26,11 @@ class Whitelabeler {
 */
 	public function loadJsonConfig($file) {
 		$config = array();
-		if ( file_exists( __DIR__.'/assets/'.$file ) ) {
+
+		if ( substr( $file, 0, 1 ) == '/' && file_exists( $file ) ) {
+			$config = json_decode(file_get_contents($file), true);
+			return $config;
+		} elseif ( file_exists( __DIR__.'/assets/'.$file ) ) {
 			$config = json_decode(file_get_contents(__DIR__.'/assets/'.$file), true);
 			return $config;
 		} else {
@@ -209,7 +213,9 @@ class Whitelabeler {
 	|--------------------------------------------------------------------------
 	*/
 	public function imageExists($image) {
-		if ( file_exists(__DIR__.'/assets/'.$image) ) {
+		if ( substr( $image, 0, 1 ) == '/' && file_exists( $image ) ) {
+			return true;
+		} elseif ( file_exists(__DIR__.'/assets/'.$image) ) {
 			return true;
 		} else {
 			return false;
