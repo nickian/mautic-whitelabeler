@@ -843,7 +843,7 @@ class Whitelabeler {
 	    // Verify the URL in config.txt is correct
 	    $url = $this->findMauticUrl($config_vals['url']);
 	    if ( $url['status'] != 1 ) {
-	        $errors[] = 'Invalid URL provided.';
+	        $errors[] = 'Invalid URL provided. '.$url['message'];
 	    }
 
 	    // Verify that a COMPANY name is defined in config.txt
