@@ -56,7 +56,9 @@ class Whitelabeler {
     		    CURLOPT_HEADER => true,
     		    CURLOPT_RETURNTRANSFER => true,
     		    CURLOPT_NOBODY => true,
-    			CURLOPT_CONNECTTIMEOUT => 5
+    			CURLOPT_CONNECTTIMEOUT => 5,
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => false
     		));
     		$output = curl_exec($curl);
 
@@ -92,7 +94,12 @@ class Whitelabeler {
 
     			} else {
 
-    				$license = substr(file_get_contents($url.'/LICENSE.txt'), 0, 6);
+    				$license = substr(file_get_contents($url.'/LICENSE.txt', false, stream_context_create(array(
+    				    'ssl' => array(
+    				        'verify_peer' => false,
+                            'verify_peer_name' => false
+                        )
+                    ))), 0, 6);
 
     				if ($license == 'Mautic') {
 
@@ -180,6 +187,8 @@ class Whitelabeler {
     		    CURLOPT_HEADER => true,
     		    CURLOPT_RETURNTRANSFER => true,
     		    CURLOPT_NOBODY => true,
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => false
     		));
     		$output = curl_exec($curl);
     		$headers = [];
