@@ -13,7 +13,7 @@ $extraMenu = $view['menu']->render('extra');
 <!-- start: sidebar-header -->
 <div class="sidebar-header">
     <!-- brand -->
-    <a class="mautic-brand<?php echo (!empty($extraMenu)) ? ' pull-left pl-0 pr-0' : ''; ?>" href="#">
+    <a class="mautic-brand<?php echo (!empty($extraMenu)) ? ' pull-left pl-0 pr-0' : ''; ?>" href="#" style="text-align:center; padding:0;">
 		<img src="{{sidebar_image}}" style="width:100%; max-width:{{sidebar_width}}px; margin:{{margin_top}}px {{margin_right}}px 0 {{margin_left}}px;" />
     </a>
     <?php if (!empty($extraMenu)): ?>
