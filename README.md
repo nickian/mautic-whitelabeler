@@ -27,33 +27,41 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 * Mautic versions 2.15.0 - 2.15.1 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic)
 * Apache server (will work on some nginx configurations, but not officially supported)
-* PHP cURL extension
+* The PHP cURL extension must be installed and enabled
+* The PHP GD library must be installed and enabled
 * `allow_url_fopen` php.ini directive set to true (file_get_contents function)
-* GD Library
 * Make sure `post_max_size` and `upload_max_filesize` in `php.ini` are set to high enough values depending on the size of the images you're uploading
 
 ## Installing and Using the Whitelabeler
 
 1. BACKUP YOUR FILES first in case something goes wrong. This app overwrites some of Mautic's core files.
 
-2. Download a release or clone this repository into the root directory of your Mautic installation.
+2. Move the `mautic-whitelabeler` directory and its contents into the root directory of your Mautic installation. There are a couple ways to do this:
 
-3. Specify the "Company Name," which will replace "Mautic" in the page titles and footer.
+    * Download a release and copy the `mautic-whitelabeler` directory into the root directory of your Mautic installation.
+  
+    * Use git to clone this repository into the root directory of your Mautic installation.
+  
+    * When you are finished, there should be a new `mautic-whitelabeler` directory located inside your Mautic root installation directory. For instance, if your mautic root directory is `/var/www/html`, the `mautic-whitelabeler` folder should be located at `/var/www/html/mautic-whitelabeler`.
 
-4. Specify your color hex codes.
+3. Navigate to `https://yourmauticinstancedomain.com/mautic-whitelabeler`.
 
-5. Specify sidebar and login logo files (preferably transparent PNG files) and their widths and margins.
+4. Specify the "Company Name," which will replace "Mautic" in the page titles and footer.
+
+5. Specify your color hex codes.
+
+6. Specify sidebar and login logo files (preferably transparent PNG files) and their widths and margins.
 	* Avoid uploading large images (i.e., over 1500px might be too large depending on your setup). The `imagecreatefrompng` function can exceed PHP's memory limit and fail while trying to process and resize large images.
 
-6. Specify a favicon, either .ico or .png. If you don't specify a file, a favicon will be generated from your login logo file.
+7. Specify a favicon, either .ico or .png. If you don't specify a file, a favicon will be generated from your login logo file.
 
-7. (Optional) Hit the "save" or "save as" button to write your configuration settings to a JSON file in the `assets` folder. If a config.json file is found upon loading the whitelabeler, your settings will be loaded automatically. You can also load a specific JSON file from the assets folder using the "Load a Config File" button. Having a config.json will also allow you to whitelabel from the command line.
+8. (Optional) Hit the "save" or "save as" button to write your configuration settings to a JSON file in the `assets` folder. If a config.json file is found upon loading the whitelabeler, your settings will be loaded automatically. You can also load a specific JSON file from the assets folder using the "Load a Config File" button. Having a config.json will also allow you to whitelabel from the command line.
 
     *(**Note:** Using the "Save" button after you've loaded a JSON file other than `config.json` will write to the generic `config.json` file. "Save" always writes to `assets/config.json`. If you want to update your already saved, separate JSON file, you'll have to use "Save As" and simply give it the name it's already using to overwrite the current file)*
 
-8. Hit the whitelabel button and wait for the status terminal to run through the steps. Make sure to clear your browser's cache before pulling up your Mautic instance to see the results!
+9. Hit the whitelabel button and wait for the status terminal to run through the steps. Make sure to clear your browser's cache before pulling up your Mautic instance to see the results!
 
-9. When you're finished, open the `.htaccess` file and uncomment the `deny from all` line. This prevents the directory from being publicly accessible. Either that, or remove or move the whitelabler directory.
+10. When you're finished, open the `.htaccess` file and uncomment the `deny from all` line. This prevents the directory from being publicly accessible. Either that, or remove or move the whitelabler directory.
 
 ## Using the Command Line Whitelabeler
 
