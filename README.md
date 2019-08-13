@@ -25,7 +25,7 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 ## Requirements
 
-* Mautic versions 2.15.0 - 2.15.1 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic)
+* Mautic versions 2.15.0 - 2.15.2 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic)
 * Apache server (will work on some nginx configurations, but not officially supported)
 * The PHP cURL extension must be installed and enabled
 * The PHP GD library must be installed and enabled
@@ -39,9 +39,9 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 2. Move the `mautic-whitelabeler` directory and its contents into the root directory of your Mautic installation. There are a couple ways to do this:
 
     * Download a release and copy the `mautic-whitelabeler` directory into the root directory of your Mautic installation.
-  
+
     * Use git to clone this repository into the root directory of your Mautic installation.
-  
+
     * When you are finished, there should be a new `mautic-whitelabeler` directory located inside your Mautic root installation directory. For instance, if your mautic root directory is `/var/www/html`, the `mautic-whitelabeler` folder should be located at `/var/www/html/mautic-whitelabeler`.
 
 3. Navigate to `https://yourmauticinstancedomain.com/mautic-whitelabeler`.
