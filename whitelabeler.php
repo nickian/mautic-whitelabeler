@@ -13,7 +13,7 @@ class Whitelabeler {
     		$file_extension = explode('.', $file);
     		$file_extension = end($file_extension);
     		if ( $file_extension == strtolower('json') ) {
-                $config_files[] = $file;	
+                $config_files[] = $file;
     		}
 		}
 		return $config_files;
@@ -173,13 +173,13 @@ class Whitelabeler {
 		}
 
 	}
-	
-	
+
+
 	/*
 	|--------------------------------------------------------------------------
 	| Check for an asset by URL
 	|--------------------------------------------------------------------------
-	*/	
+	*/
 	public function assetExists($url) {
     		$curl = curl_init();
     		curl_setopt_array($curl, array(
@@ -202,13 +202,13 @@ class Whitelabeler {
     			}
     		}
     		$http_code = explode(' ', $headers['status']);
-    		
+
     		if ($http_code[1] == 200) {
         		return 1;
     		} else {
         		return 0;
     		}
-    		
+
 	}
 
 
@@ -234,8 +234,8 @@ class Whitelabeler {
 	public function colors(
 		$path,
 		$version,
-		$logo_bg, 
-		$primary, 
+		$logo_bg,
+		$primary,
 		$hover,
 		$sidebar_bg,
 		$sidebar_submenu_bg,
@@ -247,21 +247,21 @@ class Whitelabeler {
 		$submenu_bullet_bg,
 		$submenu_bullet_shadow
 	) {
-		
+
 		// Replace app.css contents with template and new colors
 		$app_css = $path.'/app/bundles/CoreBundle/Assets/css/app.css';
-		
+
 		if (file_exists($app_css)) {
-			
+
 			$app_css_template = file_get_contents('templates/'.$version.'/app/bundles/CoreBundle/Assets/css/app.css');
 			$app_css_new = str_replace(
 				// Look for these template tags.
-				array('{{logo_bg}}', '{{primary}}', '{{hover}}', '{{sidebar_bg}}', '{{sidebar_submenu_bg}}', 
-				      '{{sidebar_link}}', '{{sidebar_link_hover}}', '{{active_icon}}', '{{divider_left}}', '{{sidebar_divider}}', 
+				array('{{logo_bg}}', '{{primary}}', '{{hover}}', '{{sidebar_bg}}', '{{sidebar_submenu_bg}}',
+				      '{{sidebar_link}}', '{{sidebar_link_hover}}', '{{active_icon}}', '{{divider_left}}', '{{sidebar_divider}}',
 				      '{{submenu_bullet_bg}}', '{{submenu_bullet_shadow}}'
 				),
 				// Replace template tags with new colors.
-				array($logo_bg, $primary, $hover, $sidebar_bg, $sidebar_submenu_bg, $sidebar_link, $sidebar_link_hover, 
+				array($logo_bg, $primary, $hover, $sidebar_bg, $sidebar_submenu_bg, $sidebar_link, $sidebar_link_hover,
 				      $active_icon, $divider_left, $sidebar_divider, $submenu_bullet_bg, $submenu_bullet_shadow
 				),
 				$app_css_template
@@ -269,21 +269,21 @@ class Whitelabeler {
 			$file = fopen($app_css, "w");
 			fwrite($file, $app_css_new);
 			fclose($file);
-			
+
 		} else {
-			
+
 			return array(
 				'status' => 0,
 				'message' => 'Unable to find app.css in your Mautic installation.'
 			);
-			
+
 		}
-		
+
 		// Replace libraries.css contents with template and new colors
 		$libraries_css = $path.'/app/bundles/CoreBundle/Assets/css/libraries/libraries.css';
-		
+
 		if (file_exists($libraries_css)) {
-			
+
 			$libraries_css_template = file_get_contents('templates/'.$version.'/app/bundles/CoreBundle/Assets/css/libraries/libraries.css');
 			$libraries_css_new = str_replace(
 				// Look for these template tags.
@@ -295,19 +295,19 @@ class Whitelabeler {
 			$file = fopen($libraries_css, "w");
 			fwrite($file, $libraries_css_new);
 			fclose($file);
-			
+
 			return array(
 			    'status' => 1,
 			    'message' => 'CSS files updated with new colors!'
 			 );
-			
+
 		} else {
-			
+
 			return array(
 			    'status' => 0,
 			    'message' => 'Unable to find libraries.css in your Mautic installation.'
 			 );
-			
+
 		}
 	}
 
@@ -397,14 +397,14 @@ class Whitelabeler {
 
 		if (empty($errors)) {
 			return array(
-				'status' => 1, 
+				'status' => 1,
 				'message' => 'Updated company name in templates!'
 			);
 		} else {
 			return array(
-				'status' => 0, 
+				'status' => 0,
 				'message' => $errors
-			);	
+			);
 		}
 
 	}
@@ -471,29 +471,29 @@ class Whitelabeler {
 	*/
 
 	public function replaceImages(
-		$path, 
-		$url, 
-		$version, 
-		$sidebar_image, 
-		$sidebar_width, 
+		$path,
+		$url,
+		$version,
+		$sidebar_image,
+		$sidebar_width,
 		$sidebar_margin, // array (top, right, left)
-		$login_image, 
-		$login_width, 
+		$login_image,
+		$login_width,
 		$login_margin, // array (top, bottom)
 		$favicon_image
 	) {
-		
+
 		if ( $favicon_image == false ) {
 			$favicon_image = $login_image;
 		}
-		
+
 		$media_images = $path.'/media/images';
 
 		// Update favicon
 		require_once('vendor/chrisjean/php-ico/class-php-ico.php');
-		
+
 		// If favicon is .ico, move/copy the file
-		if ( exif_imagetype($favicon_image) == 17 ) {	
+		if ( exif_imagetype($favicon_image) == 17 ) {
 			copy($favicon_image, $path.'/favicon.ico');
 			copy($path.'/favicon.ico', $media_images.'/favicon.ico');
 		// convert to .ico and save.
@@ -502,7 +502,7 @@ class Whitelabeler {
 			$ico_lib->save_ico($path.'/favicon.ico');
 			$ico_lib->save_ico($media_images.'/favicon.ico');
 		}
-		
+
 		// Update sidebar logo
 		$this->imageResize(250, $sidebar_image, $media_images.'/sidebar_logo.png');
 		$left_panel = $path.'/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
@@ -520,13 +520,13 @@ class Whitelabeler {
 			fclose($file);
 		} else {
 			return array(
-				'status' => 0, 
+				'status' => 0,
 				'message' => $left_panel.' NOT FOUND.'
 			);
 		}
-		
+
 		// Update login logo and create some icons from login logo
-		
+
 		// Apple Touch Icon
 		$this->imageResize(192, $login_image, $media_images.'/apple-touch-icon.png');
 		// mautic_logo_db64.png
@@ -535,39 +535,39 @@ class Whitelabeler {
 		$this->imageResize(200, $login_image, $media_images.'/mautic_logo_db200.png');
 		// mautic_logo_lb200.png
 		$this->imageResize(200, $login_image, $media_images.'/mautic_logo_lb200.png');
-		
+
 		$this->imageResize(400, $login_image, $media_images.'/login_logo.png');
 		$login_page = $path.'/app/bundles/UserBundle/Views/Security/base.html.php';
-		
+
 		if ( file_exists($login_page) ) {
-			
+
 			$login_page_template = file_get_contents($login_page);
 			$login_page_new = str_replace(
 				// Look for these template tags.
 				array('{{login_logo}}', '{{login_logo_width}}', '{{login_logo_margin_top}}', '{{login_logo_margin_bottom}}'),
 				// Replace template tags with values.
-				array($url.'/media/images/login_logo.png', $login_width, $login_margin['top'], $login_margin['bottom']), 
+				array($url.'/media/images/login_logo.png', $login_width, $login_margin['top'], $login_margin['bottom']),
 				// In this file
 				$login_page_template
 			);
 			$file = fopen($login_page, "w");
 			fwrite($file, $login_page_new);
 			fclose($file);
-			
+
 			return array(
-				'status' => 1, 
+				'status' => 1,
 				'message' => 'Logos updated! '
 			);
-			
+
 		} else {
-			
+
 			return array(
-				'status' => 0, 
+				'status' => 0,
 				'message' => $login_page.' NOT FOUND.'
 			);
 
 		}
-		
+
 	}
 
 
@@ -836,7 +836,7 @@ class Whitelabeler {
 	public function validateConfigValues($file=false) {
 
         if ( $file != false ) {
-            $config_vals = $this->loadJsonConfig($file);    
+            $config_vals = $this->loadJsonConfig($file);
         } else {
             $config_vals = $this->loadJsonConfig('config.json');
         }

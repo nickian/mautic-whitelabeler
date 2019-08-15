@@ -44,7 +44,7 @@ if (isset($_GET['q'])) {
         );
 
 		exit();
-		
+
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ if (isset($_GET['q'])) {
 	} elseif ( $_GET['q'] == 'asset' && isset($_GET['url']) ) {
         echo $whitelabeler->assetExists(urldecode($_GET['url']));
         exit();
-		
+
 
 /*
 |--------------------------------------------------------------------------
@@ -137,10 +137,10 @@ if (isset($_GET['q'])) {
 			}
 
 		}
-		
+
 		// favicon
 		if ( isset($_FILES['favicon_file']) ) {
-			
+
 			if (
 				$_FILES['favicon_file']['type'] == 'image/png' ||
 				$_FILES['favicon_file']['type'] == 'image/x-icon' ||
@@ -206,7 +206,7 @@ if (isset($_GET['q'])) {
 			echo json_encode( array('status' => 1, 'message' => 'Config values saved.') );
 		};
 		exit();
-		
+
 /*
 |--------------------------------------------------------------------------
 | Save as a different filename
@@ -231,7 +231,7 @@ if (isset($_GET['q'])) {
         header('Content-Type: application/json');
         echo json_encode($whitelabeler->getConfigFiles());
         exit();
-        
+
 /*
 |--------------------------------------------------------------------------
 | Look for saved values and files to populate form automatically
@@ -291,9 +291,9 @@ if (isset($_GET['q'])) {
 |--------------------------------------------------------------------------
 */
 	} elseif ( $_GET['q'] == 'logos' ) {
-		
+
 		if ( isset($_POST['mautic_path']) && isset($_POST['mautic_url']) ) {
-		
+
 			if ( substr($_POST['mautic_path'], -1) == '/' ) {
 				$path = substr($_POST['mautic_path'], 0, -1);
 			} else {
@@ -304,19 +304,19 @@ if (isset($_GET['q'])) {
 			} else {
 				$url = $_POST['mautic_url'];
 			}
-			
+
 			$errors = array();
-			
-			if ( !isset($_FILES['sidebar_logo_file']) && !isset($_POST['sidebar_logo_file']) ) { 
-				$errors[] = 'Couldn\'t find file for the sidebar logo.'; 
-			}	
-				
-			if ( !isset($_FILES['login_logo_file']) && !isset($_POST['sidebar_logo_file']) ) { 
-				$errors[] = 'Couldn\'t find file for the login logo.'; 
+
+			if ( !isset($_FILES['sidebar_logo_file']) && !isset($_POST['sidebar_logo_file']) ) {
+				$errors[] = 'Couldn\'t find file for the sidebar logo.';
 			}
-			
+
+			if ( !isset($_FILES['login_logo_file']) && !isset($_POST['sidebar_logo_file']) ) {
+				$errors[] = 'Couldn\'t find file for the login logo.';
+			}
+
 			if (empty($errors)) {
-				
+
 				// Use saved sidebar logo
 				if ( !isset($_FILES['sidebar_logo_file']) && isset($_POST['sidebar_logo_file']) ) {
 					$sidebar_logo = __DIR__.'/assets/'.$_POST['sidebar_logo_file'];
@@ -324,7 +324,7 @@ if (isset($_GET['q'])) {
 				} elseif ( isset($_FILES['sidebar_logo_file']) ) {
 					$sidebar_logo = $_FILES['sidebar_logo_file']['tmp_name'];
 				}
-				
+
 				// Use saved login logo
 				if ( !isset($_FILES['login_logo_file']) && isset($_POST['login_logo_file']) ) {
 					$login_logo = __DIR__.'/assets/'.$_POST['login_logo_file'];
@@ -332,7 +332,7 @@ if (isset($_GET['q'])) {
 				} elseif ( isset($_FILES['login_logo_file']) ) {
 					$login_logo = $_FILES['login_logo_file']['tmp_name'];
 				}
-				
+
 				// Use saved favicon
 				if ( !isset($_FILES['favicon_file']) && isset($_POST['favicon_file']) && $_POST['favicon_file'] != 'null' ) {
 					$favicon = __DIR__.'/assets/'.$_POST['favicon_file'];
@@ -343,7 +343,7 @@ if (isset($_GET['q'])) {
 				} else {
 					$favicon = false;
 				}
-				
+
 				$logos = $whitelabeler->replaceImages(
 					$path,
 					$url,
@@ -363,10 +363,10 @@ if (isset($_GET['q'])) {
 					),
 					$favicon
 				);
-				
-				header('Content-Type: application/json'); 
+
+				header('Content-Type: application/json');
 				echo json_encode($logos);
-				
+
 			} else {
 				header('Content-Type: application/json');
 				echo json_encode(array(
@@ -390,13 +390,13 @@ if (isset($_GET['q'])) {
 |--------------------------------------------------------------------------
 */
 	} elseif ( $_GET['q'] == 'css' &&  $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-		
+
 		if (
 			isset($_POST['path']) &&
 			isset($_POST['version']) &&
 			isset($_POST['logo_bg']) &&
 			isset($_POST['primary']) &&
-			isset($_POST['hover']) && 
+			isset($_POST['hover']) &&
 			isset($_POST['sidebar_bg']) &&
 			isset($_POST['sidebar_submenu_bg']) &&
 			isset($_POST['sidebar_link']) &&
@@ -428,10 +428,10 @@ if (isset($_GET['q'])) {
 				$_POST['submenu_bullet_bg'],
 				$_POST['submenu_bullet_shadow']
 			);
-			
+
 			header('Content-Type: application/json');
 			echo json_encode($colors);
-		
+
 		} else {
 			header('Content-Type: application/json');
 			echo array(0, 'Missing CSS color field values.');
