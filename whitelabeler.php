@@ -512,7 +512,7 @@ class Whitelabeler {
 				// Look for these template tags.
 				array('{{sidebar_image}}', '{{sidebar_width}}', '{{margin_top}}','{{margin_right}}', '{{margin_left}}'),
 				// Replace template tags with values.
-				array($url.'/media/images/sidebar_logo.png', $sidebar_width, $sidebar_margin['top'], $sidebar_margin['right'], $sidebar_margin['left']),
+				array('media/images/sidebar_logo.png', $sidebar_width, $sidebar_margin['top'], $sidebar_margin['right'], $sidebar_margin['left']),
 				$left_panel_template
 			);
 			$file = fopen($left_panel, "w");
@@ -546,7 +546,7 @@ class Whitelabeler {
 				// Look for these template tags.
 				array('{{login_logo}}', '{{login_logo_width}}', '{{login_logo_margin_top}}', '{{login_logo_margin_bottom}}'),
 				// Replace template tags with values.
-				array($url.'/media/images/login_logo.png', $login_width, $login_margin['top'], $login_margin['bottom']),
+				array('media/images/login_logo.png', $login_width, $login_margin['top'], $login_margin['bottom']),
 				// In this file
 				$login_page_template
 			);
