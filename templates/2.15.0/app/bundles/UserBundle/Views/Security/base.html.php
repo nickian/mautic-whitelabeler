@@ -31,7 +31,7 @@
                 <div class="panel" name="form-login">
                     <div class="panel-body">
                         <div class="mautic-logo img-circle mb-md text-center" style="width:{{login_logo_width}}px;">
-                            <img src="{{login_logo}}" style="width:{{login_logo_width}}px; margin:{{login_logo_margin_top}}px 0 {{login_logo_margin_bottom}}px 0;" />
+                            <img src="<?php echo $view['assets']->getUrl('{{login_logo}}') ?>" style="width:{{login_logo_width}}px; margin:{{login_logo_margin_top}}px 0 {{login_logo_margin_bottom}}px 0;" />
                         </div>
                         <div id="main-panel-flash-msgs">
                             <?php echo $view->render('MauticCoreBundle:Notification:flashes.html.php'); ?>
