@@ -135,9 +135,7 @@ Make sure the cURL PHP extension is installed. Open the `phpinfo.php` file in th
 Please read through the [previous Issues](https://github.com/nickian/mautic-whitelabeler/issues?utf8=%E2%9C%93&q=) before creating a new one.
 
 
-Join our [Mautic Mattermost chat channel](https://lnk.st/mautic-chat) if you have any general questions or want to discuss ideas!
-
-If you're looking for extensive and more involved support for Mautic and the Whitelabeler, or you need hosting, DM me on the chat channel [@nick](https://lnk.st/mautic-dm) or [shoot over an email here](https://lnk.st/mautic).
+Join our [Mautic Mattermost chat channel](https://creatv.link/mautic-chat) if you have any general questions or want to discuss ideas!
 
 ## Credits :thumbsup:
 
