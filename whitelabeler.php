@@ -165,10 +165,38 @@ class Whitelabeler {
 
 		} else {
 
-			return array(
-				'status' => 0,
-				'message' => $path.'/app/version.txt file not found.'
-			);
+			$release_metadata = $path.'/app/release_metadata.json';
+
+			// Look for >= 3.0.0 /app/release_metadata.json
+			if (file_exists($release_metadata)) {
+
+				$release_metadata = $path.'/app/release_metadata.json';
+				$file = fopen($path.'/app/release_metadata.json', 'r') or die('Unable to open file!');
+				$version = json_decode(fread($file, filesize($release_metadata)), true);
+				$version = $version['version'];
+
+				if (strpos($version, '-dev') !== false) {
+
+					return array(
+						'status' => 0,
+						'message' => 'You are using a development version of Mautic ('.$version.'). Whitelabeler only supports official, non-beta releases.'
+					);
+	
+				} else {
+	
+					return $this->templateVersions($version);
+	
+				}
+
+			// Couldn't find version.txt or release_metadata.json
+			} else {
+				return array(
+					'status' => 0,
+					'message' => $path.'/app/version.txt file not found.'
+				);
+			}
+
+
 
 		}
 

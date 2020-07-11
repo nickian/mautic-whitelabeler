@@ -60,13 +60,13 @@
 
 				<li class="menu-item support">
 					<h1>SUPPORT THIS PROJECT</h1>
-					<p>If you love this project and have the resources, please consider sending a small contribution my way. I'd love to spend more
-					time on this and other awesome open source software!</p>
-					<a href="https://lnk.st/nick-support" target="blank" class="btn btn-sm btn-support"><i class="fa fa-coffee" aria-hidden="true"></i>&nbsp;BUY ME A COFFEE</a>
+					<p>If you find this project useful, please consider sending a small contribution. It allows me to spend more time on 
+					open source software like this!</p>
+					<a href="https://paypal.me/nickthompson" target="blank" class="btn btn-sm btn-support"><i class="fa fa-coffee" aria-hidden="true"></i>&nbsp;BUY ME A COFFEE</a>
 
 					 <h1>NEED HOSTING?</h1>
-					 <p>If you need fully managed web hosting compatible with Mautic and other open source software, feel free to reach out. We host and configure other awesome apps like NextCloud, OnlyOffice, MatterMost, and more.</p>
-					 <a href="https://lnk.st/nick-contact" target="blank" class="btn btn-sm btn-support"><i class="fa fa-commenting" aria-hidden="true"></i>&nbsp;CONTACT</a>
+					 <p>If you need fully managed web hosting compatible with Mautic and other open source software, feel free to reach out. We host and configure other open source apps like NextCloud, OnlyOffice, MatterMost, and build our own custom solutions.</p>
+					 <a href="mailto:sales@creative.link?subject=Mautic%20Hosting" target="blank" class="btn btn-sm btn-support"><i class="fa fa-commenting" aria-hidden="true"></i>&nbsp;CONTACT</a>
 		        </li>
 		    </li>
 
