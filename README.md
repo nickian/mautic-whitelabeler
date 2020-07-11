@@ -25,11 +25,8 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 ## Requirements
 
-<<<<<<< HEAD
 * Mautic versions 2.15.0 - 3.0.1 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
-=======
-* Mautic versions 2.15.0 - 2.16.2 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
->>>>>>> ca1bfdf03a305d266f42c5267399d5537266107f
+
 * Apache server (will work on some nginx configurations, but not officially supported)
 * The PHP cURL extension must be installed and enabled
 * The PHP GD library must be installed and enabled
