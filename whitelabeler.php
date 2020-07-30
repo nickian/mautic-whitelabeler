@@ -521,7 +521,7 @@ class Whitelabeler {
 		require_once('vendor/chrisjean/php-ico/class-php-ico.php');
 
 		// If favicon is .ico, move/copy the file
-		if ( exif_imagetype($favicon_image) == 17 ) {
+		if ( strpos(finfo_file(finfo_open(FILEINFO_MIME_TYPE),$favicon_image), 'ico') ) { // check if the mimetype of picture contain ico (match all image/*ico* )
 			copy($favicon_image, $path.'/favicon.ico');
 			copy($path.'/favicon.ico', $media_images.'/favicon.ico');
 		// convert to .ico and save.
