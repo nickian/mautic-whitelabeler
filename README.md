@@ -98,7 +98,7 @@ This will allow you to whitelabel using a specific file located in the `assets` 
 sudo -u www-data php cli.php --whitelabel --config=/path/to/specific_file.json
 ```
 
-This will allow you to whitelabel using a JSON file located somewhere other than the `assets` folder.
+This will allow you to whitelabel using a JSON file located somewhere other than the `assets` folder. Absolute paths with a leading `/` are recommended but paths relative to the `assets` folder with `..` should work as well.
 
 #### Backup
 
