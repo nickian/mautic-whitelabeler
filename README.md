@@ -25,7 +25,7 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 ## Requirements
 
-* Mautic versions 2.15.0 - 4.0.1 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
+* Mautic versions 2.15.0 - 4.0.2 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
 * Make sure you have installed Mautic using the correct zip file from the [Mautic releases page](https://github.com/mautic/mautic/releases). DO NOT use the "update" zip file. The whitelabeler will not work correctly with these versions.
 
 * Apache server (will work on some nginx configurations, but not officially supported)
@@ -136,8 +136,9 @@ Make sure the cURL PHP extension is installed. Open the `phpinfo.php` file in th
 
 Please read through the [previous Issues](https://github.com/nickian/mautic-whitelabeler/issues?utf8=%E2%9C%93&q=) before creating a new one.
 
+Join our new Matrix chat server at https://chat.creative.link. You will need this registration token: n9Kdos7kJITJJpK2uzYRrPxpmDFCD6QoaiAGT1y9OMBLlNFrhSP4YojHMnrPRw02
 
-Join our [Mautic Mattermost chat channel](https://creatv.link/mautic-chat) if you have any general questions or want to discuss ideas!
+You can find the new public Mautic room here: https://chat.creative.link/#/room/#mautic:creativelink.chat
 
 ## Credits :thumbsup:
 
