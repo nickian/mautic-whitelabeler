@@ -1,12 +1,14 @@
 <?php
+
 class Whitelabeler {
 
-/*
-|--------------------------------------------------------------------------
-| Get JSON config files from assets folder
-|--------------------------------------------------------------------------
-*/
-	public function getConfigFiles() {
+	/*
+	|--------------------------------------------------------------------------
+	| Get JSON config files from assets folder
+	|--------------------------------------------------------------------------
+	*/
+	public function getConfigFiles()
+	{
 		$config_files = array();
 		$files = scandir(__DIR__.'/assets');
 		foreach( $files as $file ) {
@@ -19,12 +21,14 @@ class Whitelabeler {
 		return $config_files;
 	}
 
-/*
-|--------------------------------------------------------------------------
-| Load config.json file if it exists
-|--------------------------------------------------------------------------
-*/
-	public function loadJsonConfig($file) {
+
+	/*
+	|--------------------------------------------------------------------------
+	| Load config.json file if it exists
+	|--------------------------------------------------------------------------
+	*/
+	public function loadJsonConfig($file)
+	{
 		$config = array();
 		if ( file_exists( __DIR__.'/assets/'.$file ) ) {
 			$config = json_decode(file_get_contents(__DIR__.'/assets/'.$file), true);
@@ -35,14 +39,13 @@ class Whitelabeler {
 	}
 
 
-/*
-|--------------------------------------------------------------------------
-| Find Mautic URL with cURL
-|--------------------------------------------------------------------------
-*/
-
-    public function findMauticUrl($url) {
-
+	/*
+	|--------------------------------------------------------------------------
+	| Find Mautic URL with cURL
+	|--------------------------------------------------------------------------
+	*/
+    public function findMauticUrl($url)
+	{
         if ( function_exists('curl_version') ) {
 
     		$url = urldecode($url);
@@ -77,23 +80,17 @@ class Whitelabeler {
     		curl_close($curl);
 
     		if ( $output == false ) {
-
     			return array(
     				'status' => 0,
     				'message' => 'Address timed out. Make sure it\'s accessible by your server\'s network.'
     			);
-
     		} else {
-
     			if ( $http_code[1] != 200) {
-
     				return array(
     					'status' => 0,
     					'message' => 'Mautic not found: '. $headers['status']
     				);
-
     			} else {
-
     				$license = substr(file_get_contents($url.'/LICENSE.txt', false, stream_context_create(array(
     				    'ssl' => array(
     				        'verify_peer' => false,
@@ -102,42 +99,34 @@ class Whitelabeler {
                     ))), 0, 6);
 
     				if ($license == 'Mautic') {
-
     					return array(
     						'status' => 1,
     						'message' => 'OK, Mautic found.'
     					);
-
     				} else {
-
     					return array(
     						'status' => 0,
     						'message' => 'Mautic not found. Make sure LICENSE.txt exists in the domain root, check for errors in your server error log.'
     					);
-
     				}
     			}
-
     		}
-
     	} else {
-
     		return array(
     			'status' => 0,
     			'message' => 'cURL PHP extension is not installed on your server.'
     		);
     	}
-
-
     }
 
-/*
-|--------------------------------------------------------------------------
-| Find Mautic version by path
-|--------------------------------------------------------------------------
-*/
-	public function mauticVersion($path) {
 
+	/*
+	|--------------------------------------------------------------------------
+	| Find Mautic version by path
+	|--------------------------------------------------------------------------
+	*/
+	public function mauticVersion($path)
+	{
 		$data = array();
 
 		if ( substr($path, -1) == '/' ) {
@@ -145,26 +134,19 @@ class Whitelabeler {
 		}
 
 		if (file_exists($path.'/app/version.txt')) {
-
 			$file = fopen($path.'/app/version.txt', 'r') or die('Unable to open file!');
 
 			$version = trim(fread($file , filesize($path.'/app/version.txt')));
 
 			if (strpos($version, '-dev') !== false) {
-
 				return array(
 					'status' => 0,
 					'message' => 'You are using a development version of Mautic ('.$version.'). Whitelabeler only supports official, non-beta releases.'
 				);
-
 			} else {
-
 				return $this->templateVersions($version);
-
 			}
-
 		} else {
-
 			$release_metadata = $path.'/app/release_metadata.json';
 
 			// Look for >= 3.0.0 /app/release_metadata.json
@@ -176,16 +158,12 @@ class Whitelabeler {
 				$version = $version['version'];
 
 				if (strpos($version, '-dev') !== false) {
-
 					return array(
 						'status' => 0,
 						'message' => 'You are using a development version of Mautic ('.$version.'). Whitelabeler only supports official, non-beta releases.'
 					);
-	
 				} else {
-	
 					return $this->templateVersions($version);
-	
 				}
 
 			// Couldn't find version.txt or release_metadata.json
@@ -195,11 +173,7 @@ class Whitelabeler {
 					'message' => $path.'/app/version.txt file not found.'
 				);
 			}
-
-
-
 		}
-
 	}
 
 
@@ -208,35 +182,35 @@ class Whitelabeler {
 	| Check for an asset by URL
 	|--------------------------------------------------------------------------
 	*/
-	public function assetExists($url) {
-    		$curl = curl_init();
-    		curl_setopt_array($curl, array(
-    		    CURLOPT_URL => $url,
-    		    CURLOPT_HEADER => true,
-    		    CURLOPT_RETURNTRANSFER => true,
-    		    CURLOPT_NOBODY => true,
-                CURLOPT_SSL_VERIFYHOST => false,
-                CURLOPT_SSL_VERIFYPEER => false
-    		));
-    		$output = curl_exec($curl);
-    		$headers = [];
-    		$data = explode("\n",$output);
-    		$headers['status'] = $data[0];
-    		array_shift($data);
-    		foreach($data as $key => $part) {
-    			$middle = explode(":",$part);
-    			if ( isset($middle[1]) ) {
-    				$headers[trim($middle[0])] = trim($middle[1]);
-    			}
-    		}
-    		$http_code = explode(' ', $headers['status']);
+	public function assetExists($url) 
+	{
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => $url,
+			CURLOPT_HEADER => true,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_NOBODY => true,
+			CURLOPT_SSL_VERIFYHOST => false,
+			CURLOPT_SSL_VERIFYPEER => false
+		));
+		$output = curl_exec($curl);
+		$headers = [];
+		$data = explode("\n",$output);
+		$headers['status'] = $data[0];
+		array_shift($data);
+		foreach($data as $key => $part) {
+			$middle = explode(":",$part);
+			if ( isset($middle[1]) ) {
+				$headers[trim($middle[0])] = trim($middle[1]);
+			}
+		}
+		$http_code = explode(' ', $headers['status']);
 
-    		if ($http_code[1] == 200) {
-        		return 1;
-    		} else {
-        		return 0;
-    		}
-
+		if ($http_code[1] == 200) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 
@@ -245,7 +219,8 @@ class Whitelabeler {
 	| Look for an image in assets folder
 	|--------------------------------------------------------------------------
 	*/
-	public function imageExists($image) {
+	public function imageExists($image) 
+	{
 		if ( file_exists(__DIR__.'/assets/'.$image) ) {
 			return true;
 		} else {
@@ -275,12 +250,10 @@ class Whitelabeler {
 		$submenu_bullet_bg,
 		$submenu_bullet_shadow
 	) {
-
 		// Replace app.css contents with template and new colors
 		$app_css = $path.'/app/bundles/CoreBundle/Assets/css/app.css';
 
 		if (file_exists($app_css)) {
-
 			$app_css_template = file_get_contents('templates/'.$version.'/app/bundles/CoreBundle/Assets/css/app.css');
 			$app_css_new = str_replace(
 				// Look for these template tags.
@@ -297,21 +270,17 @@ class Whitelabeler {
 			$file = fopen($app_css, "w");
 			fwrite($file, $app_css_new);
 			fclose($file);
-
 		} else {
-
 			return array(
 				'status' => 0,
 				'message' => 'Unable to find app.css in your Mautic installation.'
 			);
-
 		}
 
 		// Replace libraries.css contents with template and new colors
 		$libraries_css = $path.'/app/bundles/CoreBundle/Assets/css/libraries/libraries.css';
 
 		if (file_exists($libraries_css)) {
-
 			$libraries_css_template = file_get_contents('templates/'.$version.'/app/bundles/CoreBundle/Assets/css/libraries/libraries.css');
 			$libraries_css_new = str_replace(
 				// Look for these template tags.
@@ -328,14 +297,11 @@ class Whitelabeler {
 			    'status' => 1,
 			    'message' => 'CSS files updated with new colors!'
 			 );
-
 		} else {
-
 			return array(
 			    'status' => 0,
 			    'message' => 'Unable to find libraries.css in your Mautic installation.'
 			 );
-
 		}
 	}
 
@@ -345,9 +311,8 @@ class Whitelabeler {
 	| Replace "Mautic" with Comapny Name
 	|--------------------------------------------------------------------------
 	*/
-
-	public function companyName($path, $version, $company_name, $footer_prefix, $footer) {
-
+	public function companyName($path, $version, $company_name, $footer_prefix, $footer)
+	{
         $base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
         $head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
         $js = '1a.content.js';
@@ -443,8 +408,8 @@ class Whitelabeler {
 	| Resize and Save Image File
 	|--------------------------------------------------------------------------
 	*/
-
-	public function imageResize($new_width, $original, $target) {
+	public function imageResize($new_width, $original, $target) 
+	{
 	    $info = getimagesize($original);
 	    if ($info['mime'] == 'image/png') {
 	    	try {
@@ -497,7 +462,6 @@ class Whitelabeler {
 	| Process and Replace Images
 	|--------------------------------------------------------------------------
 	*/
-
 	public function replaceImages(
 		$path,
 		$url,
@@ -510,7 +474,6 @@ class Whitelabeler {
 		$login_margin, // array (top, bottom)
 		$favicon_image
 	) {
-
 		if ( $favicon_image == false ) {
 			$favicon_image = $login_image;
 		}
@@ -568,7 +531,6 @@ class Whitelabeler {
 		$login_page = $path.'/app/bundles/UserBundle/Views/Security/base.html.php';
 
 		if ( file_exists($login_page) ) {
-
 			$login_page_template = file_get_contents($login_page);
 			$login_page_new = str_replace(
 				// Look for these template tags.
@@ -586,26 +548,21 @@ class Whitelabeler {
 				'status' => 1,
 				'message' => 'Logos updated! '
 			);
-
 		} else {
-
 			return array(
 				'status' => 0,
 				'message' => $login_page.' NOT FOUND.'
 			);
-
 		}
-
 	}
-
 
 	/*
 	|--------------------------------------------------------------------------
 	| Used to run Mautic Console Commands (taken from upgrade.php)
 	|--------------------------------------------------------------------------
 	*/
-
-	public function runSymfonyCommand($path, $command, array $args) {
+	public function runSymfonyCommand($path, $command, array $args) 
+	{
 	    static $application;
 	    require_once $path.'/app/autoload.php';
 	    require_once $path.'/app/AppKernel.php';
@@ -631,7 +588,6 @@ class Whitelabeler {
 	| Used to Clear Cache (taken from upgrade.php)
 	|--------------------------------------------------------------------------
 	*/
-
 	public function recursiveRemoveDirectory($directory) {
 	    // if the path has a slash at the end we remove it here
 	    if (substr($directory, -1) == '/') {
@@ -680,13 +636,25 @@ class Whitelabeler {
 	    }
 	}
 
-	// Rebuild the Cache
-	public function buildCache($path) {
+
+	/*
+	|--------------------------------------------------------------------------
+	| Rebuild the Cache
+	|--------------------------------------------------------------------------
+	*/
+	public function buildCache($path) 
+	{
 	    return $this->runSymfonyCommand($path, 'cache:clear', ['--no-interaction', '--env=prod', '--no-debug', '--no-warmup']);
 	}
 
-	// Clear and Rebuild the Cache
-	public function clearMauticCache($path) {
+
+	/*
+	|--------------------------------------------------------------------------
+	| Clear and Rebuild the Cache
+	|--------------------------------------------------------------------------
+	*/
+	public function clearMauticCache($path) 
+	{
 	    if (!$this->recursiveRemoveDirectory($path.'/app/cache/prod')) {
 	        return array(
     	            'status' => 0,
@@ -699,8 +667,14 @@ class Whitelabeler {
 	    );
 	}
 
-	// Rebuild Mautic Assets
-	public function rebuildAssets($path) {
+
+	/*
+	|--------------------------------------------------------------------------
+	| Rebuild Mautic Assets
+	|--------------------------------------------------------------------------
+	*/
+	public function rebuildAssets($path) 
+	{
 		return $this->runSymfonyCommand($path, 'mautic:assets:generate', ['--no-interaction', '--env=prod', '--no-debug']);
 	}
 
@@ -710,8 +684,8 @@ class Whitelabeler {
 	| Get Compatible Versions of Mautic for Whitelabeling
 	|--------------------------------------------------------------------------
 	*/
-
-	public function templateVersions($version) {
+	public function templateVersions($version) 
+	{
 		$path = 'templates';
 		$versions = array();
 		foreach (new DirectoryIterator($path) as $file) {
@@ -721,20 +695,16 @@ class Whitelabeler {
 		    }
 		}
 		if (in_array(substr($version, 0, 3), $versions) || in_array($version, $versions)) {
-
 			return array(
 				'status' => 1,
 				'version' => $version,
 				'message' => 'Compatible version found ('.$version.')'
 			);
-
 		} else {
-
 			return array(
 				'status' => 0,
 				'message' => 'The version of Mautic you are using ('.$version.') is not currently supported.'
 			);
-
 		}
 	}
 
@@ -745,7 +715,8 @@ class Whitelabeler {
 	| have been changed.
 	|--------------------------------------------------------------------------
 	*/
-	public function compareMauticVersions($v1, $v2) {
+	public function compareMauticVersions($v1, $v2) 
+	{
 		$comparision = array();
 
 		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
@@ -855,14 +826,14 @@ class Whitelabeler {
 		return $comparision;
 	}
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Validate configuration values from config.json
 	|--------------------------------------------------------------------------
 	*/
-
-	public function validateConfigValues($file=false) {
-
+	public function validateConfigValues($file=false) 
+	{
         if ( $file != false ) {
             $config_vals = $this->loadJsonConfig($file);
         } else {
@@ -997,7 +968,5 @@ class Whitelabeler {
 	        'errors' => $errors,
             'config' => $config_vals
 	    );
-
 	}
-
 }

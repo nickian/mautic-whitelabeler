@@ -5,13 +5,9 @@ $cli = new League\CLImate\CLImate;
 $whitelabeler = new Whitelabeler;
 
 if ( count($argv) > 1 ) {
-
     if ( $argv[1] == '--whitelabel' ) {
-        
         if ( isset($argv[2]) ) {
-	        
 	        $config_file = explode('=', $argv[2]);
-	        
 	        if ( !empty($config_file) && $config_file[0] == '--config' ) {
 		        
 		        if ( file_exists($config_file[1]) ) {
@@ -20,7 +16,6 @@ if ( count($argv) > 1 ) {
 			        $cli->error('Config file not found.');
 			        exit();
 		        }
-		        
 	        } else {
 		    
 	            if ( file_exists(__DIR__.'/assets/'.$argv[2]) ) {
@@ -29,9 +24,7 @@ if ( count($argv) > 1 ) {
 	                $cli->error('Config file not found.');
 	                exit();
 	            }
-		        
 	        }
-	        
         } else {
 	        if ( file_exists(__DIR__.'/assets/config.json') ) {
             	$config = $whitelabeler->validateConfigValues();
@@ -42,17 +35,13 @@ if ( count($argv) > 1 ) {
         }
 
 		if ( !empty($config['errors'] ) ) {
-		
 		    foreach( $config['errors'] as $error ) {
 		        $cli->red($error);
 		    }
-		
 		} else {
-		
 		    $cli->magenta('Whitelabeling...');
-		    
+
 		    // Replace CSS colors
-		    
 		    $cli->out('Updating colors...');
 		    
 		    $config = $config['config'];
@@ -77,12 +66,10 @@ if ( count($argv) > 1 ) {
 			);
 			
 			if ( $colors['status'] == 1 ) {
-				
                 $cli->green($colors['message']);
-			
 			} else {
-    			    $cli->error($colors['message']);
-    			    exit();
+				$cli->error($colors['message']);
+				exit();
 			}
 			
 			// Update company name in templates
@@ -96,14 +83,14 @@ if ( count($argv) > 1 ) {
 				$config['footer']
 			);
             	
-            	if ( $company_name['status'] == 1 ) {
-                	$cli->green($company_name['message']);
-            	} else {
-                	foreach( $company_name['message'] as $error ) {
-	                	$cli->error($error);
-                	}
-                	exit();
-            	}
+			if ( $company_name['status'] == 1 ) {
+				$cli->green($company_name['message']);
+			} else {
+				foreach( $company_name['message'] as $error ) {
+					$cli->error($error);
+				}
+				exit();
+			}
 			
 			// Update logo images
 			
@@ -156,16 +143,12 @@ if ( count($argv) > 1 ) {
             } else {
                 $cli->error($clear_cache['message']);
             }
-			
 		}
 
     } elseif ( $argv[1] == '--backup' ) {	  
-
         if ( $whitelabeler->mauticVersion(dirname(__DIR__, 1))['status'] == 1 ) {
-
             $mautic_path = dirname(__DIR__, 1);
             $backups_dir = __DIR__.'/backups';
-      	
             $cli->out('Backing up Mautic... ');
             	
             // Create backups folder if it doesn't exist
@@ -186,19 +169,16 @@ if ( count($argv) > 1 ) {
             } else {
                 $cli->green('Backup complete!');
             }
-
               			
  		} else {
      		$cli->yellow('Mautic not found. Make sure the whitelabeler is placed in the Mautic root directory.');
  		}
 
     } elseif ( $argv[1] == '--restore' ) {
-	    
 	    if ( !is_dir(__DIR__.'/backups') ) {
 		    $cli->yellow('No backups found. Use "php cli.php --backup --path=/path/to/mautic" to backup a Mautic installation');
 		    exit();
 	    }
-	    
 	    // Look for backups
 	    $backups = array();
 		foreach (new DirectoryIterator(__DIR__.'/backups') as $file) {
@@ -223,12 +203,9 @@ if ( count($argv) > 1 ) {
 	    }
 	    
 		if ( $whitelabeler->mauticVersion(dirname(__DIR__, 1))['status'] == 1 ) {
-    		
-    		    $mautic_path = dirname(__DIR__, 1);
+			$mautic_path = dirname(__DIR__, 1);
 			$cli->out('Mautic found.');
-			
 		} else {
-    		
 			$input = $cli->yellow('Couldn\'t automatically find your Mautic files in '. dirname(__DIR__, 1));
 			$input = $cli->input('What\'s the absolute path to your Mautic files?');
 			$mautic_path = $input->prompt();
@@ -239,7 +216,6 @@ if ( count($argv) > 1 ) {
 				$input = $cli->red('Couldn\'t find your Mautic files in '.$mautic_path);
 				exit();
 			}
-			
 		}
 		
 		// Do the restore
@@ -257,12 +233,9 @@ if ( count($argv) > 1 ) {
         $cli->out('Setting ownership of the Mautic directory to www-data:www-data user/group...');
         shell_exec('chown -R www-data:www-data '.$mautic_path);
         $cli->green('Restore complete!');
-        
 	
 	} elseif ( $argv[1] == '--compare' ) {
-    	
-    	    $errors = array();
-    	
+		$errors = array();
         if ( isset($argv[2]) && substr($argv[2], 0, 7) == '--path1' ) {
             $mautic_path_1 = explode('=', $argv[2]);
             $mautic_path_1 = $mautic_path_1[1];
@@ -299,7 +272,6 @@ if ( count($argv) > 1 ) {
             	    $cli->error($error);
         	    }
     	    }
-    
     	}
    
 } else {

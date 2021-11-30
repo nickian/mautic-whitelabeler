@@ -73,7 +73,6 @@
 		</div><!--sidebar-->
 	</div><!--sidebar-container-->
 
-
 	<div class="whitelabeler">
 		<div class="container">
 			<div class="row">
@@ -151,7 +150,6 @@
 										</div><!--row-->
 									</div><!--colors-->
 
-
 									<div id="sidebarcolors">
 										<h3>Sidebar Colors</h3>
 										<div class="row">
@@ -223,9 +221,7 @@
 												</div>
 											</div>
 										</div><!--row-->
-
 									</div><!--sidebar-colors-->
-
 
 									<div id="sidebarlogo">
 										<h3>Sidebar Logo</h3>

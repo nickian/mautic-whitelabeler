@@ -4,63 +4,51 @@ $whitelabeler = new Whitelabeler;
 
 if (isset($_GET['q'])) {
 
-/*
-|--------------------------------------------------------------------------
-| Determine Mautic version by path
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Determine Mautic version by path
+	|--------------------------------------------------------------------------
+	*/
 	if ( $_GET['q'] == 'version' ) {
-
 		header('Content-Type: application/json');
-
 		if ( isset($_GET['path']) && is_dir($_GET['path']) ) {
-
 			echo json_encode(
 				$whitelabeler->mauticVersion($_GET['path'])
 			);
-
 		} else {
-
 			echo json_encode(array(
 				'status' => 0,
 				'message' => 'Directory does not exist.'
 			));
-
 		}
-
 		exit();
 
-/*
-|--------------------------------------------------------------------------
-| Find Mautic by URL (look for LICENSE.txt to verify this is Mautic root)
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Find Mautic by URL (look for LICENSE.txt to verify this is Mautic root)
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'url' && isset($_GET['url']) ) {
-
 		header('Content-Type: application/json');
-
         echo json_encode(
             $whitelabeler->findMauticUrl($_GET['url'])
         );
-
 		exit();
 
-
-/*
-|--------------------------------------------------------------------------
-| Check for image in assets
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Check for image in assets
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'asset' && isset($_GET['url']) ) {
         echo $whitelabeler->assetExists(urldecode($_GET['url']));
         exit();
 
-
-/*
-|--------------------------------------------------------------------------
-| Save Images
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Save Images
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'save-images' && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 		require_once('vendor/chrisjean/php-ico/class-php-ico.php');
@@ -70,14 +58,12 @@ if (isset($_GET['q'])) {
 
 		// sidebar logo
 		if ( isset($_FILES['sidebar_logo_file']) ) {
-
 			if (
 				$_FILES['sidebar_logo_file']['type'] == 'image/png' ||
 				$_FILES['sidebar_logo_file']['type'] == 'image/jpg' ||
 				$_FILES['sidebar_logo_file']['type'] == 'image/jpeg' ||
 				$_FILES['sidebar_logo_file']['type'] == 'image/gif'
 			) {
-
 				$whitelabeler->imageResize(
 					$_POST['sidebar_logo_width'],
 					$_FILES['sidebar_logo_file']['tmp_name'],
@@ -89,23 +75,19 @@ if (isset($_GET['q'])) {
 				} else {
 					$result['images']['sidebar_logo'] = $_FILES['sidebar_logo_file']['name'];
 				}
-
 			} else {
 				$errors[] = 'Invalid file type provided for sidebar logo.';
 			}
-
 		}
 
 		// login logo
 		if ( isset($_FILES['login_logo_file']) ) {
-
 			if (
 				$_FILES['login_logo_file']['type'] == 'image/png' ||
 				$_FILES['login_logo_file']['type'] == 'image/jpg' ||
 				$_FILES['login_logo_file']['type'] == 'image/jpeg' ||
 				$_FILES['login_logo_file']['type'] == 'image/gif'
 			) {
-
 				$whitelabeler->imageResize(
 					$_POST['login_logo_width'],
 					$_FILES['login_logo_file']['tmp_name'],
@@ -120,7 +102,6 @@ if (isset($_GET['q'])) {
 
 				// If favicon file is not set, we'll use the login logo
 				if ( !isset($_FILES['favicon_file']) && !isset($_POST['saved_favicon']) ) {
-
 					$logo_filename_explode = explode('.', $_FILES['login_logo_file']['name']);
 					$ico_lib = new PHP_ICO($_FILES['login_logo_file']['tmp_name'],  array( array( 64, 64 ) ) );
 					$ico_lib->save_ico(__DIR__.'/assets/favicon-'.$logo_filename_explode[0].'.ico');
@@ -131,16 +112,13 @@ if (isset($_GET['q'])) {
 						$result['images']['favicon_files'] = 'favicon-'.$logo_filename_explode[0].'.ico';
 					}
 				}
-
 			} else {
 				$errors[] = 'Invalid file type provided for login logo.';
 			}
-
 		}
 
 		// favicon
 		if ( isset($_FILES['favicon_file']) ) {
-
 			if (
 				$_FILES['favicon_file']['type'] == 'image/png' ||
 				$_FILES['favicon_file']['type'] == 'image/x-icon' ||
@@ -149,10 +127,8 @@ if (isset($_GET['q'])) {
 				$_FILES['favicon_file']['type'] == 'image/jpeg' ||
 				$_FILES['favicon_file']['type'] == 'image/gif'
 			) {
-
 				// If favicon is .ico, move/copy the file
 				if ($_FILES['favicon_file']['type'] == 'image/vnd.microsoft.icon' || $_FILES['favicon_file']['type'] == 'image/x-icon') {
-
 					move_uploaded_file($_FILES['favicon_file']['tmp_name'], __DIR__.'/assets/'.$_FILES['favicon_file']['name']);
 
 					if ( !file_exists(__DIR__.'/assets/'.$_FILES['favicon_file']['name']) ) {
@@ -160,10 +136,8 @@ if (isset($_GET['q'])) {
 					} else {
 						$result['images']['favicon'] = $_FILES['favicon_file']['name'];
 					}
-
 				// convert to .ico and save.
 				} else {
-
 					$logo_filename_explode = explode('.', $_FILES['favicon_file']['name']);
 
 					$ico_lib = new PHP_ICO($_FILES['favicon_file']['tmp_name'],  array( array( 64, 64 ) ) );
@@ -174,29 +148,24 @@ if (isset($_GET['q'])) {
 					} else {
 						$result['images']['favicon'] = $logo_filename_explode[0].'.ico';
 					}
-
 				}
-
 			} else {
 				$errors[] = 'Invalid file type provided for favicon.';
 			}
-
 		}
-
 		header('Content-Type: application/json');
 		if ( !empty($errors) ) {
 			echo json_encode( array('status' => 0, 'message' => $errors) );
 		} else {
 			echo json_encode( array('status' => 1, 'message' => $result) );
 		}
-
 		exit();
 
-/*
-|--------------------------------------------------------------------------
-| Save values entered
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Save values entered
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'save' && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		// Encode the array into a JSON string.
 		$encodedString = json_encode($_POST['config'], JSON_PRETTY_PRINT);
@@ -207,11 +176,11 @@ if (isset($_GET['q'])) {
 		};
 		exit();
 
-/*
-|--------------------------------------------------------------------------
-| Save as a different filename
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Save as a different filename
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'save-as' && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['file']) ) {
 		// Encode the array into a JSON string.
 		$encodedString = json_encode($_POST['config'], JSON_PRETTY_PRINT);
@@ -222,23 +191,22 @@ if (isset($_GET['q'])) {
 		};
 		exit();
 
-/*
-|--------------------------------------------------------------------------
-| Get list of config files from assets directory
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Get list of config files from assets directory
+	|--------------------------------------------------------------------------
+	*/
     } elseif ( $_GET['q'] == 'config-files' ) {
         header('Content-Type: application/json');
         echo json_encode($whitelabeler->getConfigFiles());
         exit();
 
-/*
-|--------------------------------------------------------------------------
-| Look for saved values and files to populate form automatically
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Look for saved values and files to populate form automatically
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'saved' && isset($_GET['file']) ) {
-
 		$config = $whitelabeler->loadJsonConfig($_GET['file']);
 
 		if ( $config ) {
@@ -248,15 +216,13 @@ if (isset($_GET['q'])) {
 			header('Content-Type: application/json');
 			echo json_encode(array('status' => 0, 'message' => 'config.json not found in assets folder.'));
 		}
-
 		exit();
 
-
-/*
-|--------------------------------------------------------------------------
-| Reset saved values
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Reset saved values
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'reset' && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		//Encode the array into a JSON string.
 		$encodedString = json_encode($_POST['config'], JSON_PRETTY_PRINT);
@@ -266,12 +232,11 @@ if (isset($_GET['q'])) {
 		};
 		exit();
 
-
-/*
-|--------------------------------------------------------------------------
-| Regenerate Assets / Clear Cache
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Regenerate Assets / Clear Cache
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'assets' && isset($_GET['assets']) && isset($_GET['path']) ) {
 		if ( substr($_GET['path'], -1) == '/' ) {
 			$path = substr($_GET['path'], 0, -1);
@@ -285,20 +250,19 @@ if (isset($_GET['q'])) {
 		}
 		exit();
 
-/*
-|--------------------------------------------------------------------------
-| POST Logos
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| POST Logos
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'logos' ) {
-
 		if ( isset($_POST['mautic_path']) && isset($_POST['mautic_url']) ) {
-
 			if ( substr($_POST['mautic_path'], -1) == '/' ) {
 				$path = substr($_POST['mautic_path'], 0, -1);
 			} else {
 				$path = $_POST['mautic_path'];
 			}
+
 			if ( substr($_POST['mautic_url'], -1) == '/' ) {
 				$url = substr($_POST['mautic_url'], 0, -1);
 			} else {
@@ -316,7 +280,6 @@ if (isset($_GET['q'])) {
 			}
 
 			if (empty($errors)) {
-
 				// Use saved sidebar logo
 				if ( !isset($_FILES['sidebar_logo_file']) && isset($_POST['sidebar_logo_file']) ) {
 					$sidebar_logo = __DIR__.'/assets/'.$_POST['sidebar_logo_file'];
@@ -384,13 +347,12 @@ if (isset($_GET['q'])) {
 			exit();
 		}
 
-/*
-|--------------------------------------------------------------------------
-| POST CSS Colors
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| POST CSS Colors
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'css' &&  $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-
 		if (
 			isset($_POST['path']) &&
 			isset($_POST['version']) &&
@@ -438,11 +400,11 @@ if (isset($_GET['q'])) {
 		}
 		exit();
 
-/*
-|--------------------------------------------------------------------------
-| POST Company Name
-|--------------------------------------------------------------------------
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| POST Company Name
+	|--------------------------------------------------------------------------
+	*/
 	} elseif ( $_GET['q'] == 'companyname' &&  $_SERVER['REQUEST_METHOD'] == 'POST') {
 		if ( substr($_POST['path'], -1) == '/' ) {
 			$path = substr($_POST['path'], 0, -1);
