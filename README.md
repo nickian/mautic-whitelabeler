@@ -25,7 +25,7 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 ## Requirements
 
-* Mautic versions 2.15.0 - 4.1.0 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
+* Mautic versions 2.15.0 - 4.1.1 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
 * Make sure you have installed Mautic using the correct zip file from the [Mautic releases page](https://github.com/mautic/mautic/releases). DO NOT use the "update" zip file. The whitelabeler will not work correctly with these versions.
 
 * Apache server (will work on some nginx configurations, but not officially supported)
