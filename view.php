@@ -122,13 +122,13 @@
 										<div class="form-group">
 											<label for="footer-prefix">Footer Prefix (optional)</label><br/>
 											<small>Displays after company name in the footer.</small>
-											<input type="text" class="form-control" name="footer_prefix" id="footer-prefix" value="All Rights Reserved.">
+                                            <input type="text" class="form-control" name="footer_prefix" id="footer-prefix" value="<?=getenv('FOOTER_PREFIX') ?? 'All Rights Reserved.'?>">
 										</div>
 										
 										<div class="form-group">
 											<label for="footer">Footer (Optional)</label><br/>
 											<small>Additional footer text or HTML to display after company name and footer prefix.</small>
-											<input type="text" class="form-control" name="footer" id="footer" value="">
+                                            <input type="text" class="form-control" name="footer" id="footer" value="<?=getenv('FOOTER')?>">
 										</div>
 										
 									</div><!--basic-->
@@ -138,13 +138,13 @@
 											<div class="col-md-4">
 												<div class="form-group">
 													<label for="mautic_primary"><small>Primary Color</small></label><br/>
-													<input type="text" class="form-control mautic_primary" id="mautic-primary" name="mautic_primary">
+                                                    <input type="text" class="form-control mautic_primary" id="mautic-primary" name="mautic_primary" value="<?=getenv('PRIMARY_COLOR')?>">
 												</div>
 											</div>
 											<div class="col-md-8">
 												<div class="form-group">
 													<label for="mautic_hover"><small>Hover Color (Button Background)</small></label><br/>
-													<input type="text" class="form-control mautic_hover" id="mautic-hover" name="mautic_hover">
+                                                    <input type="text" class="form-control mautic_hover" id="mautic-hover" name="mautic_hover" value="<?=getenv('HOVER_COLOR')?>">
 												</div>
 											</div>
 										</div><!--row-->
@@ -156,19 +156,19 @@
 											<div class="col-md-4">
 												<div class="form-group">
 													<label for="logo_bg"><small>Logo Background</small></label><br/>
-													<input type="text" class="form-control logo_bg" id="logo-bg" name="logo_bg">
+                                                    <input type="text" class="form-control logo_bg" id="logo-bg" name="logo_bg" value="<?=getenv('LOGO_BACKGROUND')?>">
 												</div>
 											</div>
 											<div class="col-md-4">
 												<div class="form-group">
 													<label for="sidebar_bg"><small>Sidebar Background</small></label><br/>
-													<input type="text" class="form-control sidebar_bg" id="sidebar-bg" name="sidebar_bg">
+                                                    <input type="text" class="form-control sidebar_bg" id="sidebar-bg" name="sidebar_bg" value="<?=getenv('SIDEBAR_BACKGROUND')?>">
 												</div>
 											</div>
 											<div class="col-md-4">
 												<div class="form-group">
 													<label for="sidebar_submenu_bg"><small>Submenu Background</small></label><br/>
-													<input type="text" class="form-control sidebar_submenu_bg" id="sidebar-submenu-bg" name="sidebar_submenu_bg">
+                                                    <input type="text" class="form-control sidebar_submenu_bg" id="sidebar-submenu-bg" name="sidebar_submenu_bg" value="<?=getenv('SUBMENU_BACKGROUND')?>">
 												</div>
 											</div>
 										</div><!--row-->
@@ -177,19 +177,19 @@
 											<div class="col-md-4">
 												<div class="form-group">
 													<label for="sidebar_link"><small>Link Text Color</small></label><br/>
-													<input type="text" class="form-control sidebar_link" id="sidebar-link" name="sidebar_link">
+                                                    <input type="text" class="form-control sidebar_link" id="sidebar-link" name="sidebar_link" value="<?=getenv('LINK_COLOR')?>">
 												</div>
 											</div>
 											<div class="col-md-4">
 												<div class="form-group">
 													<label for="sidebar_link_hover"><small>Link Text Hover</small></label><br/>
-													<input type="text" class="form-control sidebar_link_hover" id="sidebar-link-hover" name="sidebar_link_hover">
+                                                    <input type="text" class="form-control sidebar_link_hover" id="sidebar-link-hover" name="sidebar_link_hover" value="<?=getenv('LINK_HOVER_COLOR')?>">
 												</div>
 											</div>
 											<div class="col-md-4">
 												<div class="form-group">
 													<label for="active_icon"><small>Active Icon</small></label><br/>
-													<input type="text" class="form-control active_icon" id="active-icon" name="active_icon">
+                                                    <input type="text" class="form-control active_icon" id="active-icon" name="active_icon" value="<?=getenv('ACTIVE_ICON_COLOR')?>">
 												</div>
 											</div>
 										</div><!--row-->
@@ -198,11 +198,11 @@
 											<div class="col-md-4">
 												<div class="form-group">
 													<label for="sidebar_divider"><small>Divider</small></label><br/>
-													<input type="text" class="form-control sidebar_divider" id="sidebar-divider" name="sidebar_divider">
+                                                    <input type="text" class="form-control sidebar_divider" id="sidebar-divider" name="sidebar_divider" value="<?=getenv('DIVIDER_COLOR')?>">
 												</div>
 												<label for="divider_left"><small>Divider Left Position</small></label><br/>
 												<div class="input-group">
-													<input type="number" class="form-control" id="divider-left" name="divider_left" value="50">
+                                                <input type="number" class="form-control" id="divider-left" name="divider_left" value="50" value="<?=getenv('DIVIDER_LEFT_POSITION')?>">
 													<div class="input-group-addon">px</div>
 												</div>
 											</div>
@@ -210,14 +210,14 @@
 												<div class="form-group">
 													<div class="form-group">
 														<label for="submenu_bullet_bg"><small>Submenu Bullet Background</small></label><br/>
-														<input type="text" class="form-control submenu_bullet_bg" id="submenu-bullet-bg" name="submenu_bullet_bg">
+                                                        <input type="text" class="form-control submenu_bullet_bg" id="submenu-bullet-bg" name="submenu_bullet_bg" value="<?=getenv('SUBMENU_BULLET_BACKGROUND')?>">
 													</div>
 												</div>
 											</div>
 											<div class="col-md-4">
 												<div class="form-group">
 													<label for="submenu_bullet_shadow"><small>Submenu Bullet Shadow</small></label><br/>
-													<input type="text" class="form-control submenu_bullet_shadow" id="submenu-bullet-shadow" name="submenu_bullet_shadow">
+                                                    <input type="text" class="form-control submenu_bullet_shadow" id="submenu-bullet-shadow" name="submenu_bullet_shadow" value="<?=getenv('SUBMENU_BULLET_SHADOW')?>">
 												</div>
 											</div>
 										</div><!--row-->
@@ -242,7 +242,7 @@
 												<div class="form-group">
 													<label for="sidebar-logo-width"><small>Width</small></label><br/>
 													<div class="input-group">
-														<input type="number" class="form-control" id="sidebar-logo-width" name="sidebar_logo_width" value="130" min="50" max="200">
+                                                        <input type="number" class="form-control" id="sidebar-logo-width" name="sidebar_logo_width" value="<?=getenv('SIDEBAR_LOGO_WIDTH') ?? 130?>" min="50" max="200">
 														<div class="input-group-addon">px</div>
 													</div>
 												</div>
@@ -251,7 +251,7 @@
 												<div class="form-group">
 													<label for="sidebar-logo-margin-top"><small>Top Margin</small></label><br/>
 													<div class="input-group">
-														<input type="number" class="form-control margintop" id="sidebar-logo-margin-top" name="sidebar_logo_margin_top" data-margin="marginTop" data-logo="sidebar" placeholder="0" value="10">
+                                                    <input type="number" class="form-control margintop" id="sidebar-logo-margin-top" name="sidebar_logo_margin_top" data-margin="marginTop" data-logo="sidebar" placeholder="0" value="<?=getenv('SIDEBAR_LOGO_TOP_MARGIN') ?? 10?>">
 														<div class="input-group-addon">px</div>
 													</div>
 												</div>
@@ -262,7 +262,7 @@
 												<div class="form-group">
 													<label for="sidebar-logo-margin-left"><small>Left Margin</small></label><br/>
 													<div class="input-group">
-														<input type="number" class="form-control marginleft" id="sidebar-logo-margin-left" name="sidebar_logo_margin_left" data-margin="marginLeft" data-logo="sidebar" value="0" placeholder="0">
+                                                    <input type="number" class="form-control marginleft" id="sidebar-logo-margin-left" name="sidebar_logo_margin_left" data-margin="marginLeft" data-logo="sidebar" value="<?=getenv('SIDEBAR_LOGO_LEFT_MARGIN') ?? 0?>" placeholder="0">
 														<div class="input-group-addon">px</div>
 													</div>
 												</div>
@@ -271,7 +271,7 @@
 												<div class="form-group">
 													<label for="sidebar-logo-margin-right"><small>Right Margin</small></label><br/>
 													<div class="input-group">
-														<input type="number" class="form-control marginright" id="sidebar-logo-margin-right" name="sidebar_logo_margin_right" data-margin="marginRight" data-logo="sidebar" value="0" placeholder="0">
+                                                    <input type="number" class="form-control marginright" id="sidebar-logo-margin-right" name="sidebar_logo_margin_right" data-margin="marginRight" data-logo="sidebar" value="<?=getenv('SIDEBAR_LOGO_RIGHT_MARGIN') ?? 0?>" placeholder="0">
 														<div class="input-group-addon">px</div>
 													</div>
 												</div>
@@ -297,7 +297,7 @@
 												<div class="form-group">
 													<label for="login-logo-width"><small>Width</small></label><br/>
 													<div class="input-group">
-														<input type="number" class="form-control" id="login-logo-width" name="login_logo_width" value="150" min="50" max="400">
+                                                    <input type="number" class="form-control" id="login-logo-width" name="login_logo_width" value="<?=getenv('LOGIN_LOGO_WIDTH') ?? 100?>" min="50" max="400">
 														<div class="input-group-addon">px</div>
 													</div>
 												</div>
@@ -310,7 +310,7 @@
 												<div class="form-group">
 													<label for="login-logo-margin-top"><small>Top Margin</small></label><br/>
 													<div class="input-group">
-														<input type="number" class="form-control margintop" id="login-logo-margin-top" name="login_logo_margin_top" data-margin="marginTop" data-logo="login" placeholder="0" value="20">
+                                                    <input type="number" class="form-control margintop" id="login-logo-margin-top" name="login_logo_margin_top" data-margin="marginTop" data-logo="login" placeholder="0" value="<?=getenv('LOGIN_LOGO_TOP_MARGIN') ?? 20?>">
 														<div class="input-group-addon">px</div>
 													</div>
 												</div>
@@ -319,7 +319,7 @@
 												<div class="form-group">
 													<label for="login-logo-margin-bottom"><small>Bottom Margin</small></label><br/>
 													<div class="input-group">
-														<input type="number" class="form-control marginbottom" id="login-logo-margin-bottom" name="login_logo_margin_bottom" data-margin="marginBottom" data-logo="login" placeholder="0" value="20">
+                                                    <input type="number" class="form-control marginbottom" id="login-logo-margin-bottom" name="login_logo_margin_bottom" data-margin="marginBottom" data-logo="login" placeholder="0" value="<?=getenv('LOGIN_LOGO_BOTTOM_MARGIN') ?? 20?>">
 														<div class="input-group-addon">px</div>
 													</div>
 												</div>
