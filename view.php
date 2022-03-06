@@ -465,7 +465,6 @@
 	<style>
     </style>
     <script>
-        var wl = mautic_url.split('/')[mautic_url.split('/').length-1];
         var mautic_url = "<?=getenv('MAUTIC_URL')?>";
         var company_name = "<?=getenv('COMPANY_NAME')?>";
         var footer_prefix = "<?=getenv('FOOTER_PREFIX')?>";
@@ -477,12 +476,12 @@
         var sidebar_link = "<?=getenv('LINK_COLOR') ?? '#9e9e9e'?>";
         var sidebar_link_hover = "<?=getenv('LINK_HOVER_COLOR') ?? '#ffffff'?>";
         var active_icon = "<?=getenv('ACTIVE_ICON_COLOR') ?? '#fdb933'?>";
-        var sidebar_divider = "<?=getenv('DIVIDER_COLOR') '#202830'?>";
+        var sidebar_divider = "<?=getenv('DIVIDER_COLOR') ?? '#202830'?>";
         var submenu_bullet_bg = "<?=getenv('SUBMENU_BULLET_BACKGROUND') ?? '#222a32'?>";
         var submenu_bullet_shadow = "<?=getenv('SUBMENU_BULLET_SHADOW') ?? '#1a2026'?>";
         var divider_left = <?=getenv('DIVIDER_LEFT_POSITION') ?? 50?>;
         var sidebar_logo = null;
-        var sidebar_logo_width = <?=getenv('SIDEBAR_LOGO_WIDTH' ?? 130?>;
+        var sidebar_logo_width = <?=getenv('SIDEBAR_LOGO_WIDTH') ?? 130?>;
         var sidebar_logo_margin_top = <?=getenv('SIDEBAR_LOGO_TOP_MARGIN') ?? 10?>;
         var sidebar_logo_margin_left = <?=getenv('SIDEBAR_LOGO_LEFT_MARGIN') ?? 0?>;
         var sidebar_logo_margin_right = <?=getenv('SIDEBAR_LOGO_RIGHT_MARGIN') ?? 0?>;
