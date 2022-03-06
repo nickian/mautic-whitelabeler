@@ -94,7 +94,7 @@
 											<label for="mautic-path">Where is Mautic installed?</label><br/>
 											<small>Absolute path to Mautic's root on your server.</small>
 											<div class="field-container">
-												<input type="text" class="form-control" id="mautic-path" name="mautic_path">
+                                            <input type="text" class="form-control" id="mautic-path" name="mautic_path" value="<?=getenv('MAUTIC_PATH')?>">
 												<span id="path-loading">
 													<i class="fa fa-spinner fa-spin"></i>
 												</span>
@@ -105,7 +105,7 @@
 										<div class="form-group">
 											<label for="mautic-url">Mautic URL</label><br/>
 											<div class="field-container">
-												<input type="text" class="form-control" name="mautic_url" id="mautic-url" placeholder="">
+                                            <input type="text" class="form-control" name="mautic_url" id="mautic-url" placeholder="" value="<?=getenv('MAUTIC_URL')?>">
 												<span id="url-loading">
 													<i class="fa fa-spinner fa-spin"></i>
 												</span>
@@ -116,7 +116,7 @@
 										<div class="form-group">
 											<label for="company-name">Company Name</label><br/>
 											<small>This replaces "Mautic" in the page titles and footer.</small>
-											<input type="text" class="form-control" name="company_name" id="company-name" value="Mautic">
+                                            <input type="text" class="form-control" name="company_name" id="company-name" value="<?=getenv('COMPANY_NAME') ?? 'Mautic'?>">
 										</div>
 										
 										<div class="form-group">
