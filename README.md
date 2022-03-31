@@ -25,7 +25,7 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 ## Requirements
 
-* Mautic versions 2.15.0 - 4.2.0 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
+* Mautic versions 2.15.0 - 4.2.1 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
 * Make sure you have installed Mautic using the correct zip file from the [Mautic releases page](https://github.com/mautic/mautic/releases). DO NOT use the "update" zip file. The whitelabeler will not work correctly with these versions.
 
 * Apache server (will work on some nginx configurations, but not officially supported)
@@ -119,6 +119,10 @@ If you have any backups in the backups directory, you will be prompted to select
 
 
 ## Common Issues / Support  :sos:
+
+#### `.htaccess` Issue in 4.2.0+
+
+Some changes were made to Mautic's root `.htaccess` file recently. If you put the whitelabeler in Mautic's root directory and try to access it, you may get a "forbidden" error as a result of the rules in this `.htaccess` file. You must either move the whitelabeler directory to another location where you can access, or simply raname the `.htaccess` file in the root temporarily, then change it back after whitelabeling.
 
 #### Mautic installation not found at path
 
