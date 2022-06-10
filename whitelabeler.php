@@ -564,7 +564,8 @@ class Whitelabeler {
 	public function runSymfonyCommand($path, $command, array $args) 
 	{
 	    static $application;
-	    require_once $path.'/app/autoload.php';
+	    $autoloadPath = file_exists($path.'/autoload.php') ? $path.'/autoload.php' : $path.'/app/autoload.php';
+        require_once $autoloadPath;
 	    require_once $path.'/app/AppKernel.php';
 	    $args = array_merge(
 	        ['console', $command],
@@ -655,7 +656,8 @@ class Whitelabeler {
 	*/
 	public function clearMauticCache($path) 
 	{
-	    if (!$this->recursiveRemoveDirectory($path.'/app/cache/prod')) {
+	    $cachePath = is_dir($path.'/var/cache/prod') ? $path.'/var/cache/prod' : 'app/cache/prod';
+	    if (!$this->recursiveRemoveDirectory($cachePath)) {
 	        return array(
     	            'status' => 0,
     	            'message' => 'Could not remove the application cache. You will need to do this manually.'
