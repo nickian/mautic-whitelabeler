@@ -5,8 +5,8 @@
 require_once('whitelabeler.php');
 $whitelabeler = new Whitelabeler;
 
-$v1_path = '../4.4.0';
-$v2_path = '../4.4.1';
+$v1_path = '../4.4.1';
+$v2_path = '../4.4.2';
 
 $compare = $whitelabeler->compareMauticVersions($v1_path, $v2_path);
 
