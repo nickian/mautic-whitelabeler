@@ -55,7 +55,7 @@ class Whitelabeler {
 
     		$curl = curl_init();
     		curl_setopt_array($curl, array(
-    		    CURLOPT_URL => $url.'/LICENSE.txt',
+    		    CURLOPT_URL => $url.'/favicon.ico',
     		    CURLOPT_HEADER => true,
     		    CURLOPT_RETURNTRANSFER => true,
     		    CURLOPT_NOBODY => true,
@@ -91,14 +91,14 @@ class Whitelabeler {
     					'message' => 'Mautic not found: '. $headers['status']
     				);
     			} else {
-    				$license = substr(file_get_contents($url.'/LICENSE.txt', false, stream_context_create(array(
+    				$favicon = file_get_contents($url.'/favicon.ico', false, stream_context_create(array(
     				    'ssl' => array(
     				        'verify_peer' => false,
                             'verify_peer_name' => false
                         )
-                    ))), 0, 6);
+                    )));
 
-    				if ($license == 'Mautic') {
+    				if ($favicon) {
     					return array(
     						'status' => 1,
     						'message' => 'OK, Mautic found.'
@@ -106,7 +106,7 @@ class Whitelabeler {
     				} else {
     					return array(
     						'status' => 0,
-    						'message' => 'Mautic not found. Make sure LICENSE.txt exists in the domain root, check for errors in your server error log.'
+    						'message' => 'Mautic not found. Make sure favicon.ico exists in the domain root, check for errors in your server error log.'
     					);
     				}
     			}
