@@ -308,7 +308,7 @@ class Whitelabeler {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Replace "Mautic" with Comapny Name
+	| Replace "Mautic" with Company Name
 	|--------------------------------------------------------------------------
 	*/
 	public function companyName($path, $version, $company_name, $footer_prefix, $footer)
