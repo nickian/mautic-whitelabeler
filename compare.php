@@ -5,8 +5,8 @@
 require_once('whitelabeler.php');
 $whitelabeler = new Whitelabeler;
 
-$v1_path = '4.4.9';
-$v2_path = '4.4.10';
+$v1_path = '/home/nick/sites/mautic.nick.place/5.0.2';
+$v2_path = '/home/nick/sites/mautic.nick.place/5.0.3';
 
 $compare = $whitelabeler->compareMauticVersions($v1_path, $v2_path);
 

@@ -1,12 +1,19 @@
 <?php
-
+/**
+ * This class provides functionalities to handle replacing colors in CSS,
+ * company name in JavaScript and HTML templates, and replacing images, as
+ * well as some utility functions.
+ * 
+ * @package Whitelabeler
+ * @author Nick Thompson
+ */
 class Whitelabeler {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Get JSON config files from assets folder
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Get JSON config files from assets folder.
+	 *
+	 * @return array Saved configuration files.
+	 */
 	public function getConfigFiles()
 	{
 		$config_files = array();
@@ -22,11 +29,12 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Load config.json file if it exists
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Load conifg.json file, if it exists.
+	 * 
+	 * @param string $file The json filename.
+	 * @return array Configuration values in file.
+	 */
 	public function loadJsonConfig($file)
 	{
 		$config = array();
@@ -39,11 +47,12 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Find Mautic URL with cURL
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Validate that the Mautic URL works with cURL.
+	 * 
+	 * @param string $url The Mautic URL.
+	 * @return array Status number and message.
+	 */
     public function findMauticUrl($url)
 	{
         if ( function_exists('curl_version') ) {
@@ -120,11 +129,12 @@ class Whitelabeler {
     }
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Find Mautic version by path
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Determine Mautic's version by version.txt or release_metadata.json.
+	 * 
+	 * @param string $path The json filename.
+	 * @return array|string Status number/message or version.
+	 */
 	public function mauticVersion($path)
 	{
 		$data = array();
@@ -177,11 +187,12 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Check for an asset by URL
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Check for an asset by its URL
+	 * 
+	 * @param string $url The JSON filename.
+	 * @return boolean 
+	 */
 	public function assetExists($url) 
 	{
 		$curl = curl_init();
@@ -214,11 +225,12 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Look for an image in assets folder
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Look for an image in assets folder.
+	 * 
+	 * @param string $image The image filename.
+	 * @return boolean 
+	 */
 	public function imageExists($image) 
 	{
 		if ( file_exists(__DIR__.'/assets/'.$image) ) {
@@ -229,11 +241,24 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Replace Colors in Stylesheets
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Replace colors in the stylesheets.
+	 * 
+	 * @param string $path The path to Mautic files.
+	 * @param string $version Mautic version.
+	 * @param string $logo_bg Hex value of logo background.
+	 * @param string $primary Hex value for the primary color.
+	 * @param string $hover Hex value for the hover color.
+	 * @param string $sidebar_bg Hex value for the sidebar background.
+	 * @param string $sidebar_submenu_bg Hex value for the sidebar submenu background.
+	 * @param string $sidebar_link Hex value for sidebar links.
+	 * @param string $sidebar_link_hover Hex value for sidebar link hover.
+	 * @param string $active_icon Hex value for the active icon.
+	 * @param string $sidebar_divider Hex value for the sidebar divider.
+	 * @param string $submenu_bullet_bg Hex value for submenu bullets.
+	 * @param string $submenu_bullet_shadow Hex value for bullet shadows.
+	 * @return array Status number and message. 
+	 */
 	public function colors(
 		$path,
 		$version,
@@ -306,20 +331,40 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Replace "Mautic" with Company Name
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Replace "Mautic" with Company Name
+	 * 
+	 * @param string $path The path to Mautic files.
+	 * @param string $version Mautic's version.
+	 * @param string $company_name The value to replace "Mautic" with.
+	 * @param string $footer_prefix Text to put before the footer.
+	 * @param string $footer Text to use in the footer.
+	 * @return array Status number and message.
+	 */
 	public function companyName($path, $version, $company_name, $footer_prefix, $footer)
 	{
-        $base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
-        $head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
-        $js = '1a.content.js';
+		// Version 5+
+		if ( substr($version, 0, 1) == 5 ) {
+			$base_copyright = '/app/bundles/CoreBundle/Resources/views/Default/base.html.twig';
+			$head_title = '/app/bundles/CoreBundle/Resources/views/Default/head.html.twig';
+			$left_panel = '/app/bundles/CoreBundle/Resources/views/LeftPanel/index.html.twig';
+			$login_page = '/app/bundles/UserBundle/Resources/views/Security/base.html.twig';
+
+
+		// Below V5
+		} elseif ( substr($version, 0, 1) < 5 ) {
+
+			$base_copyright = '/app/bundles/CoreBundle/Resources/views/Default/base.html.php';
+			$head_title = '/app/bundles/CoreBundle/Resources/views/Default/head.html.php';
+			$left_panel = '/app/bundles/CoreBundle/Resources/views/LeftPanel/index.html.php';
+			$login_page = '/app/bundles/UserBundle/Resources/views/Security/base.html.php';
+
+		}
+
+		$js = '1a.content.js';
         $core_js = '/app/bundles/CoreBundle/Assets/js/'.$js;
-        $left_panel = '/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
-        $login_page = '/app/bundles/UserBundle/Views/Security/base.html.php';
-        	$errors = array();
+        
+		$errors = array();
 
 		if (file_exists($path.$base_copyright)) {
 			// get template
@@ -403,28 +448,36 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Resize and Save Image File
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Resize and save logo image file.
+	 * 
+	 * @param string $image The image filename.
+	 * @param string $original The original image file.
+	 * @param string $target The file location for the resized image.
+	 * @return string The new image file location.
+	 */
 	public function imageResize($new_width, $original, $target) 
 	{
 	    $info = getimagesize($original);
+
 	    if ($info['mime'] == 'image/png') {
+
 	    	try {
 				$im = imagecreatefrompng($original);
 			} catch(Exception $e)  {
 				echo 'Error with image: ',  $e->getMessage(), "\n";
-				exit();
+				return false;
 			}
+
 			$srcWidth = imagesx($im);
 			$srcHeight = imagesy($im);
+
 			if ( $new_width <= 400 ) {
 				$nWidth = $info[0];
 			} else {
 				$nWidth = 400;
 			}
+
 			$nHeight = ($srcHeight / $srcWidth) * $nWidth;
 			$newImg = imagecreatetruecolor($nWidth, $nHeight);
 			imagealphablending($newImg, false);
@@ -432,9 +485,10 @@ class Whitelabeler {
 			$transparent = imagecolorallocatealpha($newImg, 255, 255, 255, 127);
 			imagefilledrectangle($newImg, 0, 0, $nWidth, $nHeight, $transparent);
 			imagecopyresampled($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $srcWidth, $srcHeight);
-			$target = $target;
 			imagepng($newImg, $target);
+
 			return $target;
+
 	    } else {
 	    	if ($info['mime'] == 'image/jpeg' ) {
 	            $image_create_func = 'imagecreatefromjpeg';
@@ -444,7 +498,7 @@ class Whitelabeler {
 	            $image_save_func = 'imagegif';
 	    	} else {
 	    		echo 'Unknown image format';
-	    		exit();
+	    		return false;
 	    	}
 		    $img = $image_create_func($original);
 		    list($width, $height) = getimagesize($original);
@@ -457,11 +511,21 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Process and Replace Images
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Resize and replace logo images.
+	 * 
+	 * @param string $path The image filename.
+	 * @param string $url The URL to Mautic.
+	 * @param string $version Mautic version.
+	 * @param string $sidebar_image logo image file.
+	 * @param string $sidebar_width Desired logo width.
+	 * @param array $sidebar_margin Margin values for sidebar logo.
+	 * @param string $login_image Image for login screen.
+	 * @param string $login_width Width of login image.
+	 * @param array $login_margin Margin values for login image.
+	 * @param string $favicon_image Image for favicon.
+	 * @return array Status number and message.
+	 */
 	public function replaceImages(
 		$path,
 		$url,
@@ -496,14 +560,30 @@ class Whitelabeler {
 
 		// Update sidebar logo
 		$this->imageResize(250, $sidebar_image, $media_images.'/sidebar_logo.png');
-		$left_panel = $path.'/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
+
+		// Version 5+
+		if ( substr($version, 0, 1) >= 5 ) {
+			$left_panel = $path.'/app/bundles/CoreBundle/Resources/views/LeftPanel/index.html.twig';
+		// Below V5
+		} elseif ( substr($version, 0, 1) < 5 ) {
+			$left_panel = $path.'/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
+		}
+		
 		if (file_exists($left_panel)) {
-			$left_panel_template = file_get_contents('templates/'.$version.'/app/bundles/CoreBundle/Views/LeftPanel/index.html.php');
+
+			// Version 5+
+			if ( substr($version, 0, 1) >= 5 ) {
+				$left_panel_template = file_get_contents('templates/'.$version.'/app/bundles/CoreBundle/Resources/views/LeftPanel/index.html.twig');
+			// Below V5
+			} elseif ( substr($version, 0, 1) < 5 ) {
+				$left_panel_template = file_get_contents('templates/'.$version.'/app/bundles/CoreBundle/Views/LeftPanel/index.html.php');
+			}
+		
 			$left_panel_new = str_replace(
 				// Look for these template tags.
 				array('{{sidebar_image}}', '{{sidebar_width}}', '{{margin_top}}','{{margin_right}}', '{{margin_left}}'),
 				// Replace template tags with values.
-				array('media/images/sidebar_logo.png', $sidebar_width, $sidebar_margin['top'], $sidebar_margin['right'], $sidebar_margin['left']),
+				array($url.'/media/images/sidebar_logo.png', $sidebar_width, $sidebar_margin['top'], $sidebar_margin['right'], $sidebar_margin['left']),
 				$left_panel_template
 			);
 			$file = fopen($left_panel, "w");
@@ -528,7 +608,14 @@ class Whitelabeler {
 		$this->imageResize(200, $login_image, $media_images.'/mautic_logo_lb200.png');
 
 		$this->imageResize(400, $login_image, $media_images.'/login_logo.png');
-		$login_page = $path.'/app/bundles/UserBundle/Views/Security/base.html.php';
+
+		// Version 5+
+		if ( substr($version, 0, 1) == 5 ) {
+			$login_page = $path.'/app/bundles/UserBundle/Resources/views/Security/base.html.twig';
+		// Below V5
+		} elseif ( substr($version, 0, 1) < 5 ) {
+			$login_page = $path.'/app/bundles/UserBundle/Views/Security/base.html.php';
+		}
 
 		if ( file_exists($login_page) ) {
 			$login_page_template = file_get_contents($login_page);
@@ -536,7 +623,7 @@ class Whitelabeler {
 				// Look for these template tags.
 				array('{{login_logo}}', '{{login_logo_width}}', '{{login_logo_margin_top}}', '{{login_logo_margin_bottom}}'),
 				// Replace template tags with values.
-				array('media/images/login_logo.png', $login_width, $login_margin['top'], $login_margin['bottom']),
+				array($url.'/media/images/login_logo.png', $login_width, $login_margin['top'], $login_margin['bottom']),
 				// In this file
 				$login_page_template
 			);
@@ -584,11 +671,12 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Used to Clear Cache (taken from upgrade.php)
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Remove a directory (used to clear cache - taken from upgrade.php)
+	 * 
+	 * @param string $directory The directory to remove.
+	 * @return boolean
+	 */
 	public function recursiveRemoveDirectory($directory) {
 	    // if the path has a slash at the end we remove it here
 	    if (substr($directory, -1) == '/') {
@@ -638,22 +726,24 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Rebuild the Cache
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Rebuild the Mautic cache.
+	 * 
+	 * @param string $path Path to Mautic.
+	 * @return string Message from command.
+	 */
 	public function buildCache($path) 
 	{
 	    return $this->runSymfonyCommand($path, 'cache:clear', ['--no-interaction', '--env=prod', '--no-debug', '--no-warmup']);
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Clear and Rebuild the Cache
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Clear and rebuild the Mautic cache.
+	 * 
+	 * @param string $path Path to Mautic.
+	 * @return array Status number and message.
+	 */
 	public function clearMauticCache($path) 
 	{
 	    $cachePath = is_dir($path.'/var/cache/prod') ? $path.'/var/cache/prod' : 'app/cache/prod';
@@ -670,22 +760,24 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Rebuild Mautic Assets
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Rebuild Mautic assets.
+	 * 
+	 * @param string $path Path to Mautic.
+	 * @return string Message from command.
+	 */
 	public function rebuildAssets($path) 
 	{
 		return $this->runSymfonyCommand($path, 'mautic:assets:generate', ['--no-interaction', '--env=prod', '--no-debug']);
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Get Compatible Versions of Mautic for Whitelabeling
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Get Compatible Versions of Mautic for Whitelabeling
+	 * 
+	 * @param string $version Version of Mautic to test compatability.
+	 * @return array Status number and message.
+	 */
 	public function templateVersions($version) 
 	{
 		$path = 'templates';
@@ -711,129 +803,174 @@ class Whitelabeler {
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Compare two versions of Mautic to see files relevant to whitelabeling
-	| have been changed.
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Compare two versions of Mautic to see files relevant to whitelabeling
+	 * have been changed.
+	 * 
+	 * @param string $v1 Previous supported version.
+	 * @param string $v1 New version to compare to.
+	 * @return array Comparison results.
+	 */
 	public function compareMauticVersions($v1, $v2) 
 	{
-		$comparision = array();
 
-		$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
+		$changed = 'Changes detected.';
+		$not_changed = 'No changes detected.';
+		$not_found = 'File not found.';
+
+		$version1 = explode('/', $v1);
+		$version1 = $version1[count($version1)-1];
+
+		$version2 = explode('/', $v2);
+		$version2 = $version2[count($version2)-1];
+
+		$comparision = array();
+		echo PHP_EOL;
+		echo 'Comparing version '.$version1.' to version '.$version2;
+		echo PHP_EOL.PHP_EOL;
+
+		// Check for v5+
+		if ( substr($version1, 0, 1) >= 5 && substr($version2, 0, 1) >= 5 ) {
+			$base_copyright = '/app/bundles/CoreBundle/Resources/views/Default/base.html.twig';
+		} else {
+			$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
+		}
+
 		if (file_exists($v1.$base_copyright) && file_exists($v2.$base_copyright)) {
 			$v1_base_copyright = sha1(file_get_contents($v1.$base_copyright));
 			$v2_base_copyright = sha1(file_get_contents($v2.$base_copyright));
 			if ( $v1_base_copyright == $v2_base_copyright ) {
-				$comparision[$base_copyright] = 'Same';
+				$comparision[$base_copyright] = $not_changed;
 			} else {
-				$comparision[$base_copyright] = 'Different';
+				$comparision[$base_copyright] = $changed;
 			}
 		} else {
-			$comparision[$base_copyright] = 'File Not Found';
+			$comparision[$base_copyright] = $not_found;
 		}
 
-		$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
+		// Check for v5+
+		if ( substr($version1, 0, 1) >= 5 && substr($version2, 0, 1) >= 5 ) {
+			$head_title = '/app/bundles/CoreBundle/Resources/views/Default/head.html.twig';
+		} else {
+			$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
+		}
+
 		if (file_exists($v1.$head_title) && file_exists($v2.$head_title)) {
 			$v1_head_title = sha1(file_get_contents($v1.$head_title));
 			$v2_head_title = sha1(file_get_contents($v2.$head_title));
 			if ( $v1_head_title == $v2_head_title ) {
-				$comparision[$head_title] = 'Same';
+				$comparision[$head_title] = $not_changed;
 			} else {
-				$comparision[$head_title] = 'Different';
+				$comparision[$head_title] = $changed;
 			}
 		} else {
-			$comparision[$head_title] = 'File Not Found';
+			$comparision[$head_title] = $not_found;
 		}
 
-		$left_panel = '/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
+		// Check for v5+
+		if ( substr($version1, 0, 1) >= 5 && substr($version2, 0, 1) >= 5 ) {
+			$left_panel = '/app/bundles/CoreBundle/Resources/views/LeftPanel/index.html.twig';
+		} else {
+			$left_panel = '/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
+		}
+
 		if (file_exists($v1.$left_panel) && file_exists($v2.$left_panel)) {
 			$v1_left_panel = sha1(file_get_contents($v1.$left_panel));
 			$v2_left_panel = sha1(file_get_contents($v2.$left_panel));
 			if ( $v1_left_panel == $v2_left_panel ) {
-				$comparision[$left_panel] = 'Same';
+				$comparision[$left_panel] = $not_changed;
 			} else {
-				$comparision[$left_panel] = 'Different';
+				$comparision[$left_panel] = $changed;
 			}
 		} else {
-			$comparision[$left_panel] = 'File Not Found';
+			$comparision[$left_panel] = $not_found;
 		}
 
-		$login_logo = '/app/bundles/UserBundle/Views/Security/base.html.php';
+		// Check for v5+
+		if ( substr($version1, 0, 1) >= 5 && substr($version2, 0, 1) >= 5 ) {
+			$login_logo = '/app/bundles/UserBundle/Resources/views/Security/base.html.twig';
+		} else {
+			$login_logo = '/app/bundles/UserBundle/Views/Security/base.html.php';
+		}
+		
 		if (file_exists($v1.$login_logo) && file_exists($v2.$login_logo)) {
 			$v1_login_logo = sha1(file_get_contents($v1.$login_logo));
 			$v2_login_logo = sha1(file_get_contents($v2.$login_logo));
 			if ( $v1_login_logo == $v2_login_logo ) {
-				$comparision[$login_logo] = 'Same';
+				$comparision[$login_logo] = $not_changed;
 			} else {
-				$comparision[$login_logo] = 'Different';
+				$comparision[$login_logo] = $changed;
 			}
 		} else {
-			$comparision[$login_logo] = 'File Not Found';
+			$comparision[$login_logo] = $not_found;
 		}
 
 		$app_css = '/app/bundles/CoreBundle/Assets/css/app.css';
+
 		if (file_exists($v1.$app_css) && file_exists($v2.$app_css)) {
 			$v1_app_css = sha1(file_get_contents($v1.$app_css));
 			$v2_app_css = sha1(file_get_contents($v2.$app_css));
 			if ( $v1_app_css == $v2_app_css ) {
-				$comparision[$app_css] = 'Same';
+				$comparision[$app_css] = $not_changed;
 			} else {
-				$comparision[$app_css] = 'Different';
+				$comparision[$app_css] = $changed;
 			}
 		} else {
-			$comparision[$app_css] = 'File Not Found';
+			$comparision[$app_css] = $not_found;
 		}
 
 		$libraries_css = '/app/bundles/CoreBundle/Assets/css/libraries/libraries.css';
+
 		if (file_exists($v1.$libraries_css) && file_exists($v2.$libraries_css)) {
 			$v1_libraries_css = sha1(file_get_contents($v1.$libraries_css));
 			$v2_libraries_css = sha1(file_get_contents($v2.$libraries_css));
 			if ( $v1_libraries_css == $v2_libraries_css ) {
-				$comparision[$libraries_css] = 'Same';
+				$comparision[$libraries_css] = $not_changed;
 			} else {
-				$comparision[$libraries_css] = 'Different';
+				$comparision[$libraries_css] = $changed;
 			}
 		} else {
-			$comparision[$libraries_css] = 'File Not Found';
+			$comparision[$libraries_css] = $not_found;
 		}
 
 		$core_js = '/app/bundles/CoreBundle/Assets/js/1.core.js';
+
 		if (file_exists($v1.$core_js) && file_exists($v2.$core_js)) {
 			$v1_core_js = sha1(file_get_contents($v1.$core_js));
 			$v2_core_js = sha1(file_get_contents($v2.$core_js));
 			if ( $v1_core_js == $v2_core_js ) {
-				$comparision[$core_js] = 'Same';
+				$comparision[$core_js] = $not_changed;
 			} else {
-				$comparision[$core_js] = 'Different';
+				$comparision[$core_js] = $changed;
 			}
 		} else {
-			$comparision[$core_js] = 'File Not Found';
+			$comparision[$core_js] = $not_found;
 		}
 
 		$content_js = '/app/bundles/CoreBundle/Assets/js/1a.content.js';
+
 		if (file_exists($v1.$content_js) && file_exists($v2.$content_js)) {
 			$v1_content_js = sha1(file_get_contents($v1.$content_js));
 			$v2_content_js = sha1(file_get_contents($v2.$content_js));
 			if ( $v1_content_js == $v2_content_js ) {
-				$comparision[$content_js] = 'Same';
+				$comparision[$content_js] = $not_changed;
 			} else {
-				$comparision[$content_js] = 'Different';
+				$comparision[$content_js] = $changed;
 			}
 		} else {
-			$comparision[$content_js] = 'File Not Found';
+			$comparision[$content_js] = $not_found;
 		}
 
 		return $comparision;
 	}
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Validate configuration values from config.json
-	|--------------------------------------------------------------------------
-	*/
+	/**
+	 * Validate configuration values from config.json
+	 * 
+	 * @param string $file The config JSON file.
+	 * @return array Errors found and messages.
+	 */
 	public function validateConfigValues($file=false) 
 	{
         if ( $file != false ) {

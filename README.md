@@ -25,7 +25,7 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 ## Requirements
 
-* Mautic versions 2.15.0 - 4.4.10 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
+* Mautic versions 2.15.0 - 5.0.3 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
 * Make sure you have installed Mautic using the correct zip file from the [Mautic releases page](https://github.com/mautic/mautic/releases). DO NOT use the "update" zip file. The whitelabeler will not work correctly with these versions.
 
 * Apache server (will work on some nginx configurations, but not officially supported)
@@ -120,6 +120,10 @@ If you have any backups in the backups directory, you will be prompted to select
 
 ## Common Issues / Support  :sos:
 
+#### Composer Install
+
+Make sure you have done a `composer install` on your project before running the whitelabel. If you're having issues seeing the assets update, run `composer install` in the Mautic root directory and try again.
+
 #### `.htaccess` Issue in 4.2.0+
 
 Some changes were made to Mautic's root `.htaccess` file recently. If you put the whitelabeler in Mautic's root directory and try to access it, you may get a "forbidden" error as a result of the rules in this `.htaccess` file. You must either move the whitelabeler directory to another location where you can access, or simply raname the `.htaccess` file in the root temporarily, then change it back after whitelabeling.
@@ -140,9 +144,7 @@ Make sure the cURL PHP extension is installed. Open the `phpinfo.php` file in th
 
 Please read through the [previous Issues](https://github.com/nickian/mautic-whitelabeler/issues?utf8=%E2%9C%93&q=) before creating a new one.
 
-Join our new Matrix chat server at https://chat.creative.link. You will need this registration token: n9Kdos7kJITJJpK2uzYRrPxpmDFCD6QoaiAGT1y9OMBLlNFrhSP4YojHMnrPRw02
-
-You can find the new public Mautic room here: https://chat.creative.link/#/room/#mautic:creativelink.chat
+If you would like support or are looking for managed hosting, we are happy to help. You can [book a consultation appointment here.](https://client.creative.link/appointly/appointments_public/form)
 
 ## Credits :thumbsup:
 

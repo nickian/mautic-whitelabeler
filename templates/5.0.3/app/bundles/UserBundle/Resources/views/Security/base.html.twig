@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block pageTitle %}{{company_name}}{% endblock %}</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" type="image/x-icon" href="{{ getOverridableUrl('images/favicon.ico') }}" />
+    <link rel="apple-touch-icon" href="{{ getOverridableUrl('images/apple-touch-icon.png') }}" />
+    {{ outputSystemStylesheets() }}
+    {{- include('@MauticCore/Default/script.html.twig') -}}
+    {{ outputHeadDeclarations() }}
+</head>
+<body>
+<section id="main" role="main">
+    <div class="container" style="margin-top:100px;">
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4">
+                <div class="panel" name="form-login">
+                    <div class="panel-body">
+                        <div class="mautic-logo img-circle mb-md text-center" style="width:{{login_logo_width}}px;">
+                            <img src="{{login_logo}}" style="width:{{login_logo_width}}px; margin:{{login_logo_margin_top}}px 0 {{login_logo_margin_bottom}}px 0;" />
+                        </div>
+                        <div id="main-panel-flash-msgs">
+                            {{- include('@MauticCore/Notification/flashes.html.twig') -}}
+                        </div>
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 text-center text-muted">
+                &copy; {{ "now"|date("Y") }} {{company_name}}{{footer_prefix}}
+                <p style="margin-top:1em;">{{footer}}</p>
+            </div>
+        </div>
+    </div>
+</section>
+{{ securityGetAuthenticationContext() }}
+</body>
+</html>
