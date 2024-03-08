@@ -354,10 +354,10 @@ class Whitelabeler {
 		// Below V5
 		} elseif ( substr($version, 0, 1) < 5 ) {
 
-			$base_copyright = '/app/bundles/CoreBundle/Resources/views/Default/base.html.php';
-			$head_title = '/app/bundles/CoreBundle/Resources/views/Default/head.html.php';
-			$left_panel = '/app/bundles/CoreBundle/Resources/views/LeftPanel/index.html.php';
-			$login_page = '/app/bundles/UserBundle/Resources/views/Security/base.html.php';
+			$base_copyright = '/app/bundles/CoreBundle/Views/Default/base.html.php';
+			$head_title = '/app/bundles/CoreBundle/Views/Default/head.html.php';
+			$left_panel = '/app/bundles/CoreBundle/Views/LeftPanel/index.html.php';
+			$login_page = '/app/bundles/UserBundle/Views/Security/base.html.php';
 
 		}
 
