@@ -144,7 +144,9 @@ Make sure the cURL PHP extension is installed. Open the `phpinfo.php` file in th
 
 Please read through the [previous Issues](https://github.com/nickian/mautic-whitelabeler/issues?utf8=%E2%9C%93&q=) before creating a new one.
 
-If you would like support or are looking for managed hosting, we are happy to help. You can [book a consultation appointment here.](https://client.creative.link/appointly/appointments_public/form)
+If you would like support or are looking for managed hosting, we are happy to help. You can [book a consultation appointment here.](https://client.creative.link/appointly/appointments_public/form).
+
+You can join the public chat channel on our Mattermost server here: [Mautic Chat](https://creatv.link/mautic-chat).
 
 ## Credits :thumbsup:
 
