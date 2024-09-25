@@ -25,7 +25,7 @@ Mautic Whitelabeler makes customizing the core branding elements of [Mautic](htt
 
 ## Requirements
 
-* Mautic versions 2.15.0 - 5.0.3 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
+* Mautic versions 2.15.0 - 5.1.1 (Use previous [Whitelabeler 1.0](https://github.com/nickian/mautic-whitelabeler/releases) release for older versions of Mautic. Beta versions are not tested.)
 * Make sure you have installed Mautic using the correct zip file from the [Mautic releases page](https://github.com/mautic/mautic/releases). DO NOT use the "update" zip file. The whitelabeler will not work correctly with these versions.
 
 * Apache server (will work on some nginx configurations, but not officially supported)
@@ -117,12 +117,80 @@ sudo -u www-data php cli.php --restore
 
 If you have any backups in the backups directory, you will be prompted to select a backup to restore from. I recommend doing a manual backup before trying this for the first time your system, just to be safe.
 
+## Docker Version
+
+Extra steps are required when using Mautic with Docker. Go into the container:
+
+```
+sudo docker exec -it basic-mautic_web-1 bash
+```
+
+#### 1. Temporarily rename the `.htaccess` file:
+
+```
+mv /var/www/html/docroot/.htaccess /var/www/html/docroot/htaccess
+```
+
+#### Install Git and clone the repo
+
+```
+apt update
+apt install git
+cd /var/www/html/docroot
+git clone https://github.com/nickian/mautic-whitelabeler.git
+```
+
+#### Do Your Whitelabeling
+
+Make sure your permissons are correct (`chown -R www-data:www-data /var/www/html/docroot`)
+
+After running the whitelabeler, change your `htaccess` file back to `.htaccess`
+
+```
+mv /var/www/html/docroot/htaccess /var/www/html/docroot/.htaccess
+```
+
+#### Install Composer
+
+Follow the directions here: https://getcomposer.org/download
+
+#### Install Node/NPM
+
+```
+apt-get install curl software-properties-common
+curl -sL https://deb.nodesource.com/setup_20.x | bash - 
+apt-get install nodejs
+```
+
+#### Run Composer
+
+```
+cd /var/www/html
+composer install
+```
+
+When you visit your Mautic site, it should be updated.
 
 ## Common Issues / Support  :sos:
 
 #### Composer Install
 
-Make sure you have done a `composer install` on your project before running the whitelabel. If you're having issues seeing the assets update, run `composer install` in the Mautic root directory and try again.
+If you're having trouble seeing the colors update, you may need to regenerate the Mautic assets via the commandline.
+
+You can do either of these:
+
+```bash
+cd /mautic/root
+npm install
+sudo -u www-data php bin/console mautic:assets:generate
+```
+
+Or this should also work because it triggers a script that generates the assets:
+
+```bash
+cd /mautic/root
+composer install
+```
 
 #### `.htaccess` Issue in 4.2.0+
 
@@ -160,6 +228,6 @@ Mautic Whitelabeler makes use of a couple of other libraries:
 
 This app is not offically supported or affiliated with Mautic.
 
-While this tool is convenient, it is not intended for inexperienced users. You should be comfortable with the command line and at least somewhat familiar with PHP. Everyone's server environment is slightly different. This was designed to run optimally on Ubuntu 18.04 with Apache 2.4 and PHP 7.2.
+While this tool is convenient, it is not intended for inexperienced users. You should be comfortable with the command line and at least somewhat familiar with PHP. Everyone's server environment is slightly different. This was designed to run optimally on Ubuntu 18.04 with Apache 2.4 and PHP 8.2.
 
 Whitelabeling Mautic does NOT mean pretending Mautic is your company's own product and attempting to resell it. Do not trick your clients into thinking the Mautic platform is developed and maintained by you. Mautic is an open source, community project, like WordPress. You should Whitelabel the product with your client's brand, not your own! Always disclose that you're running Mautic for your clients, just like you would with WordPress.

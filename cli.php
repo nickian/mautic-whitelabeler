@@ -143,6 +143,7 @@ if ( count($argv) > 1 ) {
             } else {
                 $cli->error($clear_cache['message']);
             }
+
 		}
 
     } elseif ( $argv[1] == '--backup' ) {	  

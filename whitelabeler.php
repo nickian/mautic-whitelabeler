@@ -430,7 +430,7 @@ class Whitelabeler {
 			fwrite($file, $core_js_new);
 			fclose($file);
 		} else {
-			$errors[] = 'Couldn\'t find core javascript file to update.';
+			$errors[] = 'Couldn\'t find 1a.content.js javascript file to update.';
 		}
 
 		if (empty($errors)) {
@@ -642,6 +642,7 @@ class Whitelabeler {
 			);
 		}
 	}
+
 
 	/*
 	|--------------------------------------------------------------------------
