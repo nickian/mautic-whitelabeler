@@ -448,7 +448,7 @@
     right: 0;
     left: {{divider_left}}px;
     bottom: 0;
-    border-bottom: 1px solid #202830;
+    border-bottom: 1px solid {{sidebar_divider}};
   }
   .app-sidebar.sidebar-left .nav-sidebar > .nav > li > a {
     color: {{sidebar_link}};
